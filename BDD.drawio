@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2019-11-05T15:12:37.235Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36" etag="fj5VhgGVCg0r-PKHwNQk" version="12.2.0" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-11-05T15:31:52.516Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36" etag="XRYpfgmlJP9Wxf9O2y08" version="12.2.0" type="github" pages="1">
   <diagram id="_vPQhARQ6IZRwpN4OoXx" name="Page-1">
     <mxGraphModel dx="865" dy="463" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -62,23 +62,12 @@
           <mxGeometry y="26" width="160" height="70" as="geometry"/>
         </mxCell>
         <mxCell id="D_JajAcOyjfC7AItg3Wy-14" value="Offre" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="407" y="488.5" width="160" height="116" as="geometry">
+          <mxGeometry x="407" y="488.5" width="160" height="139" as="geometry">
             <mxRectangle x="407" y="488.5" width="53" height="26" as="alternateBounds"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="D_JajAcOyjfC7AItg3Wy-15" value="- id_offre&#xa;- titre&#xa;- mission&#xa;- contact&#xa;- piece jointe" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="D_JajAcOyjfC7AItg3Wy-14">
-          <mxGeometry y="26" width="160" height="90" as="geometry"/>
-        </mxCell>
-        <mxCell id="D_JajAcOyjfC7AItg3Wy-18" value="Validité" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
-          <mxGeometry x="60.5" y="513" width="160" height="67" as="geometry">
-            <mxRectangle x="407" y="488.5" width="53" height="26" as="alternateBounds"/>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="D_JajAcOyjfC7AItg3Wy-19" value="- date_début&#xa;- durée" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="D_JajAcOyjfC7AItg3Wy-18">
-          <mxGeometry y="26" width="160" height="41" as="geometry"/>
-        </mxCell>
-        <mxCell id="D_JajAcOyjfC7AItg3Wy-20" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="220.5" y="542.5" width="40" height="8" as="geometry"/>
+        <mxCell id="D_JajAcOyjfC7AItg3Wy-15" value="- id_offre&#xa;- titre&#xa;- date_début&#xa;- durée&#xa;- mission&#xa;- contact&#xa;- piece jointe" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="D_JajAcOyjfC7AItg3Wy-14">
+          <mxGeometry y="26" width="160" height="113" as="geometry"/>
         </mxCell>
         <mxCell id="D_JajAcOyjfC7AItg3Wy-25" value="Commentaire" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
           <mxGeometry x="304.5" y="420.5" width="160" height="51" as="geometry">
