@@ -35,6 +35,7 @@ CREATE TABLE article (
     id_article SERIAL NOT NULL,
     id_company INTEGER NOT NULL,
     publication_date TIMESTAMP NOT NULL DEFAULT current_timestamp,
+    id_hash VARCHAR(32) NOT NULL,
     title VARCHAR(15) NOT NULL,
     begin_date Date NOT NULL,
     end_date Date NOT NULL,
@@ -44,14 +45,6 @@ CREATE TABLE article (
 
     CONSTRAINT pk_article PRIMARY KEY (id_article),
     CONSTRAINT fk_article FOREIGN KEY (id_company) REFERENCES company (id_company)
-);
-
-CREATE TABLE hashArticle (
-    id_article INTEGER NOT NULL,
-    id_hash VARCHAR(32) NOT NULL,
-
-    CONSTRAINT pk_ashArticle PRIMARY KEY (id_article),
-    CONSTRAINT fk_ashArticle FOREIGN KEY (id_article) REFERENCES article (id_article) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE comment (
@@ -133,22 +126,6 @@ CREATE OR REPLACE FUNCTION deleteCompany() RETURNS trigger AS $$
 LANGUAGE plpgsql;
 CREATE TRIGGER delCompany AFTER DELETE ON company FOR EACH ROW EXECUTE PROCEDURE deleteCompany();
 
-CREATE OR REPLACE FUNCTION setMD5() RETURNS trigger AS $$
-    BEGIN
-        PERFORM FROM hashArticle WHERE id_article = NEW.id_article;
-
-        IF(FOUND) THEN
-            EXECUTE 'UPDATE hashArticle SET id_hash = '''||md5(CONCAT(NEW.id_company::text,NEW.publication_date::text))||''' WHERE id_article = '||NEW.id_article||';';
-            RETURN NEW;
-        ELSE
-            INSERT INTO hashArticle VALUES (NEW.id_article, md5(CONCAT(NEW.id_company::text,NEW.publication_date::text)));
-            RETURN NEW;
-        END IF;
-        RETURN NULL;
-    END; $$
-LANGUAGE plpgsql;
-CREATE TRIGGER MD5_article AFTER INSERT OR UPDATE ON article FOR EACH ROW EXECUTE PROCEDURE setMD5();
-
 
 --Insert values 
 -- /!\ UNIQUEMENT POUR TESTER /!\
@@ -159,8 +136,8 @@ SELECT createCompany('Igor', 'Popovmolotov', 'Igor@bilderberg.org', '12ABC34', '
 SELECT createCompany('Giscard', 'Burger', 'giscard@data-squad.net', 'DoYouWantAnythingFromMcDonald', 'NULL','GiscAgence');
 SELECT createMember('Patrick', 'Balkany', 'patrick.balkany@wanadoo.fr', '$$$Argent$$$',  '0140635026', '1948/03/16', 'NULL');
 
-INSERT INTO article (id_company, title, begin_date, end_date, mission, contact)
-    VALUES(5, 'Equipier', '2020/04/01', '2020/08/31', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+INSERT INTO article (id_company, id_hash, publication_date, title, begin_date, end_date, mission, contact)
+    VALUES(5, '35f8efea1f843f167196db9c4528dfe5', '2019-11-08 12:26:50.750323+01', 'Equipier', '2020/04/01', '2020/08/31', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
     Maecenas tortor augue, ultrices vitae consectetur sed, egestas ac nunc. Mauris nisi urna, sollicitudin 
     vel magna vitae, molestie imperdiet odio. Sed efficitur lacus pretium nisl laoreet, non gravida ligula 
     molestie. Ut dapibus facilisis molestie. Fusce sit amet ligula interdum quam egestas iaculis. Sed 
