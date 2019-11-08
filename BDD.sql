@@ -44,7 +44,8 @@ CREATE TABLE article (
     attachment VARCHAR,
 
     CONSTRAINT pk_article PRIMARY KEY (id_article),
-    CONSTRAINT fk_article FOREIGN KEY (id_company) REFERENCES company (id_company)
+    CONSTRAINT fk_article FOREIGN KEY (id_company) REFERENCES company (id_company),
+    CONSTRAINT u_article UNIQUE (id_hash)
 );
 
 CREATE TABLE comment (
