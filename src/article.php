@@ -45,23 +45,25 @@
         <?php require_once('./assets/script/nav.php'); ?>
         <main>
 			<div>
-                <?php
-                    require_once('./assets/script/vote.php');
-                    if(isset($title)) {
-                        $result = "<h1>$title</h1>\n";
-                        $result .= "<h3>$company</h3>\n";
-                        $result .= "<h4>$begin_date , $end_date</h4>\n";
-                        $result .= "<p>$mission</p>\n";
-                        $result .= "<p>$contact</p>\n";
-                        $result .= "<p>$attachment</p>\n";
-                        $result .= getVote($id_article);
-                    }
-                    else {
-                        $result = "<p>Offre introuvable !</p>\n";
-                    }
+                <?php if(isset($title)) { ?>
 
-                    echo $result;
-                ?>
+                <h1><?php echo $title ?></h1>
+                <h3><?php echo $company ?></h3>
+                <h4><?php echo $begin_date ?> , <?php echo $end_date ?></h4>
+                <p><?php echo $mission ?></p>
+                <p><?php echo $contact ?></p>
+
+                <?php if(isset($attachment)) { ?>
+                <p><?php echo $attachment ?></p>
+                <?php } ?>
+
+                <?php $_GET['id_article'] = $id_article; require_once('./assets/script/vote.php'); ?>
+                
+                <?php } else { ?>
+
+                <p>Offre introuvable !</p>
+                
+                <?php } ?>
 			</div>
 		</main>
     </body>

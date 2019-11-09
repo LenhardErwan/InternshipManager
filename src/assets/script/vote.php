@@ -8,7 +8,7 @@
         catch (Execption $e) {
             die("ERREUR : ".$e);
         }
-   }
+    }
 
     function getVote(int $id_article) {
         global $DB;
@@ -28,12 +28,16 @@
             else $nbNegative++;
         }
 
-        $result = '<div class="vote">'."\n";
-        $result .= '<div><button class="like">like</button><span>'.$nbPositive.'</span></div>'."\n";
-        $result .= '<div><button class="dislike">dislike</button><span>'.$nbNegative.'</span></div>'."\n";
-        $result .= '</div>'."\n";
+        $result = array('positive' => $nbPositive, 'negative' => $nbNegative);
 
         return $result;
     }
-
 ?>
+
+
+<?php if(isset($_GET['id_article'])) { $votes = getVote($_GET['id_article']); ?>
+    <div class="vote">
+        <div><button class="like">like</button><span><?php echo $votes['positive'] ?></span></div>
+        <div><button class="dislike">dislike</button><span><?php echo $votes['negative'] ?></span></div>
+    </div>
+<?php } ?>
