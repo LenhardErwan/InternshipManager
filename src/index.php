@@ -2,6 +2,12 @@
 	session_start();
 	require_once('./assets/script/ConfDB.inc.php');
 	require_once('./assets/script/formHandler.php');
+	require_once('./assets/script/validSignin.php');
+	if(validSignin()) {
+		echo "connecter";
+	} else {
+		echo "non-connecter";
+	}
 ?>
 <!DOCTYPE html>
 <html>

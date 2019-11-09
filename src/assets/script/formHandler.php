@@ -8,8 +8,10 @@
 		/*
 		 * The first conditional statement are shared element between 'membre' and 'entreprise'
 		 * We can't trust the user. We need to make a serie of multiple test
+		 * Mail format :
+		 *  - Starts with 1 number or letter followed by 0 or more numbers / letters / hyphens / point followed by 1 number or letter followed by a '@' followed by 1 numbers or letter followed by 0 or more numbers / letters / hyphens / point followed by '.' followed by a letter or number followed by 0 or more characters ending with 1 letter or number
 		 */
-		if(preg_match('%@.*.\.%', $mail) === 1) {
+		if(preg_match('%^[0-9a-zA-Z][0-9a-zA-Z\-\.]*[0-9a-zA-Z]@[0-9a-zA-Z][0-9a-zA-Z\-\.]*\.[0-9a-zA-Z][0-9a-zA-Z\-]*[0-9a-zA-Z]$%', $mail) === 1) {
 			
 			global $DB;
 			$query = $DB->prepare("SELECT mail FROM account WHERE mail = ?");
@@ -18,14 +20,20 @@
 
 			if(!$result) {
 				if($password === $validPassword) {
-					if(true) { // Check for the phone number regular expression
+					/*
+					 * Accepted phone format :
+					 *  - Starts with a '+' followed by 8 to 13 numbers
+					 *  - 8 to 13 numbers
+					 */
+					if((preg_match('%^\+[0-9]{8,13}%', $phone) === 1) || (preg_match('%[0-9]{8,13}%', $phone) === 1)) {
 
 						/*
 						 * A 'membre' is creating an account
 						 */
 						if(isset($bornDate) && !empty($bornDate) && isset($diplomes) && !empty($diplomes)) {
 							if(true) { // Check if the user is older than 18 years old
-								return "membre : $firstName.$lastName.$mail.$bornDate.$password.$phone.$diplomes";
+								// Testing purpose // return "membre : $firstName.$lastName.$mail.$bornDate.$password.$phone.$diplomes";
+								$_POST = array();
 							}
 						}
 
@@ -33,7 +41,13 @@
 						 * An 'entreprise' is creating an account
 						 */
 						else if(isset($socialReason) && !empty($socialReason)) {
-							return "entreprise : $firstName.$lastName.$mail.$password.$phone.$socialReason";
+							// Testing purpose // return "entreprise : $firstName.$lastName.$mail.$password.$phone.$socialReason";
+							try {
+								
+							} catch(PDOException $e) {
+								return "Erreur : ".$e;
+							}
+							$_POST = array();
 						}
 
 						/*
@@ -80,19 +94,24 @@
 		}
 	}
 
-	if(isset($_POST['signin_form_submit'])) {
-		if(isset($_POST['signin_form_mail']) && !empty($_POST['signin_form_mail']) && isset($_POST['signin_form_password']) && !empty($_POST['signin_form_password']) ) {
-			$result = pg_prepare($db, 'list_membre', "SELECT id, password FROM ".DB_SCHEMA.".user WHERE name=$1");
-			$result = pg_execute($db, 'list_membre', array($_POST['signin_form_mail']));
-			$result = pg_fetch_row($result);
+	/*
+	 * 
+	 */
+	if(isset($_POST['signin_submit'])) {
+		if(isset($_POST['signin_mail']) && !empty($_POST['signin_mail']) && isset($_POST['signin_password']) && !empty($_POST['signin_password']) ) {
+			$query = $DB->prepare("SELECT mail, password FROM account WHERE mail = ?");
+			$query->execute(array($_POST['signin_mail']));
+			$result = $query->fetch();
 
 			if(!$result) {
 				$error_msg = "Login ou mot de passe incorrecte";
 			} else {
-				if($result[1] == hash('sha256', $_POST['signin_form_password'])) {
-					$_SESSION['id'] = $result[0];
+				if (hash('sha256', $_POST['signin_password']) == $result['password']) {
+					$_SESSION['mail'] = $_POST['signin_mail'];
+					$_SESSION['password'] = hash('sha256', $_POST['signin_password']);
+					$_POST = array();
 				} else {
-					$error_msg = "Login ou mot de passe incorrecte";
+					$error_msg = "Login ou mot de passse incorrecte";
 				}
 			}
 		} else {
@@ -100,7 +119,7 @@
 		}
 	}
 
-	if(isset($_POST['signout_form_submit'])) {
+	if(isset($_POST['signout_submit'])) {
 		session_unset();
 		session_destroy();
 	}
