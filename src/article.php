@@ -1,14 +1,13 @@
 <?php
     if (!empty($_REQUEST['id'])) {
         $id = $_REQUEST['id'];
-        include("./assets/script/ConfDB.inc.php");
-        global $DB;
+        include_once("./assets/script/ConfDB.inc.php");
         try {
-            $prepare = $DB->prepare("SELECT * FROM article WHERE id_hash=?;");
+            $prepare = $DB->prepare("SELECT * FROM article WHERE id_hash= ? ;");
             $prepare->execute(array($id)); 
         }
-        catch (Execption $e) {
-            die("ERREUR : ".$e);
+        catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
         }
 
         $row = $prepare->fetch(PDO::FETCH_OBJ);
@@ -25,12 +24,15 @@
             $prepare = $DB->prepare("SELECT social_reason FROM company WHERE id_company = ?;");
             $prepare->execute(array($row->id_company));   
         }
-        catch (Execption $e) {
-            die("ERREUR : ".$e);
+        catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
         }
         
         $company = $prepare->fetch(PDO::FETCH_COLUMN);
     }
+
+    session_start();
+    include_once("./assets/script/validSignin.php");
 ?>
 
 <!doctype html>
@@ -38,7 +40,6 @@
     <head>
         <meta charset="utf-8">
         <title>Offre</title>
-        <script src="assets/script/nav.js"></script>
     </head>
 
     </body>
@@ -67,4 +68,6 @@
 			</div>
 		</main>
     </body>
+    <script src="assets/script/nav.js"></script>
+    <script src="assets/script/vote.js"></script>
 </html>
