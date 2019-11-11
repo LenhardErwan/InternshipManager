@@ -2,7 +2,7 @@
 	<p><?=$error_msg?></p>
 <?php } ?>
 
-<?php if(!isset($_SESSION['id']) || empty($_SESSION['id'])) { ?>
+<?php if(!validSignin()) { ?>
 	<div id="membre_popup" style="display: <?php if(isset($_POST['msup_submit'])) { echo "block"; } else { echo "none"; } ?>;">
 		<form method="POST" action="index.php">
 			<fieldset>
@@ -78,18 +78,18 @@
 			</fieldset>
 		</form>
 	</div>
-	<div id="connexion_popup" style="display: <?php if(isset($_POST['signin_form_submit'])) { echo "block"; } else { echo "none"; } ?>;">
+	<div id="connexion_popup" style="display: <?php if(isset($_POST['signin_submit'])) { echo "block"; } else { echo "none"; } ?>;">
 		<form method="POST" action="index.php">
 			<fieldset>
 				<label>Mail : </label>
-				<input type="email" name="signin_form_mail" value="<?php if(isset($_POST['signin_mail']) && !empty($_POST['signin_mail'])) { echo $_POST['signin_mail']; } ?>" required>
+				<input type="email" name="signin_mail" value="<?php if(isset($_POST['signin_mail']) && !empty($_POST['signin_mail'])) { echo $_POST['signin_mail']; } ?>" required>
 				<br/>
 
 				<label>Mot de passe : </label>
-				<input type="password" name="signin_form_password" required>
+				<input type="password" name="signin_password" required>
 				<br/>
 
-				<input type="submit" name="signin_form_submit" value="Se connecter">
+				<input type="submit" name="signin_submit" value="Se connecter">
 			</fieldset>
 		</form>
 	</div>
@@ -98,11 +98,11 @@
 <nav>
 	<a href="accueil"></a>
 	<form method="POST" action="index.php">
-		<input type="text" name="search_form_content">
-		<button type="submit" name="search_form_submit">Rechercher</button>
+		<input type="text" name="search_content">
+		<button type="submit" name="search_submit">Rechercher</button>
 		<ul>
-			<?php if(isset($_SESSION['id']) && !empty($_SESSION['id'])) { ?>
-				<button type="submit" name="signout_form_submit">Deconnexion</button>
+			<?php if(validSignin()) { ?>
+				<button type="submit" name="signout_submit">Deconnexion</button>
 				<button type="submit">Paramètres</button>
 			<?php } else { ?>
 				<li onclick="show_form('membre_popup'); hide_form('entreprise_popup'); hide_form('connexion_popup');">Insription Membre</li>
