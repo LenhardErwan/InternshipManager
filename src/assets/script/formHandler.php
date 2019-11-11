@@ -99,7 +99,7 @@
 	 */
 	if(isset($_POST['signin_submit'])) {
 		if(isset($_POST['signin_mail']) && !empty($_POST['signin_mail']) && isset($_POST['signin_password']) && !empty($_POST['signin_password']) ) {
-			$query = $DB->prepare("SELECT mail, password FROM account WHERE mail = ?");
+			$query = $DB->prepare("SELECT id_user, mail, password FROM account WHERE mail = ?");
 			$query->execute(array($_POST['signin_mail']));
 			$result = $query->fetch();
 
@@ -107,6 +107,7 @@
 				$error_msg = "Login ou mot de passe incorrecte";
 			} else {
 				if (hash('sha256', $_POST['signin_password']) == $result['password']) {
+					$_SESSION['id_user'] = $result['id_user'];
 					$_SESSION['mail'] = $_POST['signin_mail'];
 					$_SESSION['password'] = hash('sha256', $_POST['signin_password']);
 					$_POST = array();
