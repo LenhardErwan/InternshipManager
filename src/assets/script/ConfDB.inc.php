@@ -11,6 +11,6 @@
         $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $DB->exec("SET NAMES 'utf8'; SET search_path TO ".DB_SCHEMA.";");
     } catch (Exception $e) {
-        die("ERREUR : ".$e);
+        die("ERREUR : ".$e->getMessage());
     }
 ?>
