@@ -1,6 +1,6 @@
 <?php
 
-require_once("./assets/script/ConfDB.inc.php");
+require_once("ConfDB.inc.php");
 
 class User {
     public static function getAccount(string $mail) {
