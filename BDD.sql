@@ -61,7 +61,7 @@ CREATE TABLE comment (
 CREATE TABLE vote (
     id_account INTEGER NOT NULL,
     id_article INTEGER NOT NULL,
-    positive BOOLEAN NOT NULL,
+    type BOOLEAN NOT NULL,
 
     CONSTRAINT pk_vote PRIMARY KEY (id_account, id_article),
     CONSTRAINT fk_vote_admin FOREIGN KEY (id_account) REFERENCES account (id_account) ON DELETE CASCADE ON UPDATE CASCADE,
