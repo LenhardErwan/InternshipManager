@@ -1,6 +1,6 @@
 <?php
 
-require_once("./ConfDB.inc.php");
+require_once("ConfDB.inc.php");
 
 class Article {
     public static function getArticle(string $hash) {
