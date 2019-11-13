@@ -1,5 +1,7 @@
 <?php
 
+require_once("../assets/script/ConfDB.inc.php");
+
 class User {
     public static function getAccount(string $mail) {
         global $database;
