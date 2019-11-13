@@ -5,11 +5,13 @@ function vote(element, id_user, type) {
     let parent = element.parentNode;
     let id_article = parent.id;
 
-    let value1 = encodeURIComponent(id_user),
-        value2 = encodeURIComponent(id_article),
-        value3 = encodeURIComponent(type);
+    let value1 = encodeURIComponent(id_article),
+        value2 = encodeURIComponent(type);
+    let url = window.location.href;
+    if(url.includes("?")) url = url + "&";
+    else url = url + "?";
 
-    xhr.open('GET', "./assets/script/vote.php?id_user=" + value1 + "&id_hash=" + value2 + "&type=" + value3);
+    xhr.open('GET', url + "action=voteFor&id_hash=" + value1 + "&type=" + value2);
 
     xhr.addEventListener('readystatechange', function() { // On gère ici une requête asynchrone
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once("../assets/script/ConfDB.inc.php");
+require_once("./ConfDB.inc.php");
 
 class Article {
     public static function getArticle(string $hash) {
@@ -70,7 +70,7 @@ class Article {
     public static function createVote(array $data) {
         global $database;
         try {
-            $request = $database->prepare("INSERT INTO vote (id_account, id_article, positive) VALUES (:id_account, :id_article, :type);");
+            $request = $database->prepare("INSERT INTO vote (id_account, id_article, type) VALUES (:id_account, :id_article, :type_vote);");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -80,7 +80,7 @@ class Article {
     public static function updateVote(array $data) {
         global $database;
         try {
-            $request = $database->prepare("UPDATE vote SET positive = :vote WHERE id_account = :id_account AND id_article = :id_article;");
+            $request = $database->prepare("UPDATE vote SET type = :type_vote WHERE id_account = :id_account AND id_article = :id_article;");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -147,7 +147,7 @@ class Article {
         $nbNegative = 0;
 
         foreach($result as $row) {
-            if($row->positive == 1) $nbPositive++;
+            if($row->type == 1) $nbPositive++;
             else $nbNegative++;
         }
 
@@ -155,23 +155,25 @@ class Article {
     }
 
     public static function voteFor(int $id_account, int $id_article, string $value) {
-        if($value == 'like') $type = TRUE;
-        elseif($value == 'dislike') $type = FALSE;
+        if($value == 'like') $type_vote = "true";
+        elseif($value == 'dislike') $type_vote = "false";
 
-        if(isset($type)) {  //The value are 'like' or 'dislike'
-            $data = array('id_account' => $id_account, 'id_article' => $id_article, 'type' => $type);
-            $vote = self::getVote($data);
+        if(isset($type_vote)) {  //The value are 'like' (TRUE) or 'dislike' (FALSE)
+            $data1 = array('id_account' => $id_account, 'id_article' => $id_article);
+            $data2 = array('id_account' => $id_account, 'id_article' => $id_article, 'type_vote' => $type_vote);
+            
+            $vote = self::getVote($data1);
 
             if($vote) { //User already vote for this article
-                if($vote->type == $type) {  //User vote the same thing
-                    self::deleteVote($data);
+                if( ($vote->type ? "true" : "false" ) == $type_vote) {  //User vote the same thing
+                    self::deleteVote($data1);
                 }
                 else {  //User vote the other possibility
-                    self::updateVote($data);
+                    self::updateVote($data2);
                 }
             }
             else {  //User didn't vote before for this article
-                self::createVote($data);
+                self::createVote($data2);
             }
         }
         else {
@@ -179,16 +181,10 @@ class Article {
         }
     }
 
-    public static function getAJAXFunctions(int $id_account) {
-        if($id_account > 0) {
-            $like = "vote(this, $id_account, 'like')";
-            $dislike = "vote(this, $id_account, 'dislike')";
-            return array('like' => $like, 'dislike' => $dislike);
-        }
-        else {
-            $function = "alert('Connectez-vous !')";
-            return array('like' => $function, 'dislike' => $function);
-        }
+    public static function getAJAXFunctionsVote(string $id_hash) {
+        $like = "vote(this, '$id_hash', 'like')";
+        $dislike = "vote(this, '$id_hash', 'dislike')";
+        return array('like' => $like, 'dislike' => $dislike);
     }
 }
 
