@@ -1,5 +1,5 @@
 <?php
-	function valid_entreprise_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
+	function valid_company_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
 		if(empty($first_name)) {
 			$error['first_name'] = "Champ prenom vide";
 		} else {
@@ -87,23 +87,13 @@
 		}
 	}
 
-	function create_entreprise($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
-		$result = valid_entreprise_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason);
+	if(isset($_POST['csup_submit'])) {
+		$result = valid_company_infos($_POST['csup_first_name'], $_POST['csup_last_name'], $_POST['csup_mail'], $_POST['csup_password'], $_POST['csup_valid_password'], $_POST['csup_phone'], $_POST['csup_social_reason']);
 
 		if($result['valid']) {
-			//create entreprise
+			// Create company
 		} else {
-			return $result;
-		}
-	}
-
-	function update_entreprise($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
-		$result = valid_entreprise_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reasion);
-
-		if($result['valid']) {
-			//update entreprise
-		} else {
-			return $result;
+			$errors = $result;
 		}
 	}
 ?>

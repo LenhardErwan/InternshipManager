@@ -1,5 +1,5 @@
 <?php
-	function valid_con_infos($mail, $password) {
+	function valid_connect_infos($mail, $password) {
 		if(empty($mail)) {
 			$error['mail'] = "Champ mail vide";
 		} else {
@@ -36,14 +36,14 @@
 		}
 	}
 
-	function connect($mail, $password) {
-		$result = valid_con_infos($mail, $password);
+	
+	if(isset($_POST['con_submit'])) {
+		$result = valid_connect_infos($_POST['con_mail'], $_POST['con_password']);
 
 		if($result['valid']) {
-			//connect
+			// connect
 		} else {
-			return $result;
+			$errors = $result;
 		}
-
 	}
 ?>

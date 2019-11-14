@@ -6,7 +6,7 @@
 	    return $d && $d->format($format) === $date;
 	}
 
-	function valid_membre_create_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees) {
+	function valid_member_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees) {
 		if(empty($first_name)) {
 			$error['first_name'] = "Champ prenom vide";
 		} else {
@@ -104,23 +104,14 @@
 		}
 	}
 
-	function create_membre($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees) {
-		$result = valid_membre_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees);
+	if(isset($_POST['msup_submit'])) {
+		$result = valid_member_infos($_POST['msup_first_name'], $_POST['msup_last_name'], $_POST['msup_mail'], $_POST['msup_password'], $_POST['msup_valid_password'], $_POST['msup_phone'], $_POST['msup_birth_date'], $_POST['msup_degrees']);
 
 		if($result['valid']) {
-			//create membre;
+			//Create membre
+			echo "ok";
 		} else {
-			return $result;
-		}
-	}
-
-	function update_membre($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees) {
-		$result = valid_membre_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees);
-
-		if($result['valid']) {
-			//update membre;
-		} else {
-			return $result;
+			$errors = $result;
 		}
 	}
 ?>
