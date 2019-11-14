@@ -30,8 +30,6 @@
             break;
     }
 
-    $catched = false;
-
     switch ($action) {
         case 'voteFor':
             session_start();
