@@ -59,7 +59,7 @@ class User {
     public static function createMember(array $data) {
         global $database;
         try {
-            $request = $database->prepare("SELECT createMember(:first_name, :last_name, :mail, :password, :phone, :birth_date, :degrees ;");
+            $request = $database->prepare("SELECT createMember(:first_name, :last_name, :mail, :password, :phone, :birth_date, :degrees) ;");
             $request->execute($data);
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -107,7 +107,7 @@ class User {
     public static function createCompany(array $data) {
         global $database;
         try {
-            $request = $database->prepare("SELECT createCompany(:first_name, :last_name, :mail, :password, :phone, :social_reason, :degrees ;");
+            $request = $database->prepare("SELECT createCompany(:first_name, :last_name, :mail, :password, :phone, :social_reason, :degrees) ;");
             $request->execute($data);
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
