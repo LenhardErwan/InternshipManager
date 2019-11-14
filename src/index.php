@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	require_once('./assets/script/controllers/main.php');
+	require_once('./controllers/main.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,12 +9,12 @@
 		<title>Accueil</title>
 	</head>
 	<body>
-		<?php require_once('./assets/script/views/nav.php'); ?>
+		<?php require_once('./views/nav.php'); ?>
 		
 		<main>
 			<!--Charger la liste des offres-->
-			<?php require_once('./assets/script/views/articleList.php'); ?>
+			<?php require_once('./views/articleList.php'); ?>
 		</main>
-		<?php require_once('./assets/script/views/footer.php'); ?>
+		<?php require_once('./views/footer.php'); ?>
 	</body>
 </html>
