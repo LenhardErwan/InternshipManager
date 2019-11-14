@@ -19,10 +19,14 @@
  	}
 ?>
 <nav>
-	<a href="index.php/?page=index">Accueil</a>
+	<a href="?page=index">Accueil</a>
 	<form action="" method="POST">
 		<input type="text" name="search_content">
 		<button name="search_submit">Rechercher</button>		
 	</form>
-	<button onclick="openModal('connect_form')">Connexion</button>
+	<?php if(!isset($_SESSION['id_user'])) { ?>
+		<button onclick="openModal('connect_form')">Connexion</button>
+	<?php } else { ?>
+		<a href="?page=settings">Parametres</a>
+	<?php } ?>
 </nav>

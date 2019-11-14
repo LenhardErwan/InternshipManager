@@ -1,5 +1,15 @@
 <?php
 	function valid_company_infos($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
+		if(empty($social_reason)) {
+			$error['social_reason'] = "Champ nom de societe vide";
+		} else {
+			if(!preg_match("/^[a-zA-Z0-9 ]{0,40}$/", $social_reason)) {
+				$error['social_reason'] = "Champ nom de societes invalides (a-zA-Z0-9 ) 40 caracteres maximum";
+			} else {
+				$data['social_reason'] = $social_reason;
+			}
+		}
+
 		if(empty($first_name)) {
 			$error['first_name'] = "Champ prenom vide";
 		} else {
@@ -63,22 +73,12 @@
 		}
 
 		if(empty($phone)) {
-			$data['phone'] = null;
+			$data['phone'] = '';
 		} else {
 			if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
 				$error['phone'] = "Champ telephone invalide (+01925784)";
 			} else {
 				$data['phone'] = $phone;
-			}
-		}
-
-		if(empty($social_reason)) {
-			$data['social_reason'] = null;
-		} else {
-			if(!preg_match("/^[a-zA-Z0-9 ]{0,40}$/", $social_reason)) {
-				$error['social_reason'] = "Champ nom de societes invalides (a-zA-Z0-9 ) 40 caracteres maximum";
-			} else {
-				$data['social_reason'] = $social_reason;
 			}
 		}
 
@@ -95,8 +95,8 @@
 		$result = valid_company_infos($_POST['csup_first_name'], $_POST['csup_last_name'], $_POST['csup_mail'], $_POST['csup_password'], $_POST['csup_valid_password'], $_POST['csup_phone'], $_POST['csup_social_reason']);
 
 		if($result['valid']) {
-			// Create company
-			echo "ok";
+			User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+			//connect
 		} else {
 			$errors = $result;
 		}
