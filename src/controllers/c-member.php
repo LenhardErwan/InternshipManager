@@ -44,7 +44,11 @@
 				if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
 					$error['mail'] = "Champ mail invalide (utilisateur@mail.example.com)";
 				} else {
-					$data['mail'] = $mail;
+					if(!empty(User::getAccount($mail))) {
+						$error['mail'] = "Mail deja utilise";
+					} else {
+						$data['mail'] = $mail;
+					}
 				}
 			}
 		}
@@ -60,13 +64,13 @@
 				} else if(!($password === $valid_password)) {
 					$error['password'] = "Les mots de passes ne correspondent pas";
 				} else {
-					$data['password'] = $password;
+					$data['password'] = hash('sha256', $password);
 				}
 			}
 		}
 
 		if(empty($phone)) {
-			$data['phone'] = null;
+			$data['phone'] = '';
 		} else {
 			if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
 				$error['phone'] = "Champ telephone invalide (+01925784)";
@@ -76,7 +80,7 @@
 		}
 
 		if(empty($birth_date)) {
-			$data['birth_date'] = null;
+			$data['birth_date'] = '';
 		} else {
 			if(!validBirthDate($birth_date)) {
 				$error['birth_date'] = "Champ date de naissance invalide";
@@ -86,7 +90,7 @@
 		}
 
 		if(empty($degrees)) {
-			$data['degrees'] = null;
+			$data['degrees'] = '';
 		} else {
 			if(!preg_match("/^[a-zA-Z0-9 ]{0,500}$/", $degrees)) {
 				$error['degrees'] = "Champ diplomes invalides (a-zA-Z0-9 ) 500 caracteres maximum";
@@ -108,8 +112,8 @@
 		$result = valid_member_infos($_POST['msup_first_name'], $_POST['msup_last_name'], $_POST['msup_mail'], $_POST['msup_password'], $_POST['msup_valid_password'], $_POST['msup_phone'], $_POST['msup_birth_date'], $_POST['msup_degrees']);
 
 		if($result['valid']) {
-			//Create membre
-			echo "ok";
+			User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
+			//connect
 		} else {
 			$errors = $result;
 		}

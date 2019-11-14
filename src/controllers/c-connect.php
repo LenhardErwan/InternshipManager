@@ -9,7 +9,11 @@
 				if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
 					$error['mail'] = "Champ mail invalide";
 				} else {
-					$data['mail'] = $mail;
+					if(empty(User::getAccount($mail))) {
+						$error['mail'] = "Mail ou mot de passe inconnue";
+					} else {
+						$user = User::getAccount($mail);
+					}
 				}
 			}
 		}
@@ -23,13 +27,18 @@
 				if(!preg_match("/^[a-zA-Z !@#$%^&*]{8,64}$/", $password)) {
 					$error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
 				} else {
-					$data['password'] = $password;
+					if(isset($user) && (hash('sha256', $password) === $user->password)) {
+						$data['valid'] = true;
+					} else {
+						$error['mail'] = "Mail ou mot de passe inconnue";
+					}
 				}
 			}
 		}
 
 		if(empty($error)) {
-			//check account exist
+			$data['valid'] = true;
+			return $data;
 		} else {
 			$error['valid'] = false;
 			return $error;
@@ -41,7 +50,10 @@
 		$result = valid_connect_infos($_POST['con_mail'], $_POST['con_password']);
 
 		if($result['valid']) {
-			// connect
+			$user = User::getAccount($_POST['con_mail']);
+			$_SESSION['id_user'] = $user->id_user;
+			$_SESSION['mail'] = $user->mail;
+			$_SESSION['password'] = $user->password;
 		} else {
 			$errors = $result;
 		}
