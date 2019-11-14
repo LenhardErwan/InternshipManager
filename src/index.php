@@ -1,22 +1,20 @@
 <?php
 	session_start();
-	require_once('./assets/script/ConfDB.inc.php');
-	require_once('./assets/script/formHandler.php');
-	require_once('./assets/script/validSignin.php');
+	require_once('./assets/script/controllers/main.php');
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>Accueil</title>
-		<script src="assets/script/nav.js"></script>
 	</head>
 	<body>
-		<?php require_once('./assets/script/nav.php'); ?>
+		<?php require_once('./assets/script/views/nav.php'); ?>
+		
 		<main>
 			<!--Charger la liste des offres-->
-			<?php require_once('./assets/script/articleList.php'); ?>
+			<?php require_once('./assets/script/views/articleList.php'); ?>
 		</main>
-		<?php require_once('./assets/script/footer.php'); ?>
+		<?php require_once('./assets/script/views/footer.php'); ?>
 	</body>
 </html>
