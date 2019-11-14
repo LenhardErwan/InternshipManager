@@ -3,8 +3,6 @@
     require_once(__DIR__."/../models/m-user.php");
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : '');
 
-    $catched = false;
-
     switch ($action) {
         case 'voteFor':
             session_start();

@@ -6,22 +6,29 @@
     </head>
 
     </body>
-        <?php //TODO - Inclure le nav ?>
+    <?php require("v-nav.inc.php"); ?>
         <main>
 			<div>
-                <?php if(isset($title)) { ?>
+                <?php if($article) { ?>
 
-                <h1><?php echo $title ?></h1>
-                <h3><?php echo $company ?></h3>
-                <h4><?php echo $begin_date ?> , <?php echo $end_date ?></h4>
-                <p><?php echo $mission ?></p>
-                <p><?php echo $contact ?></p>
+                <h1><?= $article->title ?></h1>
+                <h3><?= $company ?></h3>
+                <h4><?= $article->begin_date ?> , <?= $article->end_date ?></h4>
+                <p><?= $article->mission ?></p>
+                <p><?= $article->contact ?></p>
 
-                <?php if(isset($attachment)) { ?>
-                <p><?php echo $attachment ?></p>
+                <?php if(isset($article->attachment)) { ?>
+                <p><?= $article->attachment ?></p>
                 <?php } ?>
 
-                <?php require_once("v-vote.inc.php"); ?>
+                <?php require("v-vote.inc.php"); ?>
+
+                <?php if($is_creator) { ?>
+                <form action="" method="POST" id="modif" >
+                    <button type="submit" id="edit_article" name="action" value="edit_article">Editer</button>
+                </form>
+                <button type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</button>
+                <?php } ?>
                 
                 <?php } else { ?>
 
@@ -30,7 +37,9 @@
                 <?php } ?>
 			</div>
 		</main>
+        <?php require("v-footer.inc.php"); ?>
+        <?php if($is_creator) require("v-article_delete.inc.php"); ?>
     </body>
-    <script src="assets/script/nav.js"></script>
     <script src="assets/script/vote.js"></script>
+    <script src="assets/script/modal.js"></script>
 </html>
