@@ -27,7 +27,7 @@ class Article {
     public static function updateArticle(array $data) {
         global $database;
         try {
-            $request = $database->prepare("UPDATE article SET title = :title, begin_date = :begin_date, end_date = :end_date, mission = :mission, attachement = :attachement WHERE id_article = :id_article;");
+            $request = $database->prepare("UPDATE article SET title = :title, begin_date = :begin_date, end_date = :end_date, mission = :mission, contact = :contact, attachment = :attachment WHERE id_article = :id_article;");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
