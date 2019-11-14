@@ -44,7 +44,11 @@
 				if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
 					$error['mail'] = "Champ mail invalide (utilisateur@mail.example.com)";
 				} else {
-					$data['mail'] = $mail;
+					if(!empty(User::getAccount($mail))) {
+						$error['mail'] = "Mail deja utilise";
+					} else {
+						$data['mail'] = $mail;
+					}
 				}
 			}
 		}
