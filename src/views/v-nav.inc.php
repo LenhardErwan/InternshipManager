@@ -24,5 +24,5 @@
 		<input type="text" name="search_content">
 		<button name="search_submit">Rechercher</button>		
 	</form>
-	<button onclick="">Connexion</button>
+	<button onclick="openModal('connect_form')">Connexion</button>
 </nav>
