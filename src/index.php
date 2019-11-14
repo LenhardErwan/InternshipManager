@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	require_once('./assets/script/ConfDB.inc.php');
 	require_once('./assets/script/controllers/main.php');
 ?>
 <!DOCTYPE html>
@@ -14,8 +13,8 @@
 		
 		<main>
 			<!--Charger la liste des offres-->
-			<?php require_once('./assets/script/articleList.php'); ?>
+			<?php require_once('./assets/script/views/articleList.php'); ?>
 		</main>
-		<?php require_once('./assets/script/footer.php'); ?>
+		<?php require_once('./assets/script/views/footer.php'); ?>
 	</body>
 </html>
