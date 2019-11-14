@@ -9,7 +9,7 @@
     <?php require("v-nav.inc.php"); ?>
         <main>
 			<div>
-                <?php if($article) { ?>
+                <?php if(isset($article) && $article) { ?>
 
                 <h1><?= $article->title ?></h1>
                 <h3><?= $company ?></h3>
@@ -38,7 +38,7 @@
 			</div>
 		</main>
         <?php require("v-footer.inc.php"); ?>
-        <?php if($is_creator) require("v-article_delete.inc.php"); ?>
+        <?php if(isset($is_creator) && $is_creator) require("v-article_delete.inc.php"); ?>
     </body>
     <script src="assets/script/vote.js"></script>
     <script src="assets/script/modal.js"></script>

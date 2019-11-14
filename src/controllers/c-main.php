@@ -1,30 +1,39 @@
 <?php
     require_once(__DIR__."/../models/m-article.php");
     require_once(__DIR__."/../models/m-user.php");
+
+    session_start();
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : '');
-    $page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : '');
+    $page = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 'index');
 
     switch($page) {
         case 'index':
                 require('c-connect.php');
                 require(__DIR__.'/../views/v-index.inc.php');
 
-                exit();
             break;
         case 'signup_member':
                 require('c-connect.php');
                 require('c-member.php');
                 require(__DIR__.'/../views/v-signup_member.inc.php');
 
-                exit();
             break;
         case 'signup_company':
                 require('c-connect.php');
                 require('c-company.php');
                 require(__DIR__.'/../views/v-signup_company.inc.php');
 
-                exit();
             break;
+
+        case 'article':
+            require('c-article.php');
+            
+        break;
+
+        case 'profil':
+            //TODO
+
+        break;
 
         default:
             break;
@@ -32,9 +41,7 @@
 
     switch ($action) {
         case 'voteFor':
-            session_start();
-
-            $id_account = (isset($_SESSION['id_user']) && !empty($_SESSION['id_user'])) ?$_SESSION['id_user'] : null;
+            $id_account = (isset($_SESSION['id_user']) && !empty($_SESSION['id_user'])) ? $_SESSION['id_user'] : null;
             $type = (isset($_REQUEST['type']) && !empty($_REQUEST['type'])) ? $_REQUEST['type'] : null;
             $id_hash = (isset($_REQUEST['id_hash']) && !empty($_REQUEST['id_hash'])) ? $_REQUEST['id_hash'] : null;
             
@@ -52,9 +59,6 @@
             $functions = Article::getAJAXFunctionsVote($id_hash);
             
             require(__DIR__."/../views/v-vote.inc.php");
-            
-            exit();
-
             break;
         
         default:
