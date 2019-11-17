@@ -54,6 +54,8 @@
 
                 if(!is_null($id_account) && !is_null($article) && !is_null($type)) {
                     Article::voteFor($id_account, $id_article, $type);
+                    $data = array('id_account' => $id_account, 'id_article' => $id_article);
+                    $user_vote = Article::getVote($data);
                 }
             }
             
