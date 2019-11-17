@@ -27,7 +27,11 @@
                         <textarea name="contact" id="contact" required><?php if(isset($article)) echo $article->contact ?></textarea>
                         <br/>
                         <label for="attachment">Pièce Jointe : </label>
-                        <input type="file" name="attachment" id="attachment" value="<?php if(isset($article)) echo $article->attachement ?>" />
+                        <input type="file" name="attachment" id="attachment" />
+                        <?php if(isset($article) && !empty($article->attachment)) { ?>
+                        <div>Fichier actuel : <?= $article->attachment ?> </div>
+
+                        <?php } ?>
                         <br/>
                         <button type="submit" id="article_submit" name="action" value="save_article">Enregistrer</button>
                         <button type="submit" id="cancel" name="action" value="get_article" formnovalidate >Annuler</button>
