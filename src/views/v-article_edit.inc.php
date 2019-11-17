@@ -12,23 +12,23 @@
                 <form action="" method="POST">
                     <fieldset>
                         <label for="title">*Titre : </label>
-                        <input type="text" name="title" id="title" value="<?php if(isset($article)) echo $article->title ?>" maxlength="30" required />
+                        <input type="text" name="title" id="title" value="<?php if(isset($article) && $article && $article) echo $article->title ?>" maxlength="30" required />
                         <br/>
                         <label for="begin_date">*Date de début : </label>
-                        <input type="date" name="begin_date" id="begin_date" value="<?php if(isset($article)) echo $article->begin_date ?>" required />
+                        <input type="date" name="begin_date" id="begin_date" value="<?php if(isset($article) && $article) echo $article->begin_date ?>" required />
                         <br/>
                         <label for="end_date">*Date de fin : </label>
-                        <input type="date" name="end_date" id="end_date" value="<?php if(isset($article)) echo $article->end_date ?>" required />
+                        <input type="date" name="end_date" id="end_date" value="<?php if(isset($article) && $article) echo $article->end_date ?>" required />
                         <br/>
                         <label for="mission">*Mission : </label>
-                        <textarea name="mission" id="mission" required><?php if(isset($article)) echo $article->mission ?></textarea>
+                        <textarea name="mission" id="mission" required><?php if(isset($article) && $article) echo $article->mission ?></textarea>
                         <br/>
                         <label for="contact">*Contact : </label>
-                        <textarea name="contact" id="contact" required><?php if(isset($article)) echo $article->contact ?></textarea>
+                        <textarea name="contact" id="contact" required><?php if(isset($article) && $article) echo $article->contact ?></textarea>
                         <br/>
                         <label for="attachment">Pièce Jointe : </label>
                         <input type="file" name="attachment" id="attachment" />
-                        <?php if(isset($article) && !empty($article->attachment)) { ?>
+                        <?php if(isset($article) && $article && !empty($article->attachment)) { ?>
                         <div>Fichier actuel : <?= $article->attachment ?> </div>
 
                         <?php } ?>
@@ -41,8 +41,11 @@
                 </form>
 			</div>
         </main>
-        <?php require("v-footer.inc.php"); ?>
-        <?php require("v-article_delete.inc.php"); ?>
+        <?php 
+            require("v-footer.inc.php");
+            $action_to_perform = "delete_article"; 
+            require("v-confirm_delete.inc.php"); 
+        ?>
     </body>
     <script src="assets/script/modal.js"></script>
 </html>
