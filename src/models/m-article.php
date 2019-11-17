@@ -14,10 +14,21 @@ class Article {
         }
     }
 
+    public static function getLastArticleFromCompany(int $id_company) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT * FROM article WHERE id_company = ? ORDER BY publication_date DESC LIMIT 1;");
+            $request->execute(array($id_company)); 
+            return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function createArticle(array $data) {
         global $database;
         try {
-            $request = $database->prepare("INSERT INTO article (id_company, id_hash, title, begin_date, end_date, mission, contact, attachement) VALUES(:id_company, :id_hash, :title, :begin_date, :end_date, :mission, :contact, :attachement);");
+            $request = $database->prepare("INSERT INTO article (id_company, title, begin_date, end_date, mission, contact, attachment) VALUES(:id_company, :title, :begin_date, :end_date, :mission, :contact, :attachment);");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -38,7 +49,7 @@ class Article {
         global $database;
         try {
             $request = $database->prepare("DELETE FROM article WHERE id_article = ?;");
-            $request->execute($id); 
+            $request->execute(array($id)); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
@@ -59,9 +70,9 @@ class Article {
     public static function getVote(array $data) {
         global $database;
         try {
-            $request = $database->prepare("SELECT * FROM vote WHERE id_account = :id_account AND id_article = :id_article ;");
+            $request = $database->prepare("SELECT type FROM vote WHERE id_account = :id_account AND id_article = :id_article ;");
             $request->execute($data);
-            return $request->fetch(PDO::FETCH_OBJ);
+            return $request->fetch();
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }

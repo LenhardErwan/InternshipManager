@@ -20,6 +20,9 @@
 ?>
 <nav>
 	<a href="?page=index">Accueil</a>
+  <?php if(isset($is_company) && $is_company) { ?>
+	<a href="?page=article&action=edit_article">Créer une offre</a>
+  <?php } ?>
 	<form action="" method="POST">
 		<input type="text" name="search_content">
 		<button name="search_submit">Rechercher</button>		

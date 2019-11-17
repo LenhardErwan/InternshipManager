@@ -127,6 +127,17 @@ CREATE OR REPLACE FUNCTION deleteCompany() RETURNS trigger AS $$
 LANGUAGE plpgsql;
 CREATE TRIGGER delCompany AFTER DELETE ON company FOR EACH ROW EXECUTE PROCEDURE deleteCompany();
 
+CREATE OR REPLACE FUNCTION addIdHashArticle() RETURNS trigger AS $$
+    DECLARE
+        id_hash varchar;
+    BEGIN
+        id_hash := md5(to_char(NEW.publication_date, 'YYYY-MM-DD-HH24-MI-SS')||NEW.id_company::text);
+        NEW.id_hash := id_hash;
+        RETURN NEW;
+    END; $$
+LANGUAGE plpgsql;
+CREATE TRIGGER addHashArticle BEFORE INSERT ON article FOR EACH ROW EXECUTE PROCEDURE addIdHashArticle();
+
 
 --Insert values 
 -- /!\ UNIQUEMENT POUR TESTER /!\
@@ -137,15 +148,15 @@ SELECT createCompany('Igor', 'Popovmolotov', 'Igor@bilderberg.org', 'bde8fb5a8c8
 SELECT createCompany('Giscard', 'Burger', 'giscard@data-squad.net', 'f1201a47a48379e5119094f4ccd7db51aa002fc4ca4e78ffebaa542fe89aa2ef', 'NULL','GiscAgence');
 SELECT createMember('Patrick', 'Balkany', 'patrick.balkany@wanadoo.fr', 'e2f14b6c9f37e29161a65b9d69ab82a0e5c145adc8a931cec82d12192a227f86',  '0140635026', '1948/03/16', 'NULL');
 
-INSERT INTO article (id_company, id_hash, publication_date, title, begin_date, end_date, mission, contact)
-    VALUES(5, '35f8efea1f843f167196db9c4528dfe5', '2019-11-08 12:26:50.750323+01', 'Equipier', '2020/04/01', '2020/08/31', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+INSERT INTO article (id_company, publication_date, title, begin_date, end_date, mission, contact)
+    VALUES(5, '2019-11-08 12:26:50.750323+01', 'Equipier', '2020/04/01', '2020/08/31', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
     Maecenas tortor augue, ultrices vitae consectetur sed, egestas ac nunc. Mauris nisi urna, sollicitudin 
     vel magna vitae, molestie imperdiet odio. Sed efficitur lacus pretium nisl laoreet, non gravida ligula 
     molestie. Ut dapibus facilisis molestie. Fusce sit amet ligula interdum quam egestas iaculis. Sed 
     vestibulum iaculis imperdiet. Duis cursus molestie sem, ac tincidunt orci pretium id. Mauris ac felis 
     vel sapien porta lacinia ac non magna. Sed ac erat porta nibh pretium tristique id non ligula. Donec 
     suscipit facilisis aliquam. Aliquam sit amet mauris non orci iaculis venenatis. Etiam sodales accumsan 
-    ipsum vehicula porttitor.', 'mail : recrutement@quickEntertainement.fr');
+    ipsum vehicula porttitor.', 'mail : recrutement@quickEntertainement.fr', NULL);
 
 INSERT INTO vote (id_account, id_article, positive) VALUES (2, 1, TRUE);
 INSERT INTO vote (id_account, id_article, positive) VALUES (3, 1, TRUE);

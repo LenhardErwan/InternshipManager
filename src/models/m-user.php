@@ -14,6 +14,17 @@ class User {
         }
     }
 
+    public static function isAdmin($id) {
+        global $database;
+        try {
+            $request = $database->query("SELECT id_account FROM account WHERE id_account NOT IN (SELECT id_member FROM member) AND id_account NOT IN (SELECT id_company FROM company);");
+            $result = $request->fetchAll();
+            return in_array($id, $result);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function createAccount(array $data) {
         global $database;
         try {
@@ -56,6 +67,18 @@ class User {
         }
     }
 
+    public static function isMember($id) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT id_member FROM member WHERE id_member = ?;");
+            $request->execute(array($id));
+            $result = $request->fetch();
+            return ($result) ? true : false;
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function createMember(array $data) {
         global $database;
         try {
@@ -88,6 +111,18 @@ class User {
             $request = $database->prepare("SELECT * FROM account A JOIN company C ON A.i=C.id_company WHERE mail=? ;");
             $request->execute(array($mail)); 
             return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function isCompany($id) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT id_company FROM company WHERE id_company = ?;");
+            $request->execute(array($id));
+            $result = $request->fetch();
+            return ($result) ? true : false;
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
