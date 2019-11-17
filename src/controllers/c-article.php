@@ -65,6 +65,7 @@
     $connected = $id_account > 0;
     if($connected) {
         $is_company = User::isCompany($id_account);
+        $can_comment = User::isAdmin($id_account);
     }
 
     switch ($action) {
@@ -75,16 +76,13 @@
                     $company = User::getCompanyName($article->id_company);
                     $votes = Article::getNbVotes($article->id_article);
                     $functions = Article::getAJAXFunctionsVote($id_hash);
+                    $comment = Article::getCommentFromArticle($article->id_article);
 
                     if($connected) {
                         $can_edit = $article->id_company == $id_account;
-                        $can_comment = User::isAdmin($id_account);
 
                         $data = array('id_account' => $id_account, 'id_article' => $article->id_article);
                         $user_vote = Article::getVote($data);
-                    }
-                    else {
-                        $can_edit = $can_comment = false;
                     }
                 }
             }
@@ -95,9 +93,16 @@
             if($connected) {
                 if(isset($id_hash)) {   //Edit aricle
                     $article = Article::getArticle($id_hash);
+                    if($article && $article->id_company == $id_account) {
+                        require(__DIR__."/../views/v-article_edit.inc.php");
+                    }
+                    else {  //Article not found or not the same company id
+                        header('Location: ?page=article&id='.$id_hash);
+                        exit();
+                    }
                 }
     
-                if($article->id_company == $id_account || $is_company ) {
+                else if($is_company) {   //Create article
                     require(__DIR__."/../views/v-article_edit.inc.php");
                 }
             }
@@ -106,45 +111,39 @@
 
         case 'save_article':
             if($connected && User::isCompany($id_account)) {
+                $data = array(
+                    'title' => htmlentities($_REQUEST['title'], ENT_COMPAT, "UTF-8"),
+                    'begin_date' =>  htmlentities($_REQUEST['begin_date'], ENT_COMPAT, "UTF-8"),
+                    'end_date' =>  htmlentities($_REQUEST['end_date'], ENT_COMPAT, "UTF-8"),
+                    'mission' =>  htmlentities($_REQUEST['mission'], ENT_COMPAT, "UTF-8"),
+                    'contact' =>  htmlentities($_REQUEST['contact'], ENT_COMPAT, "UTF-8"),
+                    'attachment' =>  (!empty($_REQUEST['attachment']) ?  htmlentities($_REQUEST['attachment'], ENT_COMPAT, "UTF-8") : NULL)
+                );
+
                 if(isset($id_hash)) {   //Update article
                     $article = Article::getArticle($id_hash);
                     if($article) {
-                        $data = array(
-                            'title' => $_REQUEST['title'],
-                            'begin_date' => $_REQUEST['begin_date'],
-                            'end_date' => $_REQUEST['end_date'],
-                            'mission' => $_REQUEST['mission'],
-                            'contact' => $_REQUEST['contact'],
-                            'attachment' =>  (!empty($_REQUEST['attachment']) ? $_REQUEST['attachment'] : NULL),
-                            'id_article' => $article->id_article
-                        );
+                        $data['id_article'] = $article->id_article;
 
                         try {
                             check_article_data($data);
                             Article::updateArticle($data);
-                            header('Location: ?page=article&id='.$id_hash);
-                            exit();
                         }
                         catch (Exception $e) {
                             echo "Error : ".$e->getMessage();
                         }
                     }
+
+                    header('Location: ?page=index&id='.$id_hash);
+                    exit();
                 }
                 else {  //Create article
-                    $data = array(
-                        'id_company' => 5/*$id_account*/,
-                        'title' => $_REQUEST['title'],
-                        'begin_date' => $_REQUEST['begin_date'],
-                        'end_date' => $_REQUEST['end_date'],
-                        'mission' => $_REQUEST['mission'],
-                        'contact' => $_REQUEST['contact'],
-                        'attachment' => (!empty($_REQUEST['attachment']) ? $_REQUEST['attachment'] : NULL)                
-                    );
+                    $data['id_company'] = $id_account;
 
                     try {
                         check_article_data($data);
                         Article::createArticle($data);
-                        $article = Article::getLastArticleFromCompany(5/*$id_account*/);
+                        $article = Article::getLastArticleFromCompany($id_account);
                         header('Location: ?page=article&id='.$article->id_hash);
                         exit();
                     }
@@ -153,6 +152,8 @@
                     }
                 }
             }
+            header('Location: ?page=index');
+            exit();
         
             break;
 
@@ -160,15 +161,59 @@
             if(isset($id_hash) && $connected) {        
                 $article = Article::getArticle($id_hash);
                 if($article && $article->id_company == $id_account) {
-                    try {
-                        Article::deleteArticle($article->id_article);
-                        header('Location: ?page=index');
-                        exit();
-                    }
-                    catch (Exception $e) {
-                        echo "Error : ".$e->getMessage();
-                    }
+                    Article::deleteArticle($article->id_article);
+                    header('Location: ?page=index');
+                    exit();
                 }
+            }
+            break;
+
+        case 'edit_comment':
+            if(isset($id_hash) && $connected && $can_comment) {
+                $article = Article::getArticle($id_hash);
+                if($article) {
+                    $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
+                    $comment = Article::getComment($data);
+                }
+
+                require(__DIR__."/../views/v-comment_edit.inc.php");
+            }
+
+            break;
+
+        case 'save_comment':
+            if(isset($id_hash) && $connected && $can_comment) {        
+                $article = Article::getArticle($id_hash);
+                if($article) {
+                    $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
+                    $comment = Article::getComment($data);
+
+                    $text = $_REQUEST['text'];
+                    $data['text'] = $text;
+
+                    if($comment) {  // There's already a comment
+                        Article::updateComment($data);
+                    }
+                    else {
+                        Article::createComment($data);
+                    }
+
+                    header('Location: ?page=article&id='.$id_hash);
+                    exit();
+                }
+            }
+            break;
+
+        case 'delete_comment':
+            if(isset($id_hash) && $connected && $can_comment) {        
+                $article = Article::getArticle($id_hash);
+                if($article) {
+                    $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
+                    Article::deleteComment($data);
+                }
+
+                header('Location: ?page=article&id='.$id_hash);
+                exit();
             }
             break;
         

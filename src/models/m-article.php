@@ -109,11 +109,22 @@ class Article {
     }
 
 
-    public static function getComment(int $data) {
+    public static function getComment(array $data) {
         global $database;
         try {
             $request = $database->prepare("SELECT * FROM comment WHERE id_admin = :id_admin AND id_article = :id_article ;");
             $request->execute($data);
+            return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function getCommentFromArticle(int $id) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT * FROM comment WHERE id_article = ? ;");
+            $request->execute(array($id));
             return $request->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -140,7 +151,7 @@ class Article {
         }
     }
 
-    public static function deleteComment(array $id) {
+    public static function deleteComment(array $data) {
         global $database;
         try {
             $request = $database->prepare("DELETE FROM comment WHERE id_admin = :id_admin AND id_article = :id_article;");

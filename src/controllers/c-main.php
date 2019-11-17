@@ -45,7 +45,7 @@
             $type = (isset($_REQUEST['type']) && !empty($_REQUEST['type'])) ? $_REQUEST['type'] : null;
             $id_hash = (isset($_REQUEST['id_hash']) && !empty($_REQUEST['id_hash'])) ? $_REQUEST['id_hash'] : null;
 
-            if(!Article::isCompany($id_account)) {  //Companies cannot vote
+            if(!User::isCompany($id_account)) {  //Companies cannot vote
                 if(!is_null($id_hash)) $article = Article::getArticle($id_hash);
             
                 if(isset($article) && $article) {
