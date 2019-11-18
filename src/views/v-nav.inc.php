@@ -31,5 +31,6 @@
 		<button onclick="openModal('connect_form')">Connexion</button>
 	<?php } else { ?>
 		<a href="?page=settings">Parametres</a>
+		<a href="?page=disconnect">Deconnexion</a>
 	<?php } ?>
 </nav>

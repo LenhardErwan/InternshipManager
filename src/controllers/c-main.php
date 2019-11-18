@@ -10,24 +10,28 @@
         case 'index':
                 require('c-connect.php');
                 require(__DIR__.'/../views/v-index.inc.php');
-
             break;
+
         case 'signup_member':
                 require('c-connect.php');
                 require('c-member.php');
                 require(__DIR__.'/../views/v-signup_member.inc.php');
-
             break;
+
         case 'signup_company':
                 require('c-connect.php');
                 require('c-company.php');
                 require(__DIR__.'/../views/v-signup_company.inc.php');
+            break;
 
+        case 'disconnect':
+                session_unset();
+                session_destroy();
+                header('Location: ?page=index');
             break;
 
         case 'article':
             require('c-article.php');
-            
         break;
 
         case 'profil':
@@ -36,6 +40,7 @@
         break;
 
         default:
+                require(__DIR__.'/../views/v-error_404.inc.php');
             break;
     }
 
