@@ -60,7 +60,7 @@
 
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_article');
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
-    $id_account = (isset($_SESSION['id_user']) && !empty($_SESSION['id_user'])) ?$_SESSION['id_user'] : -1;
+    $id_account = (isset($_SESSION['id_user']) && !empty($_SESSION['id_user'])) ? $_SESSION['id_user'] : -1;
 
     $connected = $id_account > 0;
     if($connected) {

@@ -14,6 +14,16 @@ class Article {
         }
     }
 
+    public static function getAllArticles() {
+        global $database;
+        try {
+            $request = $database->query("SELECT * FROM article;");
+            return $request->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function getLastArticleFromCompany(int $id_company) {
         global $database;
         try {
@@ -72,7 +82,7 @@ class Article {
         try {
             $request = $database->prepare("SELECT type FROM vote WHERE id_account = :id_account AND id_article = :id_article ;");
             $request->execute($data);
-            return $request->fetch();
+            return $request->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
