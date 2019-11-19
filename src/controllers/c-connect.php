@@ -51,7 +51,7 @@
 
 		if($result['valid']) {
 			$user = User::getAccount($_POST['con_mail']);
-			$_SESSION['id_user'] = $user->id_account;
+			$_SESSION['id_account'] = $user->id_account;
 			$_SESSION['mail'] = $user->mail;
 			$_SESSION['password'] = $user->password;
 		} else {
