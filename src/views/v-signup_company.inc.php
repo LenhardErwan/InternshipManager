@@ -44,7 +44,6 @@
 				Inscription reussi
 				<h2>Vous n'avez plus qu'a vous connecter</h2>
 				<a href="?page=index">Retour a la page d'accueil</a>
-				<a href="?page=profile&id_account=<?= $_SESSION['id_account']; ?>">Consulter mon profil</a>
 			</div>
 		<?php } ?>
 
