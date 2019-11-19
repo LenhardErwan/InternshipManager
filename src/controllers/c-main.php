@@ -37,14 +37,23 @@
             break;
 
         case 'article':
-            require('c-connect.php');
-            require('c-article.php');
-        break;
+                require('c-connect.php');
+                require('c-article.php');
+            break;
 
         case 'profil':
-            //TODO
+                //TODO
+            break;
 
-        break;
+        case 'admin':
+                if(isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+                    require('c-connect.php');
+                    require('c-admin.php');
+                    require(__DIR__.'/../views/v-admin.inc.php');
+                } else {
+                    header('Location: ?page=index');
+                }
+            break;
 
         default:
                 require(__DIR__.'/../views/v-error_404.inc.php');

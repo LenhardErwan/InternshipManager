@@ -53,6 +53,13 @@
 			$_SESSION['id_account'] = $user->id_account;
 			$_SESSION['mail'] = $user->mail;
 			$_SESSION['password'] = $user->password;
+
+			if(User::isAdmin($user->id_account)) {
+				$_SESSION['is_admin'] = true;
+			} else if(User::isCompany($user->id_account)) {
+				$_SESSION['is_company'] = true;
+			}
+			
 		} else {
 			$errors = $result;
 		}
