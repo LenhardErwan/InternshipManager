@@ -5,7 +5,7 @@
         <title>Offre</title>
     </head>
 
-    </body>
+    <body>
     <?php require("v-nav.inc.php"); ?>
         <main>
 			<div>
@@ -31,7 +31,7 @@
                 <?php } ?>
                 <?php 
                     if(isset($comment) && $comment) require("v-comment.inc.php"); 
-                    else if ($can_comment) {
+                    else if (isset($can_comment) && $can_comment) {
                 ?>
                 <form action="" method="POST">
                     <button type="submit" id="create_comment" name="action" value="edit_comment">Ajouter Commentaire</button>

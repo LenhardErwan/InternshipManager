@@ -7,7 +7,7 @@ CREATE TABLE account (
     last_name VARCHAR(15) NOT NULL,
     mail VARCHAR(80) NOT NULL,
     password VARCHAR(64) NOT NULL,
-    phone VARCHAR(15),
+    phone VARCHAR(15) DEFAULT NULL,
 
     CONSTRAINT pk_account PRIMARY KEY (id_account),
     CONSTRAINT u_account UNIQUE (mail)
@@ -15,8 +15,8 @@ CREATE TABLE account (
 
 CREATE TABLE member (
     id_member INTEGER NOT NULL,
-    birth_date Date,
-    degrees VARCHAR,
+    birth_date Date DEFAULT NULL,
+    degrees VARCHAR DEFAULT NULL,
     
     CONSTRAINT pk_member PRIMARY KEY (id_member),
     CONSTRAINT fk_member FOREIGN KEY (id_member) REFERENCES account (id_account) ON DELETE CASCADE ON UPDATE CASCADE
@@ -141,7 +141,7 @@ CREATE TRIGGER addHashArticle BEFORE INSERT ON article FOR EACH ROW EXECUTE PROC
 
 --Insert values 
 -- /!\ UNIQUEMENT POUR TESTER /!\
-INSERT INTO account (first_name, last_name, mail, password) VALUES ('admin', 'admin', 'admin@admin.admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+INSERT INTO account (first_name, last_name, mail, password) VALUES ('admin', 'admin', 'admin@admin.admin', 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892');
 SELECT createMember('erwan', 'lenhard', 'melon@data-squad.net', 'f1e11b86d6d82ad3593ab2101792de2a75fccb35cd566fdcbb70fa7eb16bd056', 'NULL', '2000/03/28', 'NULL');
 SELECT createMember('jerem', 'castel', 'jeremjrm@data-squad.net', '35daf295f9900ce210ffe802f8fb746298e44a6dd0d4ff524870fd1b4fb49649', 'NULL', 'NULL', 'NULL');
 SELECT createCompany('Igor', 'Popovmolotov', 'Igor@bilderberg.org', 'bde8fb5a8c8d89a26ba2fa128ed6c342dd686a9371499d8b90e0767e633e7482', 'NULL','Quick Entertainement');

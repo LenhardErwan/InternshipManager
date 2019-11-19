@@ -35,9 +35,9 @@
             require('c-article.php');
         break;
 
-        case 'profil':
-            //TODO
-
+        case 'profile':
+            require('c-connect.php');
+            require('c-profile.php');
         break;
 
         default:
