@@ -20,9 +20,9 @@
 ?>
 <nav>
 	<a href="?page=index">Accueil</a>
-  <?php if(isset($is_company) && $is_company) { ?>
-	<a href="?page=article&action=edit_article">Créer une offre</a>
-  <?php } ?>
+  	<?php if(isset($_SESSION['is_company']) && $_SESSION['is_company']) { ?>
+		<a href="?page=article&action=edit_article">Créer une offre</a>
+  	<?php } ?>
 	<form action="" method="POST">
 		<input type="text" name="search_content">
 		<button name="search_submit">Rechercher</button>		
@@ -32,6 +32,10 @@
 		<a href="?page=signup_member">Inscription Membre</a>
 		<a href="?page=signup_company">Inscription Entreprise</a>
 	<?php } else { ?>
+		<?php if(isset($_SESSION['is_admin']) && $_SESSION['is_admin']) { ?>
+			<a href="?page=admin">Administration</a>
+		<?php } ?>
+		<a href="?page=profile&id=<?= $_SESSION['id_account']; ?>">Mon profil</a>
 		<a href="?page=settings">Parametres</a>
 		<a href="?page=disconnect">Deconnexion</a>
 	<?php } ?>
