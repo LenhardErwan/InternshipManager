@@ -62,10 +62,19 @@
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
 
-    $connected = $id_account > 0;
-    if($connected) {
-        $is_company = User::isCompany($id_account);
-        $can_comment = User::isAdmin($id_account);
+    if($id_account > 0) {
+        $is_member = User::isMember($id_account);
+        if($is_member) {
+            $status = "member";
+        }
+        else {
+            $is_company = User::isCompany($id_account);
+            if($is_company) $status = "company";
+            else $status = "admin";
+        }
+    }
+    else {
+        $status = "not-connected";
     }
 
     switch ($action) {
@@ -78,7 +87,7 @@
                     $functions = Article::getAJAXFunctionsVote($id_hash);
                     $comment = Article::getCommentFromArticle($article->id_article);
 
-                    if($connected) {
+                    if($status != "not-connected") {
                         $can_edit = $article->id_company == $id_account;
 
                         $data = array('id_account' => $id_account, 'id_article' => $article->id_article);
@@ -90,8 +99,8 @@
             break;
 
         case 'edit_article':
-            if($connected) {
-                if(isset($id_hash)) {   //Edit aricle
+            if($status != "not-connected") {
+                if(isset($id_hash)) {   //Edit article
                     $article = Article::getArticle($id_hash);
                     if($article && $article->id_company == $id_account) {
                         require(__DIR__."/../views/v-article_edit.inc.php");
@@ -110,7 +119,7 @@
             break;
 
         case 'save_article':
-            if($connected && User::isCompany($id_account)) {
+            if($status != "not-connected" && User::isCompany($id_account)) {
                 $data = array(
                     'title' => htmlentities($_REQUEST['title'], ENT_COMPAT, "UTF-8"),
                     'begin_date' =>  htmlentities($_REQUEST['begin_date'], ENT_COMPAT, "UTF-8"),
@@ -158,7 +167,7 @@
             break;
 
         case 'delete_article':
-            if(isset($id_hash) && $connected) {        
+            if(isset($id_hash) && $status != "not-connected") {        
                 $article = Article::getArticle($id_hash);
                 if($article && $article->id_company == $id_account) {
                     Article::deleteArticle($article->id_article);
@@ -169,7 +178,7 @@
             break;
 
         case 'edit_comment':
-            if(isset($id_hash) && $connected && $can_comment) {
+            if(isset($id_hash) && $status != "not-connected" && $can_comment) {
                 $article = Article::getArticle($id_hash);
                 if($article) {
                     $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
@@ -182,7 +191,7 @@
             break;
 
         case 'save_comment':
-            if(isset($id_hash) && $connected && $can_comment) {        
+            if(isset($id_hash) && $status != "not-connected" && $can_comment) {        
                 $article = Article::getArticle($id_hash);
                 if($article) {
                     $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
@@ -205,7 +214,7 @@
             break;
 
         case 'delete_comment':
-            if(isset($id_hash) && $connected && $can_comment) {        
+            if(isset($id_hash) && $status != "not-connected" && $can_comment) {        
                 $article = Article::getArticle($id_hash);
                 if($article) {
                     $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
