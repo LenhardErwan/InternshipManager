@@ -108,7 +108,7 @@ class User {
     public static function getCompany(string $mail) {
         global $database;
         try {
-            $request = $database->prepare("SELECT * FROM account A JOIN company C ON A.i=C.id_company WHERE mail=? ;");
+            $request = $database->prepare("SELECT * FROM account A JOIN company C ON A.id_user = C.id_company WHERE mail=? ;");
             $request->execute(array($mail)); 
             return $request->fetch(PDO::FETCH_OBJ);
         } catch (Exception $e) {

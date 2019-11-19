@@ -24,7 +24,7 @@
 			if(strlen($password) > 64) {
 				$error['password'] = "Champ mot de passe trop grand 64 caracteres";
 			} else {
-				if(!preg_match("/^[a-zA-Z !@#$%^&*]{8,64}$/", $password)) {
+				if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
 					$error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
 				} else {
 					if(isset($user) && (hash('sha256', $password) === $user->password)) {
@@ -45,7 +45,6 @@
 		}
 	}
 
-	
 	if(isset($_POST['con_submit'])) {
 		$result = valid_connect_infos($_POST['con_mail'], $_POST['con_password']);
 

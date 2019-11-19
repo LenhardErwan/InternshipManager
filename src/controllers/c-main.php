@@ -13,12 +13,18 @@
             break;
 
         case 'signup_member':
+                if(isset($_SESSION['id_account'])) {
+                    header('Location: ?page=index');
+                }                
                 require('c-connect.php');
                 require('c-member.php');
                 require(__DIR__.'/../views/v-signup_member.inc.php');
             break;
 
         case 'signup_company':
+                if(isset($_SESSION['id_account'])) {
+                    header('Location: ?page=index');
+                }
                 require('c-connect.php');
                 require('c-company.php');
                 require(__DIR__.'/../views/v-signup_company.inc.php');
@@ -76,4 +82,18 @@
             break;
     }
 
+    function listArticles($text = null) {
+        if(empty($text)) {
+            $articles = Article::getAllArticles();
+        } else {
+            $articles = "pas de recherche pour le moment";
+        }
+
+        foreach ($articles as $article) {
+            $article->social_reason = User::getCompanyName($article->id_company);
+            $article->mission = substr($article->mission, 0, 300).'...';
+        }
+
+        return $articles;
+    }
 ?>
