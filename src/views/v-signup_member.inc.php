@@ -3,10 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Inscriptions membre</title>
+		<script type="text/javascript" src="assets/script/modal.js"></script>
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>
 
+		<?php if(!$errors['valid']) { ?>
 		<form action="" method="POST">
 			*Prenom : <input type="text" name="msup_first_name" value="<?php if(isset($_POST['msup_first_name']) && !isset($errors['first_name'])) { echo $_POST['msup_first_name']; } ?>" maxlength="15" required>
 			<span><?php if(isset($errors['first_name'])) { echo $errors['first_name']; } ?></span>
@@ -41,6 +43,13 @@
 
 			<button type="submit" name="msup_submit">S'Inscrire</button>
 		</form>
+		<?php } else { ?>
+			<div>
+				Inscription reussi
+				<h2>Vous n'avez plus qu'a vous connecter</h2>
+				<a href="?page=index">Retour a la page d'accueil</a>
+			</div>
+		<?php } ?>
 
 		<?php require('v-footer.inc.php'); ?>
 	</body>

@@ -3,10 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Inscriptions entreprise</title>
+		<script type="text/javascript" src="assets/script/modal.js"></script>
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>
-
+		
+		<?php if(!$errors['valid']) { ?>
 		<form action="" method="POST">
 			*Nom de la societe : <input type="text" name="csup_social_reason" maxlength="40" value="<?php if(isset($_POST['csup_social_reason'])) { echo $_POST['csup_social_reason']; } ?>" required>
 			<span><?php if(isset($errors['social_reason'])) { echo $errors['social_reason']; }?></span>
@@ -37,6 +39,13 @@
 
 			<button name="csup_submit">S'Inscrire</button>
 		</form>
+		<?php } else { ?>
+			<div>
+				Inscription reussi
+				<h2>Vous n'avez plus qu'a vous connecter</h2>
+				<a href="?page=index">Retour a la page d'accueil</a>
+			</div>
+		<?php } ?>
 
 		<?php require('v-footer.inc.php'); ?>
 	</body>

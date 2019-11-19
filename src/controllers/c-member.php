@@ -59,7 +59,7 @@
 			if(strlen($password) > 64) {
 				$error['password'] = "Champ mot de passe trop grand (64 caracteres)";
 			} else {
-				if(!preg_match("/^[a-zA-Z !@#$%^&*]{8,64}$/", $password)) {
+				if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
 					$error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
 				} else if(!($password === $valid_password)) {
 					$error['password'] = "Les mots de passes ne correspondent pas";
@@ -113,7 +113,7 @@
 
 		if($result['valid']) {
 			User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
-			//connect
+			$errors['valid'] = $result['valid'];
 		} else {
 			$errors = $result;
 		}

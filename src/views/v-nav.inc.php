@@ -29,6 +29,8 @@
 	</form>
 	<?php if(!isset($_SESSION['id_account'])) { ?>
 		<button onclick="openModal('connect_form')">Connexion</button>
+		<a href="?page=signup_member">Inscription Membre</a>
+		<a href="?page=signup_company">Inscription Entreprise</a>
 	<?php } else { ?>
 		<a href="?page=settings">Parametres</a>
 		<a href="?page=disconnect">Deconnexion</a>

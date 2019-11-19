@@ -9,14 +9,7 @@
 		<?php require('v-nav.inc.php'); ?>
 
 		<main>
-			<article>
-				<h1>Titre formation</h1>
-				<h2>Entreprise concerne</h2>
-				<h2>Date de debut - Date de fin</h2>
-				<p>Description truncate a environs 120 caracteres</p>
-				<a href="">J'aime</a>
-				<a href="">Je n'apprecie guere</a>
-			</article>
+			<?php require('v-article_list.inc.php'); ?>
 		</main>
 
 		<?php require('v-footer.inc.php'); ?>
