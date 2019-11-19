@@ -40,10 +40,11 @@
                 require('c-connect.php');
                 require('c-article.php');
             break;
-
-        case 'profil':
-                //TODO
-            break;
+        
+        case 'profile':
+            	require('c-connect.php');
+            	require('c-profile.php');
+        	break;
 
         case 'admin':
                 if(isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {

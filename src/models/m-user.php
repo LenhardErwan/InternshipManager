@@ -14,6 +14,17 @@ class User {
         }
     }
 
+    public static function getAccountByID(int $id) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT * FROM account A WHERE id_account = ? ;");
+            $request->execute(array($id)); 
+            return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function isAdmin($id) {
         global $database;
         try {
@@ -67,6 +78,27 @@ class User {
         }
     }
 
+    public static function getMemberByID(int $id) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT * FROM account A JOIN member M ON A.id_account=M.id_member WHERE id_account = ? ;");
+            $request->execute(array($id)); 
+            return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function getAllMembers() {
+        global $database;
+        try {
+            $request = $database->query("SELECT * FROM member M JOIN account A ON M.id_member=A.id_account;");
+            return $request->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function isMember($id) {
         global $database;
         try {
@@ -108,9 +140,30 @@ class User {
     public static function getCompany(string $mail) {
         global $database;
         try {
-            $request = $database->prepare("SELECT * FROM account A JOIN company C ON A.id_user = C.id_company WHERE mail=? ;");
+            $request = $database->prepare("SELECT * FROM account A JOIN company C ON A.id_account=C.id_company WHERE mail=? ;");
             $request->execute(array($mail)); 
             return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function getCompanyByID(int $id) {
+        global $database;
+        try {
+            $request = $database->prepare("SELECT * FROM account A JOIN company C ON A.id_account=C.id_company WHERE id_account = ? ;");
+            $request->execute(array($id)); 
+            return $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function getAllCompanies() {
+        global $database;
+        try {
+            $request = $database->query("SELECT * FROM company C JOIN account A ON C.id_company=A.id_account;");
+            return $request->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }

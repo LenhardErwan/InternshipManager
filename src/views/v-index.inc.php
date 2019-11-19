@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Accueil</title>
-		<script type="text/javascript" src="assets/script/modal.js"></script>
+		<script src="assets/script/modal.js"></script>
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>

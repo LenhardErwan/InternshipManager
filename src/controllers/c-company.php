@@ -96,6 +96,7 @@
 
 		if($result['valid']) {
 			User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+			// TO DO envoyer mail a admin pour demander la validation
 			$errors['valid'] = $result['valid'];
 		} else {
 			$errors = $result;

@@ -10,11 +10,11 @@
 		return $articles;
 	}
 
-	function getAdminMember() {
-		//return User::getAllMember();
+	function getAdminMembers() {
+		return User::getAllMembers();
 	}
 
-	function getAdminCompany() {
-		//return User::getAllCompany();
+	function getAdminCompanies() {
+		return User::getAllCompanies();
 	}
 ?>
