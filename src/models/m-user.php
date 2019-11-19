@@ -18,7 +18,7 @@ class User {
         global $database;
         try {
             $request = $database->query("SELECT id_account FROM account WHERE id_account NOT IN (SELECT id_member FROM member) AND id_account NOT IN (SELECT id_company FROM company);");
-            $result = $request->fetchAll();
+            $result = $request->fetch();
             return in_array($id, $result);
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());

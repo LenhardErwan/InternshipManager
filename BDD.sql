@@ -41,7 +41,7 @@ CREATE TABLE article (
     end_date Date NOT NULL,
     mission VARCHAR NOT NULL,
     contact VARCHAR NOT NULL,
-    attachment VARCHAR,
+    attachment VARCHAR DEFAULT NULL,
 
     CONSTRAINT pk_article PRIMARY KEY (id_article),
     CONSTRAINT fk_article FOREIGN KEY (id_company) REFERENCES company (id_company) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -121,7 +121,7 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION deleteCompany() RETURNS trigger AS $$
     BEGIN
-        EXECUTE 'DELETE FROM company WHERE id_account = '||OLD.id_member||'';
+        EXECUTE 'DELETE FROM company WHERE id_account = '||OLD.id_company||'';
         RETURN OLD;
     END; $$
 LANGUAGE plpgsql;
@@ -156,8 +156,8 @@ INSERT INTO article (id_company, publication_date, title, begin_date, end_date, 
     vestibulum iaculis imperdiet. Duis cursus molestie sem, ac tincidunt orci pretium id. Mauris ac felis 
     vel sapien porta lacinia ac non magna. Sed ac erat porta nibh pretium tristique id non ligula. Donec 
     suscipit facilisis aliquam. Aliquam sit amet mauris non orci iaculis venenatis. Etiam sodales accumsan 
-    ipsum vehicula porttitor.', 'mail : recrutement@quickEntertainement.fr', NULL);
+    ipsum vehicula porttitor.', 'mail : recrutement@quickEntertainement.fr');
 
-INSERT INTO vote (id_account, id_article, positive) VALUES (2, 1, TRUE);
-INSERT INTO vote (id_account, id_article, positive) VALUES (3, 1, TRUE);
-INSERT INTO vote (id_account, id_article, positive) VALUES (1, 1, FALSE);
+INSERT INTO vote (id_account, id_article, type) VALUES (2, 1, TRUE);
+INSERT INTO vote (id_account, id_article, type) VALUES (3, 1, TRUE);
+INSERT INTO vote (id_account, id_article, type) VALUES (1, 1, FALSE);

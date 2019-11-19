@@ -1,5 +1,5 @@
 <?php
-	if(!isset($_SESSION['id_user'])) {
+	if(!isset($_SESSION['id_account'])) {
 ?>
 	<div class="modal" id="connect_form" style="display: <?php echo(isset($_POST['con_submit']) ? 'block' : 'none')?>;">
 		<form action="" method="POST">
@@ -27,7 +27,7 @@
 		<input type="text" name="search_content">
 		<button name="search_submit">Rechercher</button>		
 	</form>
-	<?php if(!isset($_SESSION['id_user'])) { ?>
+	<?php if(!isset($_SESSION['id_account'])) { ?>
 		<button onclick="openModal('connect_form')">Connexion</button>
 	<?php } else { ?>
 		<a href="?page=settings">Parametres</a>
