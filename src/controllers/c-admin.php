@@ -17,4 +17,25 @@
 	function getAdminCompanies() {
 		return User::getAllCompanies();
 	}
+
+	$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : '');
+
+	switch ($action) {
+		case 'validate':
+				$id = (isset($_REQUEST['id']) ? $_REQUEST['id'] : '');
+
+				$to      = 'admin@example.com';
+				$subject = 'Compte a valider';
+				$message = 'Le compte portant l\'adresse mail : '.$result['mail'].' doit etre valide.';
+				$headers = array(
+    				'From' => 'webmaster@example.com',
+    				'X-Mailer' => 'PHP/' . phpversion()
+				);
+
+				mail($to, $subject, $message, $headers);
+			break;
+		
+		default:
+			break;
+	}
 ?>

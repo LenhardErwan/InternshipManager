@@ -33,6 +33,8 @@
 					<th>Nom entreprise</th>
 					<th>Nom representant</th>
 					<th>Prenom representant</th>
+					<th>Mail</th>
+					<th>Telephone</th>
 					<th>Compte valide</th>
 					<th>Modifier</th>
 					<th>Supprimer</th>
@@ -42,6 +44,8 @@
 						<td><?= $company->social_reason; ?></td>
 						<td><?= $company->last_name; ?></td>
 						<td><?= $company->first_name; ?></td>
+						<td><?= $company->mail; ?></td>
+						<td><?= $company->phone; ?></td>
 						<td><a href=""><?php if($company->active) {echo "Rendre invalide";} else { echo "Rendre Valide";} ?></a></td>
 						<td><a href="">Modifier</a></td>
 						<td><a href="">Supprimer</a></td>
@@ -52,11 +56,23 @@
 				<tr>
 					<th>Nom</th>
 					<th>Prenom</th>
+					<th>Mail</th>
+					<th>Telephone</th>
+					<th>Date de naissance</th>
+					<th>Diplomes</th>
+					<th>Modifier</th>
+					<th>Supprimer</th>
 				</tr>
 				<?php foreach(getAdminMembers() as $member) { ?>
 					<tr>
 						<td><?= $member->last_name; ?></td>
 						<td><?= $member->first_name; ?></td>
+						<td><?= $member->mail; ?></td>
+						<td><?= $member->phone; ?></td>
+						<td><?= $member->birth_date; ?></td>
+						<td><?= substr($member->degrees, 0, 20); ?></td>
+						<td><a href="">Modifier</a></td>
+						<td><a href="">Supprimer</a></td>
 					</tr>
 				<?php } ?>
 			</table>

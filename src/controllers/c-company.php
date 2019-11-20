@@ -96,7 +96,17 @@
 
 		if($result['valid']) {
 			User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
-			// TO DO envoyer mail a admin pour demander la validation
+			
+			$to      = 'admin@example.com';
+			$subject = 'Compte a valider';
+			$message = 'Le compte portant l\'adresse mail : '.$result['mail'].' doit etre valide.';
+			$headers = array(
+    			'From' => 'webmaster@example.com',
+    			'X-Mailer' => 'PHP/' . phpversion()
+			);
+
+			mail($to, $subject, $message, $headers);
+
 			$errors['valid'] = $result['valid'];
 		} else {
 			$errors = $result;
