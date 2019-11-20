@@ -34,7 +34,7 @@
                         <?php } ?>
                         <br/>
                         <button type="submit" id="article_submit" name="action" value="save_article">Enregistrer</button>
-                        <button type="submit" id="cancel" name="action" value="get_article" formnovalidate >Annuler</button>
+                        <a href="<?php if($is_company) {echo "?page=article&action=get_article&id=$article->id_hash"; } else if($is_admin) { echo "?page=admin";} ?>">Annuler</a>
                         <button type="reset" id="reset">Réinitialisation</button>
                         <button type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</button>
                     </fieldset>

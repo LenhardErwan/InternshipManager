@@ -10,45 +10,56 @@
 		<?php require('v-nav.inc.php'); ?>
 
 		<main>
-			<form action="" method="POST">
-				<table>
+			<table>
+				<tr>
+					<th>Proprietaire Article</th>
+					<th>Nom Article</th>
+					<th>Description</th>
+					<th>Modifier</th>
+					<th>Supprimer</th>
+				</tr>
+				<?php foreach(getAdminArticles() as $article) { ?>
 					<tr>
-						<th>Proprietaire Article</th>
-						<th>Nom Article</th>
-						<th>Description</th>
-						<th>Modifier</th>
-						<th>Supprimer</th>
+						<td><?= $article->social_reason; ?></td>
+						<td><?= $article->title; ?></td>
+						<td><?= $article->mission; ?></td>
+						<td><a href="?page=article&action=edit_article&id=<?= $article->id_hash; ?>">Modifier</a></td>
+						<td><a href="?page=article&action=delete_article&id=<?= $article->id_hash; ?>">Supprimer</a></td>
 					</tr>
-					<?php foreach(getAdminArticles() as $article) { ?>
-						<tr>
-							<td><?= $article->social_reason; ?></td>
-							<td><?= $article->title; ?></td>
-							<td><?= $article->mission; ?></td>
-							<td><button type="submit" name="admin_article_edit">Modifier</button></td>
-							<td><button type="submit" name="admin_article_del">Supprimer</button></td>
-						</tr>
-					<?php } ?>
-				</table>
-				<table>
+				<?php } ?>
+			</table>
+			<table>
+				<tr>
+					<th>Nom entreprise</th>
+					<th>Nom representant</th>
+					<th>Prenom representant</th>
+					<th>Compte valide</th>
+					<th>Modifier</th>
+					<th>Supprimer</th>
+				</tr>
+				<?php foreach(getAdminCompanies() as $company) { ?>
 					<tr>
-						<th>Nom entreprise</th>
-						<th>Nom representant</th>
-						<th>Prenom representant</th>
-						<th>Compte valide</th>
+						<td><?= $company->social_reason; ?></td>
+						<td><?= $company->last_name; ?></td>
+						<td><?= $company->first_name; ?></td>
+						<td><a href=""><?php if($company->active) {echo "Rendre invalide";} else { echo "Rendre Valide";} ?></a></td>
+						<td><a href="">Modifier</a></td>
+						<td><a href="">Supprimer</a></td>
 					</tr>
-					<?php foreach(getAdminCompanies() as $company) { ?>
-						<tr>
-							<td><?= $company->social_reason; ?></td>
-						</tr>
-					<?php } ?>
-				</table>
-				<table>
+				<?php } ?>
+			</table>
+			<table>
+				<tr>
+					<th>Nom</th>
+					<th>Prenom</th>
+				</tr>
+				<?php foreach(getAdminMembers() as $member) { ?>
 					<tr>
-						<th>Nom</th>
-						<th>Prenom</th>
+						<td><?= $member->last_name; ?></td>
+						<td><?= $member->first_name; ?></td>
 					</tr>
-				</table>
-			</form>
+				<?php } ?>
+			</table>
 		</main>
 
 		<?php require('v-footer.inc.php'); ?>

@@ -61,6 +61,7 @@
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_article');
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
+    $is_admin = (isset($_SESSION['is_admin'])) ? $_SESSION['is_admin'] : false;
 
     if($id_account > 0) {
         $is_member = User::isMember($id_account);
@@ -102,7 +103,7 @@
             if($status != "not-connected") {
                 if(isset($id_hash)) {   //Edit article
                     $article = Article::getArticle($id_hash);
-                    if($article && $article->id_company == $id_account) {
+                    if($article && ($article->id_company == $id_account || $is_admin)) {
                         require(__DIR__."/../views/v-article_edit.inc.php");
                     }
                     else {  //Article not found or not the same company id
@@ -119,7 +120,7 @@
             break;
 
         case 'save_article':
-            if($status != "not-connected" && User::isCompany($id_account)) {
+            if($status != "not-connected" && (User::isCompany($id_account) || $is_admin)) {
                 $data = array(
                     'title' => htmlentities($_REQUEST['title'], ENT_COMPAT, "UTF-8"),
                     'begin_date' =>  htmlentities($_REQUEST['begin_date'], ENT_COMPAT, "UTF-8"),
@@ -143,10 +144,15 @@
                         }
                     }
 
-                    header('Location: ?page=article&id='.$id_hash);
+                    if($is_company) {
+                        header('Location: ?page=article&id='.$id_hash);
+                    }
+                    else if ($is_admin) {
+                        header('Location: ?page=admin');
+                    }
                     exit();
                 }
-                else {  //Create article
+                else if($is_company) {  //Create article
                     $data['id_company'] = $id_account;
 
                     try {
@@ -169,9 +175,15 @@
         case 'delete_article':
             if(isset($id_hash) && $status != "not-connected") {        
                 $article = Article::getArticle($id_hash);
-                if($article && $article->id_company == $id_account) {
+                if($article && ($article->id_company == $id_account || $is_admin)) {
                     Article::deleteArticle($article->id_article);
-                    header('Location: ?page=index');
+
+                    if($is_company) {
+                        header('Location: ?page=index');
+                    }
+                    else if($is_admin) {
+                        header('Location: ?page=admin');
+                    }
                     exit();
                 }
             }
