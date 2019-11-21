@@ -1,10 +1,10 @@
 <?php
-    define('DB_HOST', 'localhost');
+    define('DB_HOST', 'jeremy-jrm.net');
     define('DB_PORT', '5432');
-    define('DB_DATABASE', 'BDD_Avances');
+    define('DB_DATABASE', 'projetPHP');
     define('DB_SCHEMA', 'internshipmanager');
-    define('DB_USERNAME', 'test');
-    define('DB_PASSWORD', 'test');
+    define('DB_USERNAME', 'projetPHP');
+    define('DB_PASSWORD', 'bQER5NUs5636BYeBdCRbmEhEkUJinh8z');
 
     try {
         $database = new PDO('pgsql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_DATABASE.';user='.DB_USERNAME.';password='.DB_PASSWORD);

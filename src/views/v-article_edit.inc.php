@@ -12,7 +12,7 @@
                 <form action="" method="POST">
                     <fieldset>
                         <label for="title">*Titre : </label>
-                        <input type="text" name="title" id="title" value="<?php if(isset($article) && $article && $article) echo $article->title ?>" maxlength="30" required />
+                        <input type="text" name="title" id="title" value="<?php if(isset($article) && $article) echo $article->title ?>" maxlength="30" required />
                         <br/>
                         <label for="begin_date">*Date de début : </label>
                         <input type="date" name="begin_date" id="begin_date" value="<?php if(isset($article) && $article) echo $article->begin_date ?>" required />
@@ -30,7 +30,12 @@
                         <input type="file" name="attachment" id="attachment" />
                         <?php if(isset($article) && $article && !empty($article->attachment)) { ?>
                         <div>Fichier actuel : <?= $article->attachment ?> </div>
-
+                        <?php } ?>
+                        <br/>
+                        <?php if(isset($error) && !empty($error)) { ?>
+                        <div id="error">
+                            <?php echo $error ?>
+                        </div>
                         <?php } ?>
                         <br/>
                         <button type="submit" id="article_submit" name="action" value="save_article">Enregistrer</button>

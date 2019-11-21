@@ -21,6 +21,13 @@
                 <?php if(isset($account->degrees) && !empty($account->degrees)) { ?>
                 <h4>Diplômes : <?= $account->degrees ?></h4>
                 <?php } ?>
+
+                <?php if($id_user == $id_account) { ?>
+                <form action="" method="POST">
+                    <button type="submit" id="edit_profile" name="action" value="edit_profile">Editer</button>
+                    <button type="button" class="open_modal" onClick="openModal('change_password')" >Modifier le mot de passe</button>
+                </form>
+                <?php } ?>
                 
                 <?php } else { ?>
 
@@ -31,6 +38,7 @@
 			</div>
 		</main>
         <?php require("v-footer.inc.php"); ?>
+        <?php if($id_user == $id_account) require("v-profile_password.inc.php") ?>
     </body>
     <script src="assets/script/modal.js"></script>
 </html>
