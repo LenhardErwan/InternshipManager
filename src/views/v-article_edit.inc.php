@@ -49,6 +49,7 @@
         <?php 
             require("v-footer.inc.php");
             $action_to_perform = "delete_article"; 
+            $text = "Êtes vous sur de vouloir supprimer l'article ?";
             require("v-confirm_delete.inc.php"); 
         ?>
     </body>

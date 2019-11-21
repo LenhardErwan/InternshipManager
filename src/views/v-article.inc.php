@@ -47,7 +47,11 @@
 			</div>
 		</main>
         <?php require("v-footer.inc.php"); ?>
-        <?php if(isset($can_edit) && $can_edit) { $action_to_perform = "delete_article"; require("v-confirm_delete.inc.php"); } ?>
+        <?php if(isset($can_edit) && $can_edit) { 
+            $action_to_perform = "delete_article";
+            $text = "Êtes vous sur de vouloir supprimer l'article ?";
+            require("v-confirm_delete.inc.php"); 
+        } ?>
     </body>
     <script src="assets/script/vote.js"></script>
     <script src="assets/script/modal.js"></script>
