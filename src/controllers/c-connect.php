@@ -50,16 +50,25 @@
 
 		if($result['valid']) {
 			$user = User::getAccount($_POST['con_mail']);
-			$_SESSION['id_account'] = $user->id_account;
-			$_SESSION['mail'] = $user->mail;
-			$_SESSION['password'] = $user->password;
+			if(User::isCompany($user->id_account)) {
+				$user_c = User::getCompany($_POST['con_mail']);
+				if($user_c->active) {
+					$_SESSION['id_account'] = $user_c->id_account;
+					$_SESSION['mail'] = $user_c->mail;
+					$_SESSION['password'] = $user_c->password;
+					$_SESSION['is_company'] = true;
+				} else {
+					$errors['active'] = "Votre compte na pas encore ete valide. Vous recevrez un mail lorsque ce seras la cas.";
+				}
+			} else {
+				$_SESSION['id_account'] = $user->id_account;
+				$_SESSION['mail'] = $user->mail;
+				$_SESSION['password'] = $user->password;
 
-			if(User::isAdmin($user->id_account)) {
-				$_SESSION['is_admin'] = true;
-			} else if(User::isCompany($user->id_account)) {
-				$_SESSION['is_company'] = true;
+				if(User::isAdmin($user->id_account)) {
+					$_SESSION['is_admin'] = true;
+				}
 			}
-			
 		} else {
 			$errors = $result;
 		}

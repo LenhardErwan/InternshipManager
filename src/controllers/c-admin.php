@@ -1,4 +1,7 @@
 <?php
+	// https://websistent.com/how-to-use-msmtp-with-gmail-yahoo-and-php-mail/
+	// https://bbs.archlinux.org/viewtopic.php?id=32049
+
 	function getAdminArticles() {
 		$articles = Article::getAllArticles();
 
@@ -22,17 +25,24 @@
 
 	switch ($action) {
 		case 'validate':
-				$id = (isset($_REQUEST['id']) ? $_REQUEST['id'] : '');
+				if(isset($_REQUEST['mail']) && !empty($_REQUEST['mail'])) {
+					$company = User::getCompany($_REQUEST['mail']);
+					if(isset($company) && !empty($company)) {
+						$to = $company->mail;
+						$subject = 'IntershipManager Validation';
+						$message = 'Cher '.$company->first_name.', '.$company->last_name.'
+  Je suis le representant du site IntershipManager et en tant que dirigeant de ce groupe je vous annonce que vous etes acceptes dans le cadre de la creation de votre entreprise : '.$company->social_reason.'
 
-				$to      = 'admin@example.com';
-				$subject = 'Compte a valider';
-				$message = 'Le compte portant l\'adresse mail : '.$result['mail'].' doit etre valide.';
-				$headers = array(
-    				'From' => 'webmaster@example.com',
-    				'X-Mailer' => 'PHP/' . phpversion()
-				);
-
-				mail($to, $subject, $message, $headers);
+  Vous pouvez desormais vous connectez ici : http://localhost/pranked
+Cordialement, Representant.';
+						$headers = array(
+    						'From' => '',
+    						'X-Mailer' => 'PHP/' . phpversion()
+						);
+						
+						mail($to, $subject, $message, $headers);
+					}
+				}
 			break;
 		
 		default:

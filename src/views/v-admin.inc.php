@@ -46,7 +46,7 @@
 						<td><?= $company->first_name; ?></td>
 						<td><?= $company->mail; ?></td>
 						<td><?= $company->phone; ?></td>
-						<td><a href=""><?php if($company->active) {echo "Rendre invalide";} else { echo "Rendre Valide";} ?></a></td>
+						<td><a href="?page=admin&action=validate&mail=<?= $company->mail; ?>"><?php if($company->active) {echo "Rendre invalide";} else { echo "Rendre Valide";} ?></a></td>
 						<td><a href="">Modifier</a></td>
 						<td><a href="">Supprimer</a></td>
 					</tr>

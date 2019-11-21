@@ -11,6 +11,7 @@
 			<span><?php if(isset($errors['password'])) { echo $errors['password']; } ?></span>
 			<br/>
 
+			<span><?php if(isset($errors['active'])) { echo $errors['active']; } ?></span>
 			<button name="con_submit">Connexion</button>
 		</form>
     	<button class="close_modal">Annuler</button>
