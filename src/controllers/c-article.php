@@ -1,5 +1,5 @@
 <?php
-    function validateDate($date, $format = 'Y-m-d H:i:s')
+    function validDate($date, $format = 'Y-m-d H:i:s')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
@@ -19,7 +19,7 @@
             throw new Exception('Empty begin_date');
         }
         else {
-            if(!validateDate($data['begin_date'], 'Y-m-d')) {
+            if(!validDate($data['begin_date'], 'Y-m-d')) {
                 throw new Exception('Wrong format for begin_date');
             }
         }
@@ -28,7 +28,7 @@
             throw new Exception('Empty end_date');
         }
         else {
-            if(!validateDate($data['end_date'], 'Y-m-d')) {
+            if(!validDate($data['end_date'], 'Y-m-d')) {
                 throw new Exception('Wrong format for end_date');
             }
         }
@@ -139,7 +139,9 @@
                             Article::updateArticle($data);
                         }
                         catch (Exception $e) {
-                            echo "Error : ".$e->getMessage();
+                            $error = "Error : ".$e->getMessage();
+                            require(__DIR__."/../views/v-article_edit.inc.php");
+                            exit();
                         }
                     }
 

@@ -25,6 +25,16 @@ class User {
         }
     }
 
+    public static function getAdmin() {
+        global $database;
+        try {
+            $request = $database->query("SELECT * FROM account WHERE id_account NOT IN (SELECT id_member FROM member) AND id_account NOT IN (SELECT id_company FROM company);");
+            $result = $request->fetch(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function isAdmin($id) {
         global $database;
         try {
@@ -47,9 +57,29 @@ class User {
     }
 
     public static function updateAccount(array $data) {
-        global $database;
+        global $database;   
         try {
             $request = $database->prepare("UPDATE account SET first_name = :first_name, last_name = :last_name, mail = :mail, password = :password, phone = :phone WHERE id_account = :id;");
+            $request->execute($data); 
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function updateInfoAccount($data) {
+        global $database;   
+        try {
+            $request = $database->prepare("UPDATE account SET first_name = :first_name, last_name = :last_name, mail = :mail, phone = :phone WHERE id_account = :id;");
+            $request->execute($data); 
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
+    public static function updatePasswordAccount($data) {
+        global $database;   
+        try {
+            $request = $database->prepare("UPDATE account SET password = :password WHERE id_account = :id;");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -124,9 +154,22 @@ class User {
     public static function updateMember(array $data) {
         global $database;
         try {
-            updateAccount($data);
+            $data_account = array(
+                'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
+                'mail' => $data['mail'],
+                'phone' => $data['phone'],
+                'id' => $data['id']
+            );
+            self::updateInfoAccount($data_account);
+
+            $data_member = array(
+                'birt_date' => $data['birt_date'],
+                'degrees' => $data['degrees'],
+                'id' => $data['id']
+            );
             $request = $database->prepare("UPDATE member SET birth_date = :birth_date, degrees = :degrees WHERE id_member = :id;");
-            $request->execute($data); 
+            $request->execute($data_member); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
@@ -202,12 +245,36 @@ class User {
         }
     }
 
+    public static function validCompany(bool $value, int $id) {
+        global $database;
+        try {
+            $active = ($value) ? 'true' : 'false';
+            $request = $database->prepare("UPDATE company SET active = :active WHERE id_company = :id;");
+            $request->execute(array('active' => $active, 'id' => $id)); 
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function updateCompany(array $data) {
         global $database;
         try {
-        updateAccount($data);
+            $data_account = array(
+                'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
+                'mail' => $data['mail'],
+                'phone' => $data['phone'],
+                'id' => $data['id']
+            );
+            self::updateInfoAccount($data_account);
+
+            $data_company = array(
+                'social_reason' => $data['social_reason'],
+                'active' => $data['active'],
+                'id' => $data['id']
+            );
             $request = $database->prepare("UPDATE company SET social_reason = :social_reason, active = :active WHERE id_company = :id;");
-            $request->execute($data); 
+            $request->execute($data_company); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
