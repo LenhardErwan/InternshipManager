@@ -46,9 +46,9 @@
 						<td><?= $company->first_name; ?></td>
 						<td><?= $company->mail; ?></td>
 						<td><?= $company->phone; ?></td>
-						<td><a href="?page=admin&action=validate&mail=<?= $company->mail; ?>"><?php if($company->active) {echo "Rendre invalide";} else { echo "Rendre Valide";} ?></a></td>
-						<td><a href="">Modifier</a></td>
-						<td><a href="">Supprimer</a></td>
+						<td><a href="?page=admin&action=<?php if($company->active) { echo "revoke_validation"; } else { echo "grant_validation"; } ?>&mail=<?= $company->mail; ?>"><?php if($company->active) {echo "Rendre invalide";} else { echo "Rendre Valide";} ?></a></td>
+						<td><a href="?page=profile&action=edit_profile&id=<?= $company->id_account; ?>">Modifier</a></td>
+						<td><a href="?page=profile&action=delete_profile&id=<?= $company->id_account; ?>">Supprimer</a></td>
 					</tr>
 				<?php } ?>
 			</table>
@@ -71,8 +71,8 @@
 						<td><?= $member->phone; ?></td>
 						<td><?= $member->birth_date; ?></td>
 						<td><?= substr($member->degrees, 0, 20); ?></td>
-						<td><a href="">Modifier</a></td>
-						<td><a href="">Supprimer</a></td>
+						<td><a href="?page=profile&action=edit_profile&id=<?= $member->id_account; ?>">Modifier</a></td>
+						<td><a href="?page=profile&action=delete_profile&id=<?= $member->id_account; ?>">Supprimer</a></td>
 					</tr>
 				<?php } ?>
 			</table>

@@ -93,6 +93,7 @@
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_profile');
     $id_user = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
+    $is_admin = (isset($_SESSION['is_admin']) && !empty($_SESSION['is_admin'])) ? $_SESSION['is_admin'] : false;
 
     if($id_account > 0) {
         $is_member = User::isMember($id_account);
@@ -135,7 +136,7 @@
             break;
 
         case 'edit_profile':
-            if($status != "not-connected" && isset($id_user) && $id_account == $id_user) {
+            if($status != "not-connected" && isset($id_user) && ($id_account == $id_user || $is_admin)) {
                 if(User::isMember($id_user)) $account = User::getMemberByID($id_user);
                 else if(User::isCompany($id_user)) $account = User::getCompanyByID($id_user);
                 else $account = User::getAccountByID($id_user);
@@ -148,7 +149,7 @@
             break;
 
         case 'save_profile':
-            if($status != "not-connected" && isset($id_user) && $id_account == $id_user) {
+            if($status != "not-connected" && isset($id_user) && ($id_account == $id_user || $is_admin)) {
                 if(User::isMember($id_user)) {
                     $type = "member";
                     $account = User::getMemberByID($id_user);
