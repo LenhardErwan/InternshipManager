@@ -11,7 +11,7 @@
 			<div>
                 <form action="" method="POST">
                     <fieldset>
-                        <?php if($is_company) { ?>
+                        <?php if($is_company || $is_admin) { ?>
                         <label for="social_reason">*Raison sociale : </label>
                         <input type="text" name="social_reason" id="social_reason" value="<?php if(isset($account->social_reason)) echo $account->social_reason ?>" maxlength="40" required />
                         <br/>
@@ -28,7 +28,7 @@
                         <label for="phone">Téléphone : </label>
                         <input type="tel" name="phone" id="phone" value="<?php if(isset($account->phone)) echo $account->phone ?>" />
                         <br/>
-                        <?php if($is_member) { ?>
+                        <?php if($is_member || $is_admin) { ?>
                         <label for="birth_date">Date de naissance : </label>
                         <input type="date" name="birth_date" id="birth_date" value="<?php if(isset($account->birth_date)) echo $account->birth_date ?>" />
                         <br/>
@@ -42,7 +42,7 @@
                         </div>
                         <?php } ?>
                         <button type="submit" id="profile_submit" name="action" value="save_profile">Enregistrer</button>
-                        <button type="submit" id="cancel" name="action" value="get_profile" formnovalidate >Annuler</button>
+                        <a href="<?php if($is_admin) { echo "?page=admin"; } else { echo "?page=profile&action=get_profile&id="; if(isset($account->id_account) && !empty($account->id_account)) { echo $account->id_account; }} ?>" value="get_profile">Annuler</a>
                         <button type="reset" id="reset">Réinitialisation</button>
                         <button type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</button>
                     </fieldset>

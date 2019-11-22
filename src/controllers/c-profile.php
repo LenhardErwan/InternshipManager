@@ -143,7 +143,9 @@
 
                 require(__DIR__."/../views/v-profile_edit.inc.php");
             }
-            else {
+            else if($is_admin) {
+                header("Location: ?page=admin");
+            } else {
                 header("Location: index.php");
             }
             break;
@@ -197,7 +199,11 @@
                     exit();
                 }
 
-                header('Location: ?page=profile&id='.$id_user);
+                if($is_admin) {
+                    header('Location: ?page=admin');
+                } else {
+                    header('Location: ?page=profile&id='.$id_user);
+                }
                 exit();
             }
         
