@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>Edition - Profil</title>
+        <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/index.css">
     </head>
 
     </body>

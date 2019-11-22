@@ -1,0 +1,43 @@
+nav#nav {
+	height: 50px;
+	width: 100%;
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background-color: #fff;
+	border-bottom: 2px solid #000;
+}
+	nav#nav .nav_button {
+		margin: 0 10px 0 10px;
+		height: 16px;
+		display: block;
+		color: #000;
+		font-size: 16px;
+		transition: color 0.25s ease;
+	}
+
+	nav#nav .nav_button:hover {
+		transition: color 0.25s ease;
+		color: #bbb;
+		cursor: pointer;
+	}
+
+	nav#nav button.nav_button {
+		line-height: 0px;
+	}
+
+div#connect_form {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+	div#connect_form div#connect_container {
+		background-color: #fff;
+		border: 2px solid #000;
+		border-radius: 10px;
+	}

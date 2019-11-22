@@ -101,7 +101,10 @@
 
         foreach ($articles as $article) {
             $article->social_reason = User::getCompanyName($article->id_company);
-            $article->mission = substr($article->mission, 0, 300).'...';
+            
+            if(strlen($article->mission) > 300) {
+                $article->mission = substr($article->mission, 0, 300).'...';
+            }
         }
 
         return $articles;

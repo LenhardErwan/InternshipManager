@@ -1,0 +1,16 @@
+main#index_main {
+	padding-top: 52px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+	main#index_main article.index_article {
+		width: 70%;
+	}
+
+	main#index_main article.index_article div.article_header {
+		display: flex;
+		flex-direction: row;
+	}

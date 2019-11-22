@@ -4,11 +4,14 @@
 		<meta charset="utf-8">
 		<title>Inscriptions entreprise</title>
 		<script type="text/javascript" src="assets/script/modal.js"></script>
+		<link rel="stylesheet" type="text/css" href="assets/style/reset.css">
+		<link rel="stylesheet" type="text/css" href="assets/style/nav.css">
+		<link rel="stylesheet" type="text/css" href="assets/style/index.css">
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>
 		
-		<?php if(isset($errors) && isset($errors['valid']) && !$errors['valid']) { ?>
+		<?php if(!isset($errors) || (isset($errors['valid']) && !$errors['valid'])) { ?>
 		<form action="" method="POST">
 			*Nom de la societe : <input type="text" name="csup_social_reason" maxlength="40" value="<?php if(isset($_POST['csup_social_reason'])) { echo $_POST['csup_social_reason']; } ?>" required>
 			<span><?php if(isset($errors['social_reason'])) { echo $errors['social_reason']; }?></span>
@@ -39,7 +42,7 @@
 
 			<button name="csup_submit">S'Inscrire</button>
 		</form>
-		<?php } else { ?>
+		<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
 			<div>
 				Inscription reussi
 				<h2>Vous n'avez plus qu'a attendre que votre compte soit valider par notre administrateur pour vous connecter!!</h2>
