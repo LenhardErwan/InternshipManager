@@ -5,12 +5,63 @@ main#index_main {
 	align-items: center;
 	justify-content: center;
 }
-
-	main#index_main article.index_article {
-		width: 70%;
+	main#index_main h1#index_title {
+		margin: 10px 0 10px 0;
+		font-size: 40px;
 	}
 
-	main#index_main article.index_article div.article_header {
+	main#index_main article.index_article {
+		padding: 10px;
+		height: 140px;
+		width: 70%;
+		border-top: 1px solid #999;
+	}
+
+	article.index_article div.article_header {
+		height: 30px;
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
+		font-size: 16px;
+	}
+
+	article.index_article .header_left a {
+		color: #000;
+		transition: 0.25s color ease;
+	}
+
+	article.index_article .header_left a:hover {
+		transition: 0.25s color ease;
+		color: #bbb;
+	}
+
+	article.index_article h2.article_user {
+		height: 30px;
+		font-size: 20px;
+		line-height: 25px;
+	}
+
+	article.index_article h2.article_user a {
+		color: #000;
+		transition: 0.25s color ease;
+	}
+
+	article.index_article h2.article_user a:hover {
+		transition: 0.25s color ease;
+		color: #bbb;
+	}
+
+	article.index_article p.article_desc {
+		height: 60px;
+	}
+
+	article.index_article a.article_link {
+		height: 20px;
+		color: #000;
+		transition: 0.25s color ease;
+	}
+
+	article.index_article a.article_link:hover {
+		transition: 0.25s color ease;
+		color: #bbb;
 	}

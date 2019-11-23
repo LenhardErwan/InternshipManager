@@ -16,7 +16,7 @@ function openModal(id) {
     console.log(id);
     let modal = document.querySelector("#" + id);
     if(modal != null) {
-        modal.style.display = "block";
+        modal.style.display = "flex";
     }
     else {
         throw "Unable to access the requested modal";

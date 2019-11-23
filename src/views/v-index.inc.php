@@ -7,6 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="assets/style/reset.css">
 		<link rel="stylesheet" type="text/css" href="assets/style/nav.css">
 		<link rel="stylesheet" type="text/css" href="assets/style/index.css">
+		<link rel="stylesheet" type="text/css" href="assets/style/footer.css">
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>
