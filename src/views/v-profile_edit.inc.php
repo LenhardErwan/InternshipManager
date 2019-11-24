@@ -14,7 +14,7 @@
 			<div>
                 <form action="" method="POST">
                     <fieldset>
-                        <?php if($is_company || $is_admin) { ?>
+                        <?php if($account_type == "company") { ?>
                         <label for="social_reason">*Raison sociale : </label>
                         <input type="text" name="social_reason" id="social_reason" value="<?php if(isset($account->social_reason)) echo $account->social_reason ?>" maxlength="40" required />
                         <br/>
@@ -31,7 +31,7 @@
                         <label for="phone">Téléphone : </label>
                         <input type="tel" name="phone" id="phone" value="<?php if(isset($account->phone)) echo $account->phone ?>" />
                         <br/>
-                        <?php if($is_member || $is_admin) { ?>
+                        <?php if($account_type == "member") { ?>
                         <label for="birth_date">Date de naissance : </label>
                         <input type="date" name="birth_date" id="birth_date" value="<?php if(isset($account->birth_date)) echo $account->birth_date ?>" />
                         <br/>
