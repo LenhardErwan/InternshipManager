@@ -1,54 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<title>Inscriptions entreprise</title>
+		<title>Inscription entreprise</title>
 		<script type="text/javascript" src="assets/script/modal.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/style/reset.css">
 		<link rel="stylesheet" type="text/css" href="assets/style/nav.css">
-		<link rel="stylesheet" type="text/css" href="assets/style/index.css">
+		<link rel="stylesheet" type="text/css" href="assets/style/signup.css">
+		<link rel="stylesheet" type="text/css" href="assets/style/footer.css">
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>
 		
-		<?php if(!isset($errors) || (isset($errors['valid']) && !$errors['valid'])) { ?>
-		<form action="" method="POST">
-			*Nom de la societe : <input type="text" name="csup_social_reason" maxlength="40" value="<?php if(isset($_POST['csup_social_reason'])) { echo $_POST['csup_social_reason']; } ?>" required>
-			<span><?php if(isset($errors['social_reason'])) { echo $errors['social_reason']; }?></span>
-			<br/>
+		<main id="signup_main">
+			<h1 id="signup_title">Inscription Entreprise</h1>
+			<?php if(!isset($errors) || (isset($errors['valid']) && !$errors['valid'])) { ?>
+			<form id="signup_form" action="" method="POST">
+				<div class="signup_elmt">
+					<label>*Nom de la societe :</label>
+					<input type="text" name="csup_social_reason" maxlength="40" value="<?php if(isset($_POST['csup_social_reason'])) { echo $_POST['csup_social_reason']; } ?>" required>
+				</div>
+				<div class="signup_errors"><?php if(isset($errors['social_reason'])) { echo $errors['social_reason']; }?></div>
 
-			*Prenom : <input type="text" name="csup_first_name" maxlength="15" value="<?php if(isset($_POST['csup_first_name'])) { echo $_POST['csup_first_name']; } ?>" required>
-			<span><?php if(isset($errors['first_name'])) { echo $errors['first_name']; }?></span>
-			<br/>
+				<div class="signup_elmt">
+					<label>*Prenom :</label>
+					<input type="text" name="csup_first_name" maxlength="15" value="<?php if(isset($_POST['csup_first_name'])) { echo $_POST['csup_first_name']; } ?>" required>
+				</div>
+				<div class="signup_errors"><?php if(isset($errors['first_name'])) { echo $errors['first_name']; }?></div>
 
-			*Nom : <input type="text" name="csup_last_name" maxlength="15" value="<?php if(isset($_POST['csup_last_name'])) { echo $_POST['csup_last_name']; } ?>" required>
-			<span><?php if(isset($errors['last_name'])) { echo $errors['last_name']; }?></span>
-			<br/>
+				<div class="signup_elmt">
+					<label>*Nom :</label>
+					<input type="text" name="csup_last_name" maxlength="15" value="<?php if(isset($_POST['csup_last_name'])) { echo $_POST['csup_last_name']; } ?>" required>
+				</div>
+				<div class="signup_errors"><?php if(isset($errors['last_name'])) { echo $errors['last_name']; }?></div>
 
-			*Mail : <input type="email" name="csup_mail" maxlength="80" value="<?php if(isset($_POST['csup_mail'])) { echo $_POST['csup_mail']; } ?>" required>
-			<span><?php if(isset($errors['mail'])) { echo $errors['mail']; }?></span>
-			<br/>
+				<div class="signup_elmt">
+					<label>*Mail :</label>
+					<input type="email" name="csup_mail" maxlength="80" value="<?php if(isset($_POST['csup_mail'])) { echo $_POST['csup_mail']; } ?>" required>
+				</div>
+				<div class="signup_errors"><?php if(isset($errors['mail'])) { echo $errors['mail']; }?></div>
 
-			*Mot de passe : <input type="password" name="csup_password" maxlength="64" required>
-			<span><?php if(isset($errors['password'])) { echo $errors['password']; }?></span>
-			<br/>
+				<div class="signup_elmt">
+					<label>*Mot de passe :</label>
+					<input type="password" name="csup_password" maxlength="64" required>
+				</div>
+				<div class="signup_errors"><?php if(isset($errors['password'])) { echo $errors['password']; }?></div>
 
-			*Confirmation du mot de passe : <input type="password" maxlength="64" name="csup_valid_password" required>
-			<br/>
+				<div class="signup_elmt signup_valid_password">
+					<label>*Confirmation du mot de passe :</label>
+					<input type="password" maxlength="64" name="csup_valid_password" required>
+				</div>
 
-			Telephone : <input type="telephone" name="csup_phone" value="<?php if(isset($_POST['csup_phone'])) { echo $_POST['csup_phone']; } ?>" maxlength="13">
-			<span><?php if(isset($errors['phone'])) { echo $errors['phone']; }?></span>
-			<br/>
+				<div class="signup_elmt">
+					<label>Telephone :</label>
+					<input type="telephone" name="csup_phone" value="<?php if(isset($_POST['csup_phone'])) { echo $_POST['csup_phone']; } ?>" maxlength="13">
+				</div>
+				<div class="signup_errors"><?php if(isset($errors['phone'])) { echo $errors['phone']; }?></div>
 
-			<button name="csup_submit">S'Inscrire</button>
-		</form>
-		<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
-			<div>
-				Inscription reussi
-				<h2>Vous n'avez plus qu'a attendre que votre compte soit valider par notre administrateur pour vous connecter!!</h2>
-				<a href="?page=index">Retour a la page d'accueil</a>
-			</div>
-		<?php } ?>
+				<button id="signup_submit" type="submit" name="csup_submit">S'Inscrire</button>
+			</form>
+			<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
+				<div>
+					Inscription reussi
+					<h2>Vous n'avez plus qu'a attendre que votre compte soit valider par notre administrateur pour vous connecter!!</h2>
+					<a href="?page=index">Retour a la page d'accueil</a>
+				</div>
+			<?php } ?>
+		</main>
 
 		<?php require('v-footer.inc.php'); ?>
 	</body>

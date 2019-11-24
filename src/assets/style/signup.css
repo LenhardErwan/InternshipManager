@@ -1,0 +1,50 @@
+main#signup_main {
+	padding-top: 52px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+	main#signup_main h1#signup_title {
+		margin: 10px 0 10px 0;
+		font-size: 40px
+	}
+
+	main#signup_main form#signup_form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	main#signup_main div.signup_elmt {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	main#signup_main div.signup_valid_password {
+		margin-bottom: 10px;
+	}
+
+	main#signup_main div.signup_degrees {
+		display: flex;
+		flex-direction: column;
+	}
+
+	main#signup_main div.signup_errors {
+		padding: 5px;
+		font-size: 12px;
+	}
+
+	main#signup_main button#signup_submit {
+		color: #000;
+		font-size: 20px;
+		transition: color 0.25s ease;
+	}
+
+	main#signup_main button#signup_submit:hover {
+		transition: color 0.25s ease;
+		color: #bbb;
+		cursor: pointer;
+	}
