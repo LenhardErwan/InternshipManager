@@ -55,6 +55,16 @@ class Article {
         }
     }
 
+    public static function updateArticleAttachment(array $data) {
+        global $database;
+        try {
+            $request = $database->prepare("UPDATE article SET attachment = :attachment WHERE id_article = :id_article;");
+            $request->execute($data); 
+        } catch (Exception $e) {
+            die("ERREUR : ".$e->getMessage());
+        }
+    }
+
     public static function deleteArticle(int $id) {
         global $database;
         try {

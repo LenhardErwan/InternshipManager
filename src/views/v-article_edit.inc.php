@@ -12,7 +12,7 @@
         <?php require("v-nav.inc.php"); ?>
         <main>
 			<div>
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <fieldset>
                         <label for="title">*Titre : </label>
                         <input type="text" name="title" id="title" value="<?php if(isset($article) && $article) echo $article->title ?>" maxlength="30" required />
@@ -31,8 +31,8 @@
                         <br/>
                         <label for="attachment">Pièce Jointe : </label>
                         <input type="file" name="attachment" id="attachment" />
-                        <?php if(isset($article) && $article && !empty($article->attachment)) { ?>
-                        <div>Fichier actuel : <?= $article->attachment ?> </div>
+                        <?php if(isset($attachment) && !empty($attachment)) { ?>
+                        <a href="<?= $attachment ?>" download >Télécharger le fichier actuel</a>
                         <?php } ?>
                         <br/>
                         <?php if(isset($error) && !empty($error)) { ?>
@@ -42,7 +42,7 @@
                         <?php } ?>
                         <br/>
                         <button type="submit" id="article_submit" name="action" value="save_article">Enregistrer</button>
-                        <a href="<?php if($is_company) {echo "?page=article&action=get_article&id=$article->id_hash"; } else if($is_admin) { echo "?page=admin";} ?>">Annuler</a>
+                        <a href="<?php if($status == "company") {echo "?page=article&action=get_article&id=$article->id_hash"; } else if($status == "admin") { echo "?page=admin";} ?>">Annuler</a>
                         <button type="reset" id="reset">Réinitialisation</button>
                         <button type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</button>
                     </fieldset>
