@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="assets/style/index.css">
     </head>
 
-    </body>
+    <body>
         <?php require("v-nav.inc.php"); ?>
         <main>
 			<div>
@@ -29,7 +29,7 @@
                         <label for="contact">*Contact : </label>
                         <textarea name="contact" id="contact" required><?php if(isset($article) && $article) echo $article->contact ?></textarea>
                         <br/>
-                        <label for="attachment">Pièce Jointe : </label>
+                        <label for="attachment">Pièce Jointe : (max 2Mo)</label>
                         <input type="file" name="attachment" id="attachment" />
                         <?php if(isset($attachment) && !empty($attachment)) { ?>
                         <a href="<?= $attachment ?>" download >Télécharger le fichier actuel</a>
