@@ -36,8 +36,38 @@ div#connect_form {
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.5);
 }
-	div#connect_form div#connect_container {
+	div#connect_form form#connect_container {
+		padding: 20px;
+		width: 300px;
 		background-color: #fff;
-		border: 2px solid #000;
-		border-radius: 10px;
+		border-top: 2px solid #000;
+		border-bottom: 2px solid #000;
+	}
+
+
+	div#connect_form div.connect_elmt {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	div#connect_form div.connect_errors {
+		padding: 5px;
+		font-size: 12px;
+	}
+
+	div#connect_form div#connect_submit {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	div#connect_form div#connect_submit button {
+		color: #000;
+		font-size: 20px;
+		transition: color 0.25s ease;
+	}
+
+	div#connect_form div#connect_submit button:hover {
+		transition: color 0.25s ease;
+		color: #bbb;
+		cursor: pointer;
 	}
