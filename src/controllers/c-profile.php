@@ -5,18 +5,21 @@
         return $d && $d->format($format) == $date;
     }
 
-    function check_profile_infos($data) {
-        if(empty($data['social_reason'])) {
-			throw new Exception("Empty social reason");
+    function check_password(string $password) {
+        if(empty($password)) {
+			throw new Exception("Empty password");
 		} else {
-            if(strlen($data['social_reason']) > 40) {
-                throw new Exception("Invalid social_reason (max 40 char)");
-            }
-			else if(!preg_match("#^[a-zA-Z0-9 ]*$#", $data['social_reason'])) {
-				throw new Exception("Invalid social_reason (only letters and numbers)");
+			if(strlen($password) > 64) {
+				throw new Exception("Invalid password max 64 char");
+			} else {
+				if(!preg_match("#[a-zA-Z0-9 !@#$%^&*]{8,64}$#", $password)) {
+                    throw new Exception("Invalid password min 8 char");
+                }
 			}
 		}
+    }
 
+    function check_profile_infos($data) {
 		if(empty($data['first_name'])) {
 			throw new Exception("Empty first name");
 		} else {
@@ -211,13 +214,48 @@
 
         case 'change_password':
             if($status != "not-connected" && isset($id_user)) {        
-                var_dump($_REQUEST);
+                $old_password = $_REQUEST['old_password'];
+                $password =  $_REQUEST['password'];
+                $conf_password =  $_REQUEST['conf_password'];
+
+                if(isset($old_password) && isset($password) && isset($conf_password)) {
+                    $account = User::getAccountByID($id_account);
+                    try {
+                        if($account->password == hash('sha256', $old_password)) {
+                            
+                            check_password($password);
+                            if($password == $conf_password) {
+                                User::updatePasswordAccount($data);
+                            }
+                            else {
+                                throw new Exception("Bad confirmation");
+                            }
+                        }
+                        else {
+                            throw new Exception("Incorrect old password");
+                        }
+                    }
+                    catch (Exception $e) {
+                        $error = "Error : ".$e->getMessage();
+                    }
+                }
+
+                require(__DIR__."/../views/v-profile_password.inc.php");
             }
             break;
 
         case 'delete_profile':
             if($status != "not-connected" && isset($id_user)) {        
-                
+                $account = User::getAccountByID($id_user);
+                $can_delete = $id_user == $id_account || $status == "admin";
+                if($account && $can_delete) {
+                    Article::deleteComment($id_user);
+                    header('Location: index.php');
+                    exit();
+                }
+
+                header('Location: ?page=profile&id='.$id_user);
+                exit();
             }
             break;
         
