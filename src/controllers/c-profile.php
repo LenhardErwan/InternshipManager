@@ -94,6 +94,7 @@
     require_once(__DIR__."/../models/m-user.php");
 
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_profile');
+    $error = (isset($_REQUEST['error']) ? $_REQUEST['error'] : '');
     $id_user = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
     $is_admin = (isset($_SESSION['is_admin']) && !empty($_SESSION['is_admin'])) ? $_SESSION['is_admin'] : false;
@@ -240,7 +241,7 @@
                     }
                 }
 
-                require(__DIR__."/../views/v-profile_password.inc.php");
+                header('Location: ?page=profile&id='.$id_user.'&error='.$error);
             }
             break;
 

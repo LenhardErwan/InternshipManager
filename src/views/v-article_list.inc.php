@@ -10,7 +10,6 @@
 		<h2 class="article_user"><a href="?page=profile&id=<?= $article->id_company; ?>"><?= $article->social_reason; ?></a></h2>
 		<p class="article_desc"><?= $article->mission; ?></p>
 		<a class="article_link" href="?page=article&id=<?= $article->id_hash; ?>">Plus de details</a>
-		<!--Fonctionnalites de vote-->
 	</article>
 <?php
 	}

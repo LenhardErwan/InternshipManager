@@ -1,0 +1,10 @@
+main#profile_edit_main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+	main#profile_edit_main h1#profile_edit_title {
+		margin: 10px 0 10px 0;
+		font-size: 40px;
+	}

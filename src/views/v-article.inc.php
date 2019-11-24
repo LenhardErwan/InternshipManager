@@ -3,13 +3,22 @@
     <head>
         <meta charset="utf-8">
         <title>Offre</title>
+        <script src="assets/script/vote.js"></script>
+        <script src="assets/script/modal.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
         <link rel="stylesheet" type="text/css" href="assets/style/index.css">
     </head>
 
     <body>
-    <?php require("v-nav.inc.php"); ?>
+        <?php require("v-nav.inc.php"); ?>
+
+        <?php if(isset($can_edit) && $can_edit) { 
+            $action_to_perform = "delete_article";
+            $text = "Êtes vous sur de vouloir supprimer l'article ?";
+            require("v-confirm_delete.inc.php"); 
+        } ?>
+
         <main>
 			<div>
                 <?php if(isset($article) && $article) { ?>
@@ -49,13 +58,7 @@
 
 			</div>
 		</main>
+
         <?php require("v-footer.inc.php"); ?>
-        <?php if(isset($can_edit) && $can_edit) { 
-            $action_to_perform = "delete_article";
-            $text = "Êtes vous sur de vouloir supprimer l'article ?";
-            require("v-confirm_delete.inc.php"); 
-        } ?>
     </body>
-    <script src="assets/script/vote.js"></script>
-    <script src="assets/script/modal.js"></script>
 </html>
