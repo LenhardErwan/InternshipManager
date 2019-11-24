@@ -3,15 +3,18 @@
     <head>
         <meta charset="utf-8">
         <title>Edition - Profil</title>
+        <script src="assets/script/modal.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/confirm.css">
         <link rel="stylesheet" type="text/css" href="assets/style/profile_edit.css">
         <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
     </head>
 
-    </body>
+    <body>
         <?php 
-            $action_to_perform = "delete_account"; 
+            $action_to_perform = "delete_account";
+            $text = "Souhaitez-vous vraiment supprimer votre compte ?";
             require("v-confirm_delete.inc.php");
         ?>
 
@@ -53,17 +56,22 @@
                         <input type="date" name="birth_date" id="birth_date" value="<?php if(isset($account->birth_date)) echo $account->birth_date ?>" />
                     </div>
 
-                    <div>
+                    <div id="profile_edit_degrees">
                         <label for="degrees">Diplômes : </label>
                         <textarea name="degrees" id="degrees" maxlength="500"><?php if(isset($account->degrees)) echo $account->degrees ?></textarea><br/>
                     </div>
                 <?php } ?>
 
-                <div id="error"><?php if(isset($error) && !empty($error)) { echo $error; } ?></div>
-                <button type="submit" id="profile_submit" name="action" value="save_profile">Enregistrer</button>
-                <a href="<?php if($is_admin) { echo "?page=admin"; } else { echo "?page=profile&action=get_profile&id="; if(isset($account->id_account) && !empty($account->id_account)) { echo $account->id_account; }} ?>" value="get_profile">Annuler</a>
-                <button type="reset" id="reset">Réinitialisation</button>
-                <button type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</button>
+                <div id="profile_edit_error"><?php if(isset($error) && !empty($error)) { echo $error; } ?></div>
+
+                <div class="profile_edit_submit">
+                    <button type="submit" id="profile_submit" name="action" value="save_profile">Enregistrer</button>
+                    <a href="<?php if($is_admin) { echo "?page=admin"; } else { echo "?page=profile&action=get_profile&id="; if(isset($account->id_account) && !empty($account->id_account)) { echo $account->id_account; }} ?>" value="get_profile">Annuler</a>
+                </div>
+                <div class="profile_edit_submit">
+                    <button type="reset" id="reset">Réinitialiser</button>
+                    <button type="button" class="open_modal" onClick="openModal('delete_account')" >Supprimer</button>
+                </div>
             </form>
         </main>
 
@@ -71,5 +79,4 @@
             require("v-footer.inc.php");
         ?>
     </body>
-    <script src="assets/script/modal.js"></script>
 </html>
