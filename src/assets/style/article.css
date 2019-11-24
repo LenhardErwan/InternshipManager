@@ -1,0 +1,33 @@
+main#article_main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center; 
+}
+	main#article_main h1#article_title {
+		margin: 10px 0 10px 0;
+		font-size: 40px;
+	}
+
+	main#article_main div#article_content {
+		width: 70%;
+	}
+
+	main#article_main form#article_submit {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+
+	main#article_main form#article_submit button, main#article_main form#article_submit span {
+		font-size: 20px;
+		color: #000;
+		transition: color 0.25s ease;
+	}
+
+	main#article_main form#article_submit button:hover, main#article_main form#article_submit span:hover {
+		transition: color 0.25s ease;
+		color: #bbb;
+		cursor: pointer;
+	}

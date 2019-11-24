@@ -1,0 +1,58 @@
+main#article_edit_main {
+	padding-top: 52px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+	main#article_edit_main h1#article_edit_title {
+		padding: 10px 0 10px 0;
+		color: 40px;
+	}
+
+	main#article_edit_main form#article_edit_form {
+		width: 350px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	main#article_edit_main div.article_edit_elmt {
+		margin: 5px 0 5px 0;
+		width: 350px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	main#article_edit_main div.article_edit_textarea {
+		margin: 5px 0 5px 0;
+		width: 350px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	main#article_edit_main div.article_edit_textarea textarea {
+		width: 350px;
+		resize: vertical;
+	}
+
+	main#article_edit_main div.article_edit_submit {
+		width: 350px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+
+	main#article_edit_main div.article_edit_submit button, main#article_edit_main div.article_edit_submit a {
+		font-size: 20px;
+		color: #000;
+		transition: color 0.25s ease;
+	}
+
+	main#article_edit_main div.article_edit_submit button:hover, main#article_edit_main div.article_edit_submit a:hover {
+		transition: color 0.25s ease;
+		color: #bbb;
+		cursor: pointer;
+	}

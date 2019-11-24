@@ -1,7 +1,31 @@
-table {
-	border-collapse: collapse;
+main#admin_main {
+	padding-top: 52px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
+	main#admin_main h1#admin_title {
+		margin: 10px 0 10px 0;
+		font-size: 40px;
+	}
 
-th, td {
-	border: 1px solid black;
-}
+	main#admin_main table.admin_table {
+		width: 70%;
+		margin: 10px 0 10px 0;
+		border-collapse: collapse;
+	}
+
+	main#admin_main table.admin_table th, main#admin_main table.admin_table td {
+		border: 1px solid black;
+	}
+
+	main#admin_main table.admin_table a {
+		color: #000;
+		transition: color 0.25s ease;
+	}
+
+	main#admin_main table.admin_table a:hover {
+		transition: color 0.25s ease;
+		color: #bbb;
+		cursor: pointer;
+	}

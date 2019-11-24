@@ -3,17 +3,18 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Administration</title>
+		<script src="assets/script/modal.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/style/reset.css">
 		<link rel="stylesheet" type="text/css" href="assets/style/nav.css">
-		<link rel="stylesheet" type="text/css" href="assets/style/index.css">
 		<link rel="stylesheet" type="text/css" href="assets/style/admin.css">
-		<script src="assets/script/modal.js"></script>
+		<link rel="stylesheet" type="text/css" href="assets/style/footer.css">
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>
 
-		<main>
-			<table>
+		<main id="admin_main">
+			<h1 id="admin_title">Administration</h1>
+			<table class="admin_table">
 				<tr>
 					<th>Proprietaire Article</th>
 					<th>Nom Article</th>
@@ -31,7 +32,7 @@
 					</tr>
 				<?php } ?>
 			</table>
-			<table>
+			<table class="admin_table">
 				<tr>
 					<th>Nom entreprise</th>
 					<th>Nom representant</th>
@@ -55,7 +56,7 @@
 					</tr>
 				<?php } ?>
 			</table>
-			<table>
+			<table class="admin_table">
 				<tr>
 					<th>Nom</th>
 					<th>Prenom</th>

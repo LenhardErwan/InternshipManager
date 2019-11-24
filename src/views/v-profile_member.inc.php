@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Profil <?php if(isset($account) && $account) echo "- $account->last_name" ?></title>
+        <title>Profile <?php if(isset($account) && $account) echo "- $account->last_name" ?></title>
         <script src="assets/script/modal.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
