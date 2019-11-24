@@ -47,11 +47,10 @@
             //TODO verifier la taille ???
         }
 
-        if(!empty($data['attachement'])) {
+        if(!empty($data['attachment']['name'])) {
             if($data["attachment"]["error"] == 0) {
                 $max_size = 2 * 1024 * 1024; //2Mo
-                echo "size: ".$data['attachement']["size"];
-                if($data['attachement']["size"] > $max_size)
+                if($data['attachment']["size"] > $max_size)
                     throw new Exception('File is too large');
             }
             else
@@ -79,7 +78,11 @@
         if ( file_exists($path) && is_dir($path) ) {
             $files = scandir($path, 1); // get all file names, there is only one file
             $str_explode = explode("/", $path);
-            return "./".$str_explode[sizeof($str_explode)-2]."/".$str_explode[sizeof($str_explode)-1]."/".$files[0];
+            if (is_file($path."/".$files[0])) 
+                return "./".$str_explode[sizeof($str_explode)-2]."/".$str_explode[sizeof($str_explode)-1]."/".$files[0];
+            else
+                return null;
+            
         }
         else {
             return null;
@@ -172,6 +175,7 @@
 
                             $path = $path.$id_hash;
                             saveFile($data['attachment'], $path);
+                            $data['attachment'] = $path;
 
                             Article::updateArticle($data);
                         }

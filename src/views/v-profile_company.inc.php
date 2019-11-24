@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="assets/style/index.css">
     </head>
 
-    </ody>
+    <body>
     <?php require("v-nav.inc.php"); ?>
         <main>
 			<div>
