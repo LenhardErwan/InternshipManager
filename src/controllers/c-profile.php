@@ -54,7 +54,7 @@
                     throw new Exception("Invalid mail (user@mail.example.com)");
 				} else {
                     $account = User::getAccount($data['mail']);
-					if($account->id_account != $data['id']) {
+					if(isset($account) && !empty($account) && $account->id_account != $data['id']) {
                         throw new Exception("Mail already use");
                     }
 				}
