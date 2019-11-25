@@ -30,7 +30,8 @@ If your configuration is good you will see the message `Installation done!`, els
 The installation tool does not create a database in postgreSQL, you must create a user and a database to be able to use it. (Installation tool only create database schema).
 
 ### Mail interface
-TODO - Jerem ecris ici le truc pour les email stp
+To run **InternshipManager** on your machine, an SMTP client is required to send mail. **InternshipManager** sends mail to the admin when a new company account is created and to the company when the account is validated.<br/>
+If you just want to try our service, you can easily install and setup [MSMTP](https://help.ubuntu.com/community/msmtp) on your linux to work with PHP.
 
 ---
 
