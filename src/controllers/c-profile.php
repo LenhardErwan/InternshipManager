@@ -1,19 +1,18 @@
 <?php
-    function validDate($date, $format = 'Y-m-d H:i:s')
-    {
+    function validDate($date, $format = 'Y-m-d H:i:s') {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
 
     function check_password(string $password) {
         if(empty($password)) {
-			throw new Exception("Empty password");
+			throw new Exception("Champ mot de passe vide");
 		} else {
-			if(strlen($password) > 64) {
-				throw new Exception("Invalid password max 64 char");
+			if(strlen($password) > 64 || strlen($password) < 8) {
+				throw new Exception("Taille du mot de passe invalide (8 a 64 caractres)");
 			} else {
 				if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
-                    throw new Exception("Invalid password min 8 char");
+                    throw new Exception("Mot de passe invalide (a-zA-Z0-9 !@#$%^&*)");
                 }
 			}
 		}

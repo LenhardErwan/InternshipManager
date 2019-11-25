@@ -1,4 +1,3 @@
-
 <div class="comment">
     <p><?= nl2br($comment->text) ?></p>
     <?php if($status == "admin") { ?>
