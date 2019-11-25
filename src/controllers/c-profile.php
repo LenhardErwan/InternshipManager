@@ -251,7 +251,11 @@
                 $can_delete = $id_user == $id_account || $status == "admin";
                 if($account && $can_delete) {
                     User::deleteAccount($id_user);
-                    header('Location: index.php');
+                    if($status == "admin") {
+                        header('Location: ?page=admin');
+                    } else {
+                        header('Location: index.php');
+                    }
                     exit();
                 }
 
