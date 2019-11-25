@@ -250,7 +250,7 @@
                 $account = User::getAccountByID($id_user);
                 $can_delete = $id_user == $id_account || $status == "admin";
                 if($account && $can_delete) {
-                    Article::deleteComment($id_user);
+                    User::deleteAccount($id_user);
                     header('Location: index.php');
                     exit();
                 }

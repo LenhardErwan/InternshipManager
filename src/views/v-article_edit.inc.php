@@ -11,10 +11,10 @@
         <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
     </head>
 
-    </body>
-        <?php
+    <body>
+    	<?php
             $action_to_perform = "delete_article"; 
-            $text = "Êtes vous sur de vouloir supprimer l'article ?";
+            $text = "Êtes-vous sur de vouloir supprimer l'article ?";
             require("v-confirm_delete.inc.php");
         ?>
 
@@ -22,7 +22,7 @@
 
         <main id="article_edit_main">
             <h1 id="article_edit_title">Editions d'article</h1>
-            <form id="article_edit_form" action="" method="POST">
+            <form id="article_edit_form" action="" method="POST" enctype="multipart/form-data">
                 <div class="article_edit_elmt">
                     <label for="title">*Titre : </label>
                     <input type="text" name="title" id="title" value="<?php if(isset($article) && $article) echo $article->title ?>" maxlength="30" required />
@@ -53,15 +53,15 @@
                     <input type="file" name="attachment" id="attachment"/>
                 </div>
 
-                <?php if(isset($article) && $article && !empty($article->attachment)) { ?>
-                    <div id="article_edit_info">Fichier actuel : <?= $article->attachment ?> </div>
+                <?php if(isset($attachment) && !empty($attachment)) { ?>
+                    <a id="article_edit_info" href="<?= $attachment ?>" download>Télécharger le fichier actuel</div>
                 <?php } ?>
 
                 <div id="article_edit_error"><?php if(isset($error) && !empty($error)) { echo $error; } ?></div>
                 
                 <div class="article_edit_submit">
                     <button type="submit" id="article_submit" name="action" value="save_article">Enregistrer</button>
-                    <a href="<?php if($is_company && isset($article) && !empty($article)) { echo "?page=article&action=get_article&id=$article->id_hash"; } else if($is_admin) { echo "?page=admin";} else { echo "?page=index"; } ?>">Annuler</a>
+                    <a href="<?php if(isset($status) && ($status == "company") && isset($article) && !empty($article)) { echo "?page=article&action=get_article&id=$article->id_hash"; } else if(isset($status) && $status == "admin") { echo "?page=admin"; } else { echo "?page=index"; } ?>">Annuler</a>
                 </div>
                 <div class="article_edit_submit">
                     <button type="reset" id="reset">Réinitialisation</button>

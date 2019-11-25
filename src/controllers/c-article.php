@@ -48,9 +48,41 @@
         }
 
         if(!empty($data['attachement'])) {
-            //TODO verifier si le fichier existe déja
-            //TODO verifier si le format du fichier est bon
-            //TODO verifier la taille du fichier
+            if($data["attachment"]["error"] == 0) {
+                $max_size = 2 * 1024 * 1024; //2Mo
+                echo "size: ".$data['attachement']["size"];
+                if($data['attachement']["size"] > $max_size)
+                    throw new Exception('File is too large');
+            }
+            else
+                throw new Exception("Transfert error");
+        }
+    }
+
+    function saveFile($file, $path) {  //Delete all file present in directory and save the submited file
+        if ( !file_exists($path) && !is_dir($path) ) {
+            mkdir($path);       
+        }
+        else {
+            $path = $path."/";
+            $files = scandir($path); // get all file names
+            foreach($files as $found_file){ // iterate files
+                if(is_file($path.$found_file))
+                    unlink($path.$found_file); // delete file
+            }
+        }
+        $path = $path."/".$file["name"];
+        move_uploaded_file($file["tmp_name"], $path);
+    }
+
+    function getFile($path) {
+        if ( file_exists($path) && is_dir($path) ) {
+            $files = scandir($path, 1); // get all file names, there is only one file
+            $str_explode = explode("/", $path);
+            return "./".$str_explode[sizeof($str_explode)-2]."/".$str_explode[sizeof($str_explode)-1]."/".$files[0];
+        }
+        else {
+            return null;
         }
     }
 
@@ -61,16 +93,14 @@
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_article');
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
-    $is_admin = (isset($_SESSION['is_admin'])) ? $_SESSION['is_admin'] : false;
+    $path = __DIR__."/../article-attachments/";
 
     if($id_account > 0) {
-        $is_member = User::isMember($id_account);
-        if($is_member) {
+        if(User::isMember($id_account)) {
             $status = "member";
         }
         else {
-            $is_company = User::isCompany($id_account);
-            if($is_company) $status = "company";
+            if(User::isCompany($id_account)) $status = "company";
             else $status = "admin";
         }
     }
@@ -93,6 +123,7 @@
 
                         $data = array('id_account' => $id_account, 'id_article' => $article->id_article);
                         $user_vote = Article::getVote($data);
+                        $attachment = getFile($path.$id_hash);
                     }
                 }
             }
@@ -103,16 +134,17 @@
             if($status != "not-connected") {
                 if(isset($id_hash)) {   //Edit article
                     $article = Article::getArticle($id_hash);
-                    if($article && ($article->id_company == $id_account || $is_admin)) {
+                    if($article && ($article->id_company == $id_account || $status == "admin")) {
+                        $attachment = getFile($path.$id_hash);
                         require(__DIR__."/../views/v-article_edit.inc.php");
                     }
-                    else {  //Article not found or not the same company id
+                    else {  //Article not found or user cannot edit
                         header('Location: ?page=article&id='.$id_hash);
                         exit();
                     }
                 }
     
-                else if($is_company) {   //Create article
+                else if($status == "company") {   //Create article
                     require(__DIR__."/../views/v-article_edit.inc.php");
                 }
             }
@@ -120,14 +152,14 @@
             break;
 
         case 'save_article':
-            if($status != "not-connected" && (User::isCompany($id_account) || $is_admin)) {
+            if($status != "not-connected" && ($status == "company" || $status == "admin")) {
                 $data = array(
                     'title' => htmlentities($_REQUEST['title'], ENT_COMPAT, "UTF-8"),
                     'begin_date' =>  htmlentities($_REQUEST['begin_date'], ENT_COMPAT, "UTF-8"),
                     'end_date' =>  htmlentities($_REQUEST['end_date'], ENT_COMPAT, "UTF-8"),
                     'mission' =>  htmlentities($_REQUEST['mission'], ENT_COMPAT, "UTF-8"),
                     'contact' =>  htmlentities($_REQUEST['contact'], ENT_COMPAT, "UTF-8"),
-                    'attachment' =>  (!empty($_REQUEST['attachment']) ?  htmlentities($_REQUEST['attachment'], ENT_COMPAT, "UTF-8") : NULL)
+                    'attachment' => $_FILES['attachment']
                 );
 
                 if(isset($id_hash)) {   //Update article
@@ -137,6 +169,10 @@
 
                         try {
                             check_article_data($data);
+
+                            $path = $path.$id_hash;
+                            saveFile($data['attachment'], $path);
+
                             Article::updateArticle($data);
                         }
                         catch (Exception $e) {
@@ -146,21 +182,30 @@
                         }
                     }
 
-                    if($is_company) {
+                    if($status == "company") {
                         header('Location: ?page=article&id='.$id_hash);
                     }
-                    else if ($is_admin) {
+                    else if ($status == "admin") {
                         header('Location: ?page=admin');
                     }
                     exit();
                 }
-                else if($is_company) {  //Create article
+                else {  //Create article
                     $data['id_company'] = $id_account;
 
                     try {
                         check_article_data($data);
+                        $data['attachment'] = $_FILES['attachment']["tmp_name"];
+
                         Article::createArticle($data);
                         $article = Article::getLastArticleFromCompany($id_account);
+                        
+                        $path = $path.$id_hash;
+                        saveFile($data['attachment'], $path);
+                        $data['attachment'] = $path;
+
+                        Article::updateArticleAttachment(array("attachment" => $path, "id_article" => $article->id_article));
+
                         header('Location: ?page=article&id='.$article->id_hash);
                         exit();
                     }
@@ -177,13 +222,13 @@
         case 'delete_article':
             if(isset($id_hash) && $status != "not-connected") {        
                 $article = Article::getArticle($id_hash);
-                if($article && ($article->id_company == $id_account || $is_admin)) {
+                if($article && ($article->id_company == $id_account || $status == "admin")) {
                     Article::deleteArticle($article->id_article);
 
-                    if($is_company) {
+                    if($status == "company") {
                         header('Location: ?page=index');
                     }
-                    else if($is_admin) {
+                    else if($status == "admin") {
                         header('Location: ?page=admin');
                     }
                     exit();

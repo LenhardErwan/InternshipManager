@@ -10,7 +10,7 @@
         <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
     </head>
 
-    <body>
+    <body>    <body>
         <?php if($id_user == $id_account) require("v-profile_password.inc.php") ?>
         <?php require("v-nav.inc.php"); ?>
         
