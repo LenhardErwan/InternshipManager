@@ -24,7 +24,7 @@
                 <h3>Téléphone : <?php echo (empty($account->phone) ? "non renseigné" : $account->phone) ?></h2>
                 <?php if($account_type == "member") { ?>
                 <?php if(isset($account->birth_date) && !empty($account->birth_date)) { ?>
-                <h4>Date de naissance : <?= $account->phone ?></h4>
+                <h4>Date de naissance : <?= $account->birth_date ?></h4>
                 <?php } ?>
                 <?php if(isset($account->degrees) && !empty($account->degrees)) { ?>
                 <h4>Diplômes : <?= $account->degrees ?></h4>
