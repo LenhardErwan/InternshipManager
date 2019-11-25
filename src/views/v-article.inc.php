@@ -20,6 +20,12 @@
             require("v-confirm_delete.inc.php");
         } ?>
 
+        <?php if($status == "admin") {
+            $action_to_perform = "delete_comment"; 
+            $text = "Êtes vous sur de vouloir supprimer votre commentaire ?";
+            require("v-confirm_delete.inc.php");
+        } ?>
+
         <?php require("v-nav.inc.php"); ?>
 
         <main id="article_main">
