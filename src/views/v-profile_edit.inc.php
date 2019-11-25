@@ -26,43 +26,48 @@
                 <?php if(($account_type == "company") || (($account_type == "company") && ($status == "admin"))) { ?>
                     <div class="profile_edit_elmt">
                         <label for="social_reason">*Raison sociale : </label>
-                        <input type="text" name="social_reason" id="social_reason" value="<?php if(isset($account->social_reason)) echo $account->social_reason ?>" maxlength="40" required />
+                        <input type="text" name="social_reason" id="social_reason" value="<?= (isset($account->social_reason) ? $account->social_reason : ''); ?>" maxlength="40" required />
                     </div>
+                    <div class="profile_edit_error"><?= (isset($error['social_reason']) ? $error['social_reason'] : '');?></div>
                 <?php } ?>
 
                 <div class="profile_edit_elmt">
                     <label for="last_name">*Nom : </label>
-                    <input type="text" name="last_name" id="last_name" value="<?php if(isset($account->last_name)) echo $account->last_name ?>" maxlength="15" required />
+                    <input type="text" name="last_name" id="last_name" value="<?= (isset($account->last_name) ? $account->last_name : ''); ?>" maxlength="15" required />
                 </div>
+                <div class="profile_edit_error"><?= (isset($error['last_name']) ? $error['last_name'] : ''); ?></div>
 
                 <div class="profile_edit_elmt">
                     <label for="first_name">*Prénom : </label>
-                    <input type="text" name="first_name" id="first_name" value="<?php if(isset($account->first_name)) echo $account->first_name ?>" maxlength="15" required />
+                    <input type="text" name="first_name" id="first_name" value="<?= (isset($account->first_name) ? $account->first_name : ''); ?>" maxlength="15" required />
                 </div>
+                <div class="profile_edit_error"><?= (isset($error['first_name']) ? $error['first_name'] : ''); ?></div>
 
                 <div class="profile_edit_elmt">
                     <label for="mail">*E-Mail : </label>
-                    <input type="email" name="mail" id="mail" value="<?php if(isset($account->mail)) echo $account->mail ?>" required />
+                    <input type="email" name="mail" id="mail" value="<?= (isset($account->mail) ? $account->mail : ''); ?>" required />
                 </div>
+                <div class="profile_edit_error"><?= (isset($error['mail']) ? $error['mail'] : ''); ?></div>
 
                 <div class="profile_edit_elmt">
                     <label for="phone">Téléphone : </label>
-                    <input type="tel" name="phone" id="phone" value="<?php if(isset($account->phone)) echo $account->phone ?>" />
+                    <input type="tel" name="phone" id="phone" value="<?= (isset($account->phone) ? $account->phone : ''); ?>" />
                 </div>
+                <div class="profile_edit_error"><?= (isset($error['phone']) ? $error['phone'] : ''); ?></div>
 
                 <?php if(($account_type == "member") || (($account_type == "member") && ($status == "admin"))) { ?>
                     <div class="profile_edit_elmt">
                         <label for="birth_date">Date de naissance : </label>
-                        <input type="date" name="birth_date" id="birth_date" value="<?php if(isset($account->birth_date)) echo $account->birth_date ?>" />
+                        <input type="date" name="birth_date" id="birth_date" value="<?= (isset($account->birth_date) ? $account->birth_date : ''); ?>" />
                     </div>
+                    <div class="profile_edit_error"><?= (isset($error['birth_date']) ? $error['birth_date'] : ''); ?></div>
 
                     <div id="profile_edit_degrees">
                         <label for="degrees">Diplômes : </label>
-                        <textarea name="degrees" id="degrees" maxlength="500"><?php if(isset($account->degrees)) echo $account->degrees ?></textarea><br/>
+                        <textarea name="degrees" id="degrees" maxlength="500"><?= (isset($account->degrees) ? $account->degrees : ''); ?></textarea><br/>
                     </div>
+                    <div class="profile_edit_error"><?= (isset($error['degrees']) ? $error['degrees'] : ''); ?></div>
                 <?php } ?>
-
-                <div id="profile_edit_error"><?php if(isset($error) && !empty($error)) { echo $error; } ?></div>
 
                 <div class="profile_edit_submit">
                     <button type="submit" id="profile_submit" name="action" value="save_profile">Enregistrer</button>
