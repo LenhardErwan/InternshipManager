@@ -47,11 +47,10 @@
             //TODO verifier la taille ???
         }
 
-        if(!empty($data['attachement'])) {
+        if(!empty($data['attachment']['name'])) {
             if($data["attachment"]["error"] == 0) {
                 $max_size = 2 * 1024 * 1024; //2Mo
-                echo "size: ".$data['attachement']["size"];
-                if($data['attachement']["size"] > $max_size)
+                if($data['attachment']["size"] > $max_size)
                     throw new Exception('File is too large');
             }
             else
@@ -79,7 +78,11 @@
         if ( file_exists($path) && is_dir($path) ) {
             $files = scandir($path, 1); // get all file names, there is only one file
             $str_explode = explode("/", $path);
-            return "./".$str_explode[sizeof($str_explode)-2]."/".$str_explode[sizeof($str_explode)-1]."/".$files[0];
+            if (is_file($path."/".$files[0])) 
+                return "./".$str_explode[sizeof($str_explode)-2]."/".$str_explode[sizeof($str_explode)-1]."/".$files[0];
+            else
+                return null;
+            
         }
         else {
             return null;
@@ -119,10 +122,11 @@
                     $comment = Article::getCommentFromArticle($article->id_article);
 
                     if($status != "not-connected") {
-                        $can_edit = $article->id_company == $id_account;
+                        $can_edit = $article->id_company == $id_account || $status == "admin";
 
                         $data = array('id_account' => $id_account, 'id_article' => $article->id_article);
                         $user_vote = Article::getVote($data);
+                        if(!$user_vote) unset($user_vote);  //If the return value is false (user doesn't vote)
                         $attachment = getFile($path.$id_hash);
                     }
                 }
@@ -172,6 +176,7 @@
 
                             $path = $path.$id_hash;
                             saveFile($data['attachment'], $path);
+                            $data['attachment'] = $path;
 
                             Article::updateArticle($data);
                         }
@@ -237,7 +242,7 @@
             break;
 
         case 'edit_comment':
-            if(isset($id_hash) && $status != "not-connected" && $can_comment) {
+            if(isset($id_hash) && $status == "admin") {
                 $article = Article::getArticle($id_hash);
                 if($article) {
                     $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
@@ -250,7 +255,7 @@
             break;
 
         case 'save_comment':
-            if(isset($id_hash) && $status != "not-connected" && $can_comment) {        
+            if(isset($id_hash) && $status == "admin") {        
                 $article = Article::getArticle($id_hash);
                 if($article) {
                     $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);
@@ -284,10 +289,37 @@
                 exit();
             }
             break;
+
+        case 'voteFor':
+            $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : null;
+            $type = (isset($_REQUEST['type']) && !empty($_REQUEST['type'])) ? $_REQUEST['type'] : null;
+            $id_hash = (isset($_REQUEST['id_hash']) && !empty($_REQUEST['id_hash'])) ? $_REQUEST['id_hash'] : null;
+
+            if(!is_null($id_hash)) $article = Article::getArticle($id_hash);
+            
+            if(isset($article) && $article) {
+                $id_article = $article->id_article;
+
+                if(!User::isCompany($id_account)) {  //Companies cannot vote
+                    if(!is_null($id_account) && !is_null($article) && !is_null($type)) {
+                        Article::voteFor($id_account, $id_article, $type);
+                        $data = array('id_account' => $id_account, 'id_article' => $id_article);
+                        $user_vote = Article::getVote($data);
+                        if(!$user_vote) unset($user_vote);  //If the return value is false (user doesn't vote)
+                    }
+                }
+            
+                $votes = Article::getNbVotes($id_article);
+                $functions = Article::getAJAXFunctionsVote($id_hash);
+                
+                require(__DIR__."/../views/v-vote.inc.php");
+            }
+            break;
         
         default:
             
             break;
+        
     }
 
 ?>

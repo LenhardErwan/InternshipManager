@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
@@ -23,7 +23,7 @@
         <main id="profile_edit_main">
             <h1 id="profile_edit_title">Editions de profil</h1>
             <form id="profile_edit_form" action="" method="POST">
-                <?php if($is_company || $is_admin) { ?>
+                <?php if(($account_type == "company") || $is_admin) { ?>
                     <div class="profile_edit_elmt">
                         <label for="social_reason">*Raison sociale : </label>
                         <input type="text" name="social_reason" id="social_reason" value="<?php if(isset($account->social_reason)) echo $account->social_reason ?>" maxlength="40" required />
@@ -50,7 +50,7 @@
                     <input type="tel" name="phone" id="phone" value="<?php if(isset($account->phone)) echo $account->phone ?>" />
                 </div>
 
-                <?php if($is_member || $is_admin) { ?>
+                <?php if(($account_type == "member") || $is_admin) { ?>
                     <div class="profile_edit_elmt">
                         <label for="birth_date">Date de naissance : </label>
                         <input type="date" name="birth_date" id="birth_date" value="<?php if(isset($account->birth_date)) echo $account->birth_date ?>" />

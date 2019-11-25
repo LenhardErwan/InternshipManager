@@ -97,16 +97,13 @@
     $error = (isset($_REQUEST['error']) ? $_REQUEST['error'] : '');
     $id_user = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
-    $is_admin = (isset($_SESSION['is_admin']) && !empty($_SESSION['is_admin'])) ? $_SESSION['is_admin'] : false;
 
     if($id_account > 0) {
-        $is_member = User::isMember($id_account);
-        if($is_member) {
+        if(User::isMember($id_account)) {
             $status = "member";
         }
         else {
-            $is_company = User::isCompany($id_account);
-            if($is_company) $status = "company";
+            if(User::isCompany($id_account)) $status = "company";
             else $status = "admin";
         }
     }
@@ -114,40 +111,50 @@
         $status = "not-connected";
     }
 
+    if($id_user) {
+        if(User::isMember($id_user)) {
+            $account_type = "member";
+        }
+        else {
+            if(User::isCompany($id_user)) $account_type = "company";
+            else $account_type = "admin";
+        }
+    }
+
     switch ($action) {
         case 'get_profile':
             if(isset($id_user)) {    
-                if(User::isMember($id_user)) {
+                if($account_type == "member") {
                     $account = User::getMemberByID($id_user);
-                    require(__DIR__."/../views/v-profile_member.inc.php");
+                    require(__DIR__."/../views/v-profile.inc.php");
                 }
-                else if(User::isCompany($id_user)) {
+                else if($account_type == "company") {
                     $account = User::getCompanyByID($id_user);
                     if($account->active) {
-                        require(__DIR__."/../views/v-profile_company.inc.php");
+                        require(__DIR__."/../views/v-profile.inc.php");
                     }
                     else 
                         header("Location: index.php");
                 }
                 else {
                     $account = User::getAccountByID($id_user);
-                    require(__DIR__."/../views/v-profile_member.inc.php");
+                    require(__DIR__."/../views/v-profile.inc.php");
                 }
             }
             else {
-                require(__DIR__."/../views/v-profile_member.inc.php");
+                require(__DIR__."/../views/v-profile.inc.php");
             }
             break;
 
         case 'edit_profile':
-            if($status != "not-connected" && isset($id_user) && ($id_account == $id_user || $is_admin)) {
-                if(User::isMember($id_user)) $account = User::getMemberByID($id_user);
-                else if(User::isCompany($id_user)) $account = User::getCompanyByID($id_user);
+            if($status != "not-connected" && isset($id_user) && ($id_account == $id_user || $status == "admin")) {
+                if($account_type == "member") $account = User::getMemberByID($id_user);
+                else if($account_type == "company") $account = User::getCompanyByID($id_user);
                 else $account = User::getAccountByID($id_user);
 
                 require(__DIR__."/../views/v-profile_edit.inc.php");
             }
-            else if($is_admin) {
+            else if($status == "admin") {
                 header("Location: ?page=admin");
             } else {
                 header("Location: index.php");
@@ -155,17 +162,14 @@
             break;
 
         case 'save_profile':
-            if($status != "not-connected" && isset($id_user) && ($id_account == $id_user || $is_admin)) {
-                if(User::isMember($id_user)) {
-                    $type = "member";
+            if($status != "not-connected" && isset($id_user) && ($id_account == $id_user || $status == "admin")) {
+                if($account_type == "member") {
                     $account = User::getMemberByID($id_user);
                 } 
-                else if(User::isCompany($id_user)) {
-                    $type = "company";
+                else if($account_type == "company") {
                     $account = User::getCompanyByID($id_user);
                 } 
                 else {
-                    $type = "admin";
                     $account = User::getAccountByID($id_user);
                 }
 
@@ -176,21 +180,21 @@
                     'phone' => htmlentities($_REQUEST['phone'], ENT_COMPAT, "UTF-8"),
                     'id' => $_REQUEST['id']
                 );
-                if($type == "company") {
+                if($account_type == "company") {
                     $data['social_reason'] =  htmlentities($_REQUEST['social_reason'], ENT_COMPAT, "UTF-8");
                     $data['active'] = ($account->active) ? 'true' : 'false';
                 }
-                else if($type == "member") {
+                else if($account_type == "member") {
                     $data['birth_date'] =  htmlentities($_REQUEST['birth_date'], ENT_COMPAT, "UTF-8");
                     $data['degrees'] = htmlentities($_REQUEST['degrees'], ENT_COMPAT, "UTF-8");
                 }
 
                 try {
                     check_profile_infos($data);
-                    if($type == "company") {
+                    if($account_type == "company") {
                         User::updateCompany($data);
                     }
-                    else if($type == "member") {
+                    else if($account_type == "member") {
                         User::updateMember($data);
                     }
                     else {
@@ -203,7 +207,7 @@
                     exit();
                 }
 
-                if($is_admin) {
+                if($status == "admin") {
                     header('Location: ?page=admin');
                 } else {
                     header('Location: ?page=profile&id='.$id_user);

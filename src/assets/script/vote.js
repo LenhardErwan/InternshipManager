@@ -8,6 +8,9 @@ function vote(element, id_user, type) {
     let value1 = encodeURIComponent(id_article),
         value2 = encodeURIComponent(type);
     let url = window.location.href;
+
+    url = url.replace('#','');  //Delete '#' if it contain in string
+
     if(url.includes("?")) url = url + "&";
     else url = url + "?";
 

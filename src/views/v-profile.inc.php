@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Profile <?php if(isset($account) && $account) echo "- $account->last_name" ?></title>
+        <title>Profile - <?php if($account_type == "company") { echo $account->social_reason; } else { echo $account->last_name; } ?></title>
         <script src="assets/script/modal.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
@@ -16,18 +16,30 @@
         
         <main id="profile_main">
             <?php if(isset($account) && $account) { ?>
-            <h1 id="profile_title">Profile - <?= $account->last_name; ?></h1>
+            <h1 id="profile_title">Profile - <?php if($account_type == "company") { echo $account->social_reason; } else { echo $account->last_name; } ?></h1>
 			<div id="profile_content">
-                <p>Nom : <?= $account->last_name ?></p>
-                <p>Prénom : <?= $account->first_name ?></p>
-                <p>E-Mail : <?= $account->mail ?></p>
+				<?php if($account_type == "company") { ?>
+					<p>Raison sociale : <?= $account->social_reason; ?>
+				<?php } ?>
+                <p>Nom : <?= $account->last_name; ?></p>
+                <p>Prénom : <?= $account->first_name; ?></p>
+                <p>E-Mail : <?= $account->mail; ?></p>
                 <p>Téléphone : <?php echo (empty($account->phone) ? "non renseigné" : $account->phone) ?></p>
+                
+                <?php if($account_type == "member") { ?>
                 <?php if(isset($account->birth_date) && !empty($account->birth_date)) { ?>
-                    <p>Date de naissance : <?= $account->phone ?></p>
+                    <p>Date de naissance : <?= $account->birth_date; ?></p>
                 <?php } ?>
                 <?php if(isset($account->degrees) && !empty($account->degrees)) { ?>
                     <p>Diplômes : <?= $account->degrees ?></p>
                 <?php } ?>
+                <?php } ?>
+
+                <?php if($status == "admin") { if($account->active) { ?>
+                	<p>Compte validé</p>
+                <?php } else { ?>
+                	<p>Compte non validé</p>
+                <?php }} ?>
 
                 <?php if($id_user == $id_account) { ?>
                 <form action="" method="POST">
