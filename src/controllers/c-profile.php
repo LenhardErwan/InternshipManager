@@ -287,8 +287,8 @@
         $admin = User::getAdmin();
 
         $to      = $admin->mail;
-        $subject = 'Compte à valider';
-        $message = 'Le compte portant l\'adresse mail : '.$userMail.' doit être validé.';
+        $subject = 'Compte a valider';
+        $message = 'Le compte portant l\'adresse mail : '.$userMail.' doit etre valide.';
         $headers = array(
             'From' => 'webmaster@example.com',
             'X-Mailer' => 'PHP/' . phpversion()
@@ -334,10 +334,10 @@
                     header('Location: ?page=index');
                 } else {
                     if(isset($_POST['submit'])) {
-                        $result = valid_member_submit(array($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['birth_date'], $_POST['degrees']));
+                        $result = valid_member_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['birth_date'], $_POST['degrees']);
 
                         if($result['valid']) {
-                            //User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
+                            User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
                             $errors['valid'] = $result['valid'];
                         } else {
                             $errors = $result;
@@ -356,7 +356,7 @@
                         $result = valid_company_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['social_reason']);
 
                         if($result['valid']) {
-                            //User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+                            User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
                             mailAdmin($result['mail']);
                             $errors['valid'] = $result['valid'];
                         } else {

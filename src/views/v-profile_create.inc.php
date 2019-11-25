@@ -2,7 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8">
-		<title>Inscription entreprise</title>
+		<title>Inscription <?php if($account_type == "company") { echo "entreprise"; } else if($account_type == "member") { echo "membre"; } ?></title>
 		<script type="text/javascript" src="assets/script/modal.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/style/reset.css">
 		<link rel="stylesheet" type="text/css" href="assets/style/nav.css">
@@ -13,14 +13,16 @@
 		<?php require('v-nav.inc.php'); ?>
 		
 		<main id="signup_main">
-			<h1 id="signup_title">Inscription Entreprise</h1>
+			<h1 id="signup_title">Inscription <?php if($account_type == "company") { echo "Entreprise";} else if($account_type == "member") { echo "Membre";} ?></h1>
 			<?php if(!isset($errors) || (isset($errors['valid']) && !$errors['valid'])) { ?>
 			<form id="signup_form" action="" method="POST">
+				<?php if($account_type == "company") { ?>
 				<div class="signup_elmt">
 					<label>*Nom de la societe :</label>
 					<input type="text" name="social_reason" maxlength="40" value="<?php if(isset($_POST['social_reason'])) { echo $_POST['social_reason']; } ?>" required>
 				</div>
 				<div class="signup_errors"><?php if(isset($errors['social_reason'])) { echo $errors['social_reason']; }?></div>
+			<?php } ?>
 
 				<div class="signup_elmt">
 					<label>*Prenom :</label>
@@ -57,14 +59,28 @@
 				</div>
 				<div class="signup_errors"><?php if(isset($errors['phone'])) { echo $errors['phone']; }?></div>
 
+				<?php if($account_type == "member") { ?>
+					<div class="signup_elmt">
+						<label>Date de naissance :</label>
+						<input type="date" name="birth_date" value="<?php if(isset($_POST['birth_date']) && !isset($errors['birth_date'])) { echo $_POST['birth_date']; } ?>">
+					</div>
+					<div class="signup_errors"><?php if(isset($errors['birth_date'])) { echo $errors['birth_date']; } ?></div>
+
+					<div class="signup_degrees">
+						<label>Diplomes :</label>
+						<textarea name="degrees" maxlength="500"><?php if(isset($_POST['degrees']) && !isset($errors['degrees'])) { echo $_POST['degrees']; } ?></textarea>
+					</div>
+					<div class="signup_errors"><?php if(isset($errors['degrees'])) { echo $errors['degrees']; } ?></div>
+				<?php } ?>
+
 				<button id="signup_submit" type="submit" name="submit">S'Inscrire</button>
 			</form>
 			<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
-				<div>
-					Inscription reussi
+				<h1>Inscription reussi</h1>
+				<?php if($account_type == "company") { ?>
 					<h2>Vous n'avez plus qu'a attendre que votre compte soit valider par notre administrateur pour vous connecter!!</h2>
-					<a href="?page=index">Retour a la page d'accueil</a>
-				</div>
+				<?php } ?>
+				<a href="?page=index">Retour a la page d'accueil</a>
 			<?php } ?>
 		</main>
 

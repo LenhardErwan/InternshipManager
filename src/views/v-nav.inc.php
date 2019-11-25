@@ -4,7 +4,7 @@
 		<a href="?page=article&action=edit_article" class="nav_button">Créer une offre</a>
   	<?php } ?>
 	<?php if(!isset($_SESSION['id_account'])) { ?>
-		<a href="#" onclick="openModal('connect_form')" class="nav_button">Connexion</button>
+		<a href="#" onclick="openModal('connect_form')" class="nav_button">Connexion</a>
 		<a href="?page=profile&action=create_member" class="nav_button">Inscription Membre</a>
 		<a href="?page=profile&action=create_company" class="nav_button">Inscription Entreprise</a>
 	<?php } else { ?>
