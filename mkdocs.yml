@@ -1,0 +1,6 @@
+site_name: InternshipManager
+nav:
+- 'index.md'
+- 'architecture.md'
+- 'database.md'
+- 'credits.md'

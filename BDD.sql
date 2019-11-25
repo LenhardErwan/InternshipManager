@@ -1,4 +1,4 @@
-create schema InternshipManager;
+CREATE SCHEMA InternshipManager;
 SET search_path=InternshipManager;
 
 CREATE TABLE account (
