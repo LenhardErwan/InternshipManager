@@ -5,10 +5,18 @@
         <title>Edition - Commentaire</title>
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/index.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/confirm.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
     </head>
 
     <body>
+        <?php 
+            $action_to_perform = "delete_comment"; 
+            $text = "Êtes vous sur de vouloir supprimer votre commentaire ?";
+            require("v-confirm_delete.inc.php");
+        ?>
+
         <?php require("v-nav.inc.php") ?>
         <main>
 			<div>
@@ -25,12 +33,8 @@
                 </form>
 			</div>
         </main>
-        <?php 
-            require("v-footer.inc.php");
-            $action_to_perform = "delete_comment"; 
-            $text = "Êtes vous sur de vouloir supprimer votre commentaire ?";
-            require("v-confirm_delete.inc.php"); 
-        ?>
+
+        <?php require("v-footer.inc.php"); ?>
     </body>
     <script src="assets/script/modal.js"></script>
 </html>

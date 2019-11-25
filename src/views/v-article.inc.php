@@ -20,6 +20,12 @@
             require("v-confirm_delete.inc.php");
         } ?>
 
+        <?php if($status == "admin") {
+            $action_to_perform = "delete_comment"; 
+            $text = "Êtes vous sur de vouloir supprimer votre commentaire ?";
+            require("v-confirm_delete.inc.php");
+        } ?>
+
         <?php require("v-nav.inc.php"); ?>
 
         <main id="article_main">
@@ -32,8 +38,8 @@
                 <p><?= nl2br($article->mission) ?></p>
                 <p><?= nl2br($article->contact) ?></p>
 
-                <?php if(isset($attachment) && !empty($attachment)) { ?>
-                <a href="<?= $attachment ?>" download >Télécharger la pièce jointe</a>
+                <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
+                <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
                 
                 <?php require("v-vote.inc.php"); ?>

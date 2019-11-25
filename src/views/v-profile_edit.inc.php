@@ -13,7 +13,7 @@
 
     <body>
         <?php 
-            $action_to_perform = "delete_account";
+            $action_to_perform = "delete_profile";
             $text = "Souhaitez-vous vraiment supprimer votre compte ?";
             require("v-confirm_delete.inc.php");
         ?>
@@ -23,7 +23,7 @@
         <main id="profile_edit_main">
             <h1 id="profile_edit_title">Editions de profil</h1>
             <form id="profile_edit_form" action="" method="POST">
-                <?php if(($account_type == "company") || $is_admin) { ?>
+                <?php if(($account_type == "company") || (($account_type == "company") && ($status == "admin"))) { ?>
                     <div class="profile_edit_elmt">
                         <label for="social_reason">*Raison sociale : </label>
                         <input type="text" name="social_reason" id="social_reason" value="<?php if(isset($account->social_reason)) echo $account->social_reason ?>" maxlength="40" required />
@@ -50,7 +50,7 @@
                     <input type="tel" name="phone" id="phone" value="<?php if(isset($account->phone)) echo $account->phone ?>" />
                 </div>
 
-                <?php if(($account_type == "member") || $is_admin) { ?>
+                <?php if(($account_type == "member") || (($account_type == "member") && ($status == "admin"))) { ?>
                     <div class="profile_edit_elmt">
                         <label for="birth_date">Date de naissance : </label>
                         <input type="date" name="birth_date" id="birth_date" value="<?php if(isset($account->birth_date)) echo $account->birth_date ?>" />
@@ -66,11 +66,11 @@
 
                 <div class="profile_edit_submit">
                     <button type="submit" id="profile_submit" name="action" value="save_profile">Enregistrer</button>
-                    <a href="<?php if($is_admin) { echo "?page=admin"; } else { echo "?page=profile&action=get_profile&id="; if(isset($account->id_account) && !empty($account->id_account)) { echo $account->id_account; }} ?>" value="get_profile">Annuler</a>
+                    <a href="<?php if($status == "admin") { echo "?page=admin"; } else { echo "?page=profile&action=get_profile&id="; if(isset($account->id_account) && !empty($account->id_account)) { echo $account->id_account; }} ?>" value="get_profile">Annuler</a>
                 </div>
                 <div class="profile_edit_submit">
                     <button type="reset" id="reset">Réinitialiser</button>
-                    <button type="button" class="open_modal" onClick="openModal('delete_account')" >Supprimer</button>
+                    <button type="button" class="open_modal" onClick="openModal('delete_profile')" >Supprimer</button>
                 </div>
             </form>
         </main>

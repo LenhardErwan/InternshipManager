@@ -278,7 +278,7 @@
             break;
 
         case 'delete_comment':
-            if(isset($id_hash) && $status != "not-connected" && $can_comment) {        
+            if(isset($id_hash) && $status == "admin") {        
                 $article = Article::getArticle($id_hash);
                 if($article) {
                     $data = array('id_admin' => $id_account, 'id_article' => $article->id_article);

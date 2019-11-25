@@ -30,6 +30,7 @@ class User {
         try {
             $request = $database->query("SELECT * FROM account WHERE id_account NOT IN (SELECT id_member FROM member) AND id_account NOT IN (SELECT id_company FROM company);");
             $result = $request->fetch(PDO::FETCH_OBJ);
+            return $result;
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
@@ -79,7 +80,7 @@ class User {
     public static function updatePasswordAccount($data) {
         global $database;   
         try {
-            $request = $database->prepare("UPDATE account SET password = :password WHERE id_account = :id;");
+            $request = $database->prepare("UPDATE account SET password = :password WHERE id_account = :id_account;");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
@@ -89,8 +90,8 @@ class User {
     public static function deleteAccount(int $id) {
         global $database;
         try {
-            $request = $database->prepare("DELETE FROM account WHERE id_account = ?;");
-            $request->execute($id); 
+            $request = $database->prepare("DELETE FROM account WHERE id_account = :id_account;");
+            $request->execute(array('id_account' => $id)); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());
         }
