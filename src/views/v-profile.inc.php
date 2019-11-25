@@ -32,7 +32,7 @@
                 <?php if($status == "admin") { if($account->active) { ?>
                 <h4>Comtpe validé</h4>
                 <?php } else { ?>
-                <h4>Comtpe non validé</h4>
+                <h4>Compte non validé</h4>
                 <?php } } ?>
 
                 <?php if($id_user == $id_account) { ?>
