@@ -1,94 +1,186 @@
 <?php
-    function validDate($date, $format = 'Y-m-d H:i:s')
-    {
+    function validDate($date, $format = 'Y-m-d H:i:s') {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
 
-    function check_password(string $password) {
+    function check_social_reason(string $social_reason) {
+        if(empty($social_reason)) {
+            throw new Exception("Champ nom de société vide");
+        } else if(strlen($social_reason) > 40) {
+            throw new Exception("Taille du nom de société trop grande (40 caractères)");
+        } else if(!preg_match("/^[a-zA-Z0-9 ]{0,40}$/", $social_reason)) {
+            throw new Exception("Champ nom de société invalide (a-zA-Z0-9 )");
+        }
+    }
+
+    function check_first_name(string $first_name) {
+        if(empty($first_name)) {
+            throw new Exception("Champ prénom vide");
+        } else if(strlen($first_name) > 15) {
+            throw new Exception("Taille du prénom trop grande (15 caractères)");
+        } else if(!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
+            throw new Exception("Champ prénom invalide (a-zA-Z )");
+        }
+    }
+
+    function check_last_name(string $last_name) {
+        if(empty($last_name)) {
+            throw new Exception("Champ nom vide");
+        } else if(strlen($last_name) > 15) {
+            throw new Exception("Taille du nom trop grande (15 caractères)");
+        } else if(!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
+            throw new Exception("Champ nom invalide (a-zA-Z )");
+        }
+    }
+
+    function check_mail(string $mail) {
+        if(empty($mail)) {
+            throw new Exception("Champ mail vide");
+        } else if(strlen($mail) > 80) {
+            throw new Exception("Taille du mail trop grande (80 caractères)");
+        } else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Champ mail invalide (utilisateur@mail.example.com)");
+        } else if(!empty(User::getAccount($mail))) {
+            throw new Exception("Mail déjà utilisé");
+        }
+    }
+
+    function check_passwords(string $password, string $valid_password) {
         if(empty($password)) {
-			throw new Exception("Empty password");
-		} else {
-			if(strlen($password) > 64) {
-				throw new Exception("Invalid password max 64 char");
-			} else {
-				if(!preg_match("#[a-zA-Z0-9 !@#$%^&*]{8,64}$#", $password)) {
-                    throw new Exception("Invalid password min 8 char");
-                }
-			}
-		}
+            throw new Exception("Champ mot de passe vide");
+        } else if(strlen($password) > 64 || strlen($password) < 8) {
+            throw new Exception("Taille du mot de passe invalide (8 à 64 caractères)");
+        } else if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
+            throw new Exception("Mot de passe invalide (a-zA-Z0-9 !@#$%^&*)");
+        } else if($password != $valid_password) {
+            throw new Exception("Les mot de passes ne sont pas identiques");
+        }
     }
 
-    function check_profile_infos($data) {
-		if(empty($data['first_name'])) {
-			throw new Exception("Empty first name");
-		} else {
-			if(strlen($data['first_name']) > 15) {
-				throw new Exception("Invalid first name (max 15 char)");
-			} else {
-				if(!preg_match("#^[a-zA-Z ]*$#", $data['first_name'])) {
-					throw new Exception("Invalid first name (only letters)");
-				}
-			}
-		}
-
-		if(empty($data['last_name'])) {
-			throw new Exception("Empty last name");
-		} else {
-			if(strlen($data['last_name']) > 15) {
-				throw new Exception("Invalid last name (max 15 char)");
-			} else {
-				if(!preg_match("#^[a-zA-Z ]*$#", $data['last_name'])) {
-					throw new Exception("Invalid last name (only letters)");
-				}
-			}
-		}
-
-		if(empty($data['mail'])) {
-			throw new Exception("Empty mail");
-		} else {
-			if(strlen($data['mail']) > 80) {
-				throw new Exception("Invalid mail (max 80 char)");
-			} else {
-				if(!filter_var($data['mail'], FILTER_VALIDATE_EMAIL)) {
-                    throw new Exception("Invalid mail (user@mail.example.com)");
-				} else {
-                    $account = User::getAccount($data['mail']);
-					if(isset($account) && !empty($account) && $account->id_account != $data['id']) {
-                        throw new Exception("Mail already use");
-                    }
-				}
-			}
-        }
-        
-        if(!empty($data['phone'])) {
-			if(!preg_match("#^\+[0-9]{8,13}#", $data['phone'])) {
-				throw new Exception("Invalid phone format");
-			}
-		}
-
-		if(!empty($data['birth_date'])) {
-			if(!validDate($data['birth_date'])) {
-				throw new Exception("Invalid date format");
-			}
-		}
-
-		if(!empty($data['degrees'])) {
-			if(!preg_match("#^[a-zA-Z0-9 ]{0,500}$#", $data['degrees'])) {
-                throw new Exception("Invalid degrees, only letters and number maximum 500 char");
-			}
-        }
-        
-        if(isset($data['social_reason'])) {
-            if(empty($data['social_reason'])) {
-                throw new Exception("Empty social_reason");
+    function check_phone(string $phone) {
+        if(!empty($phone)) {
+            if(strlen($phone) > 13 || strlen($phone) < 8) {
+                throw new Exception("Taille du champ téléphone invalide (8 à 13 caractères");
+            } else if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
+                throw new Exception("Champ téléphone invalide (+123456789)");
             }
-			else if(!preg_match("#^[a-zA-Z0-9 ]{0,40}$#", $data['social_reason'])) {
-                throw new Exception("Invalid social_reason, only letters and number maximum 40 char");
-			}
-		}
+        }
     }
 
+    function check_birth_date(string $birth_date) {
+        if(!empty($birth_date)) {
+            if(!validDate($birth_date)) {
+                throw new Exception("Champ date de naissance invalide");
+            }
+        }
+    }
+
+    function check_degrees(string $degrees) {
+        if(!empty($degrees)) {
+            if(strlen($degrees) > 500) {
+                throw new Exception("Taille du champ diplômes trop grande (500 caractères)");
+            } else if(!preg_match("/^[a-zA-Z0-9\n\r ]{0,500}$/", $degrees)) {
+                throw new Exception("Champ diplômes invalide (a-zA-Z0-9\\n\\r )");
+            }
+        }
+    }
+
+    function valid_submit(array $submit) {
+        if(isset($submit['social_reason'])) {
+            try {
+                check_social_reason($submit['social_reason']);
+                $data['social_reason'] = $submit['social_reason'];
+            } catch(Exception $e) {
+                $error['social_reason'] = $e->getMessage();
+            }
+        }
+
+        try {
+            check_first_name($submit['first_name']);
+            $data['first_name'] = $submit['first_name'];
+        } catch(Exception $e) {
+            $error['first_name'] = $e->getMessage();
+        }
+
+        try {
+            check_last_name($submit['last_name']);
+            $data['last_name'] = $submit['last_name'];
+        } catch(Exception $e) {
+            $error['last_name'] = $e->getMessage();
+        }
+
+        try {
+            check_mail($submit['mail']);
+            $data['mail'] = $submit['mail'];
+        } catch(Exception $e) {
+            $error['mail'] = $e->getMessage();
+        }
+
+        if(isset($submit['password']) || isset($submit['valid_password'])) {
+            try {
+                check_passwords($submit['password'], $submit['valid_password']);
+                $data['password'] = $submit['password'];
+            } catch(Exception $e) {
+                $error['password'] = $e->getMessage();
+            }
+        }
+
+        if(isset($submit['phone']) && !empty($submit['phone'])) {
+            try {
+                check_phone($submit['phone']);
+                $data['phone'] = $submit['phone'];
+            } catch(Exception $e) {
+                $error['phone'] = $e->getMessage();
+            }
+        } else {
+            $data['phone'] = '';
+        }
+
+        if(isset($submit['birth_date']) && !empty($submit['birth_date'])) {
+            try {
+                check_birth_date($submit['birth_date']);
+                $data['birth_date'] = $submit['birth_date'];
+            } catch(Exception $e) {
+                $error['birth_date'] = $e->getMessage();
+            }
+        } else if(isset($submit['birth_date']) && empty($submit['birth_date'])){
+            $data['birth_date'] = '';
+        }
+
+        if(isset($submit['degrees']) && !empty($submit['degrees'])) {
+            try {
+                check_degrees($submit['degrees']);
+                $data['degrees'] = $submit['degrees'];
+            } catch(Exception $e) {
+                $error['degrees'] = $e->getMessage();
+            }
+        } else if(isset($submit['degrees']) && empty($submit['degrees'])) {
+            $data['degrees'] = '';
+        }
+
+        if(empty($error)) {
+            $data['valid'] = true;
+            return $data;
+        } else {
+            $error['valid'] = false;
+            return $error;
+        }
+    }
+
+    function mailAdmin($userMail) {
+        $admin = User::getAdmin();
+
+        $to      = $admin->mail;
+        $subject = 'Compte a valider';
+        $message = 'Le compte portant l\'adresse mail : '.$userMail.' doit etre valide.';
+        $headers = array(
+            'From' => 'webmaster@example.com',
+            'X-Mailer' => 'PHP/' . phpversion()
+        );
+
+        mail($to, $subject, $message, $headers);
+    }
 
     require_once(__DIR__."/../models/m-article.php");
     require_once(__DIR__."/../models/m-user.php");
@@ -122,6 +214,45 @@
     }
 
     switch ($action) {
+        case 'create_member':
+                if($status != "not-connected") {
+                    header('Location: ?page=index');
+                } else {
+                    if(isset($_POST['submit'])) {
+                        $result = valid_submit($_POST);
+
+                        if($result['valid']) {
+                            User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
+                            $errors['valid'] = $result['valid'];
+                        } else {
+                            $errors = $result;
+                        }
+                    }
+
+                    $account_type = "member";
+                    require(__DIR__."/../views/v-profile_create.inc.php");
+                }
+            break;
+        case 'create_company':
+                if($status != "not-connected") {
+                    header('Location: ?page=index');
+                } else {
+                    if(isset($_POST['submit'])) {
+                        $result = valid_submit($_POST);
+
+                        if($result['valid']) {
+                            User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => hash('sha256', $result['password']), 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+                            mailAdmin($result['mail']);
+                            $errors['valid'] = $result['valid'];
+                        } else {
+                            $errors = $result;
+                        }
+                    }
+
+                    $account_type = "company";
+                    require(__DIR__."/../views/v-profile_create.inc.php");
+                }
+            break;
         case 'get_profile':
             if(isset($id_user)) {    
                 if($account_type == "member") {
@@ -180,6 +311,7 @@
                     'phone' => htmlentities($_REQUEST['phone'], ENT_COMPAT, "UTF-8"),
                     'id' => $_REQUEST['id']
                 );
+
                 if($account_type == "company") {
                     $data['social_reason'] =  htmlentities($_REQUEST['social_reason'], ENT_COMPAT, "UTF-8");
                     $data['active'] = ($account->active) ? 'true' : 'false';
@@ -189,30 +321,26 @@
                     $data['degrees'] = htmlentities($_REQUEST['degrees'], ENT_COMPAT, "UTF-8");
                 }
 
-                try {
-                    check_profile_infos($data);
+                $result = valid_submit($data);
+
+                if($result['valid']) {
                     if($account_type == "company") {
                         User::updateCompany($data);
-                    }
-                    else if($account_type == "member") {
+                    } else if($account_type == "member") {
                         User::updateMember($data);
+                    } else {
+                        User::updateInfoAccount($data);
                     }
-                    else {
-                        User::updateAccount($data);
-                    }
-                }
-                catch (Exception $e) {
-                    $error = "Error : ".$e->getMessage();
-                    require(__DIR__."/../views/v-profile_edit.inc.php");
-                    exit();
-                }
 
-                if($status == "admin") {
-                    header('Location: ?page=admin');
+                    if($status == "admin") {
+                        header('Location: ?page=admin');
+                    } else {
+                        header('Location: ?page=profile&id='.$id_user);
+                    }
                 } else {
-                    header('Location: ?page=profile&id='.$id_user);
+                    $error = $result;
+                    require(__DIR__."/../views/v-profile_edit.inc.php");
                 }
-                exit();
             }
         
             break;
@@ -227,21 +355,15 @@
                     $account = User::getAccountByID($id_account);
                     try {
                         if($account->password == hash('sha256', $old_password)) {
-                            
-                            check_password($password);
-                            if($password == $conf_password) {
-                                User::updatePasswordAccount($data);
-                            }
-                            else {
-                                throw new Exception("Bad confirmation");
-                            }
+                            check_passwords($password, $conf_password);
+                            $password = hash('sha256', $password);
+                            User::updatePasswordAccount(array('password' => $password, 'id_account' => $id_account));
+                            $error = "Mot de passe modifié";
+                        } else {
+                            throw new Exception("Anciens mot de passe incorrect");
                         }
-                        else {
-                            throw new Exception("Incorrect old password");
-                        }
-                    }
-                    catch (Exception $e) {
-                        $error = "Error : ".$e->getMessage();
+                    } catch (Exception $e) {
+                        $error = $e->getMessage();
                     }
                 }
 
@@ -258,7 +380,7 @@
                     if($status == "admin") {
                         header('Location: ?page=admin');
                     } else {
-                        header('Location: index.php');
+                        header('Location: ?page=disconnect');
                     }
                     exit();
                 }

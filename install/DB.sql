@@ -120,7 +120,7 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION deleteCompany() RETURNS trigger AS $$
     BEGIN
-        EXECUTE 'DELETE FROM company WHERE id_account = '||OLD.id_company||'';
+        EXECUTE 'DELETE FROM company WHERE id_company = '||OLD.id_company||'';
         RETURN OLD;
     END; $$
 LANGUAGE plpgsql;
