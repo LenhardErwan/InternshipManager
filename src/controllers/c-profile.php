@@ -12,7 +12,7 @@
 			if(strlen($password) > 64) {
 				throw new Exception("Invalid password max 64 char");
 			} else {
-				if(!preg_match("#[a-zA-Z0-9 !@#$%^&*]{8,64}$#", $password)) {
+				if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
                     throw new Exception("Invalid password min 8 char");
                 }
 			}
@@ -444,7 +444,7 @@
                         User::updateMember($data);
                     }
                     else {
-                        User::updateAccount($data);
+                        User::updateInfoAccount($data);
                     }
                 }
                 catch (Exception $e) {
@@ -476,7 +476,8 @@
                             
                             check_password($password);
                             if($password == $conf_password) {
-                                User::updatePasswordAccount($data);
+                                $password = hash('sha256', $password);
+                                User::updatePasswordAccount(array('password' => $password, 'id_account' => $id_account));
                             }
                             else {
                                 throw new Exception("Bad confirmation");
@@ -504,7 +505,7 @@
                     if($status == "admin") {
                         header('Location: ?page=admin');
                     } else {
-                        header('Location: index.php');
+                        header('Location: ?page=disconnect');
                     }
                     exit();
                 }

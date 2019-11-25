@@ -80,7 +80,7 @@ class User {
     public static function updatePasswordAccount($data) {
         global $database;   
         try {
-            $request = $database->prepare("UPDATE account SET password = :password WHERE id_account = :id;");
+            $request = $database->prepare("UPDATE account SET password = :password WHERE id_account = :id_account;");
             $request->execute($data); 
         } catch (Exception $e) {
             die("ERREUR : ".$e->getMessage());

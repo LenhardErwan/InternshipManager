@@ -38,8 +38,8 @@
                 <p><?= nl2br($article->mission) ?></p>
                 <p><?= nl2br($article->contact) ?></p>
 
-                <?php if(isset($attachment) && !empty($attachment)) { ?>
-                <a href="<?= $attachment ?>" download >Télécharger la pièce jointe</a>
+                <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
+                <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
                 
                 <?php require("v-vote.inc.php"); ?>
