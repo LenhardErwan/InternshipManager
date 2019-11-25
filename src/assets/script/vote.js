@@ -2,7 +2,7 @@ function vote(element, id_user, type) {
   
     let xhr = new XMLHttpRequest();
 
-    let parent = element.parentNode;
+    let parent = element.parentNode.parentNode;
     let id_article = parent.id;
 
     let value1 = encodeURIComponent(id_article),
