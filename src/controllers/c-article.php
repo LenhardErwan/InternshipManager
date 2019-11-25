@@ -5,56 +5,122 @@
         return $d && $d->format($format) == $date;
     }
 
-    function check_article_data($data) {
-        if(empty($data['title'])) {
-            throw new Exception('Empty title');
+    function check_title(string $title) {
+        if(empty($title)) {
+            throw new Exception("Champ titre vide");
+        } else if(strlen($title) > 30) {
+            throw new Exception("Taille du titre trop grande (30 caractères)");
+        } else if(!preg_match("/^[a-zA-Z ]{0,30}$/", $title)) {
+            throw new Exception("Champ titre invalide (a-zA-Z )");
         }
-        else {
-            if(strlen($data['title']) > 30) {
-                throw new Exception("Title too long");
-            }
-        }
+    }
 
-        if(empty($data['begin_date'])) {
-            throw new Exception('Empty begin_date');
+    function check_date(string $date) {
+        if(empty($date)) {
+            throw new Exception("Champ date vide");
+        } else if(!validDate($date, 'Y-m-d')) {
+            throw new Exception("Champ date invalide");
         }
-        else {
-            if(!validDate($data['begin_date'], 'Y-m-d')) {
-                throw new Exception('Wrong format for begin_date');
-            }
-        }
+    }
 
-        if(empty($data['end_date'])) {
-            throw new Exception('Empty end_date');
+    function check_dates(string $begin_date, string $end_date) {
+        $end_D = DateTime::createFromFormat('Y-m-d', $end_date);
+        $begin_D = DateTime::createFromFormat('Y-m-d', $begin_date);
+        
+        if($begin_D > $end_D) {
+            throw new Exception("Marty, tu voyage dans le temps");
         }
-        else {
-            if(!validDate($data['end_date'], 'Y-m-d')) {
-                throw new Exception('Wrong format for end_date');
-            }
-        }
+    }
 
-        if(empty($data['mission'])) {
-            throw new Exception('Empty mission');
+    function check_mission(string $mission) {
+        if(empty($mission)) {
+            throw new Exception("Champ mission vide");
+        } else if(strlen($mission) > 1000) {
+            throw new Exception("Taille de la mission trop grande (1000 caractères)");
+        } else if(!preg_match("/^[a-zA-Z0-9\n\r ]{0,1000}$/", $mission)) {
+            throw new Exception("Champ mission invalide (a-zA-Z0-9\\n\\r )");
         }
-        else {
-            //TODO verifier la taille ???
-        }
+    }
 
-        if(empty($data['contact'])) {
-            throw new Exception('Empty contact');
+    function check_contact(string $contact) {
+        if(empty($contact)) {
+            throw new Exception("Champ contact vide");
+        } else if(strlen($contact) > 1000) {
+            throw new Exception("Taille du champ contact trop grande (1000 caractères)");
+        } else if(!preg_match("/^[a-zA-Z0-9\n\r ]{0,1000}$/", $contact)) {
+            throw new Exception("Champ contact invalide (a-zA-Z0-9\\n\\r )");
         }
-        else {
-            //TODO verifier la taille ???
-        }
+    }
 
-        if(!empty($data['attachment']['name'])) {
-            if($data["attachment"]["error"] == 0) {
+    function check_attachment(array $attachment) {
+        if(!empty($attachment["name"])) {
+            if($attachment["error"] == 0) {
                 $max_size = 2 * 1024 * 1024; //2Mo
-                if($data['attachment']["size"] > $max_size)
-                    throw new Exception('File is too large');
+                
+                if($attachment["size"] > $max_size) {
+                    throw new Exception("Fichier trop volumineux (2 Mo)");
+                }
+            } else {
+                throw new Exception("Erreur lors du transfert du fichier");
             }
-            else
-                throw new Exception("Transfert error");
+        }
+    }
+
+    function check_article_data($submit) {
+        try {
+            check_title($submit['title']);
+            $data['title'] = $submit['title'];
+        } catch(Exception $e) {
+            $error['title'] = $e->getMessage();
+        }
+
+        try {
+            check_dates($submit['begin_date'], $submit['end_date']);
+        } catch(Exception $e) {
+            $error['begin_date'] = $e->getMessage();
+        }
+
+        try {
+            check_date($submit['begin_date']);
+            $data['begin_date'] = $submit['begin_date'];
+        } catch(Exception $e) {
+            $error['begin_date'] = $e->getMEssage();
+        }
+
+        try {
+            check_date($submit['end_date']);
+            $data['end_date'] = $submit['end_date'];
+        } catch(Exception $e) {
+            $error['end_date'] = $e->getMessage();
+        }
+
+        try {
+            check_mission($submit['mission']);
+            $data['mission'] = $submit['mission'];
+        } catch(Exception $e) {
+            $error['mission'] = $e->getMessage();
+        }
+
+        try {
+            check_contact($submit['contact']);
+            $data['contact'] = $submit['contact'];
+        } catch(Exception $e) {
+            $error['contact'] = $e->getMessage();
+        }
+
+        try {
+            check_attachment($submit['attachment']);
+            $data['attachment'] = $submit['attachment'];
+        } catch(Exception $e) {
+            $error['attachment'] = $e->getMessage();
+        }
+
+        if(empty($error)) {
+            $data['valid'] = true;
+            return $data;
+        } else {
+            $error['valid'] = false;
+            return $error;
         }
     }
 
@@ -151,6 +217,8 @@
                 else if($status == "company") {   //Create article
                     require(__DIR__."/../views/v-article_edit.inc.php");
                 }
+            } else {
+                header('Location: ?page=index');
             }
 
             break;
@@ -170,18 +238,17 @@
                     $article = Article::getArticle($id_hash);
                     if($article) {
                         $data['id_article'] = $article->id_article;
+                            
+                        $result = check_article_data($data);
 
-                        try {
-                            check_article_data($data);
-
+                        if($result['valid']) {
                             $path = $path.$id_hash;
                             saveFile($data['attachment'], $path);
-                            $data['attachment'] = $path;
+                            $result['attachment'] = $path;
 
                             Article::updateArticle($data);
-                        }
-                        catch (Exception $e) {
-                            $error = "Error : ".$e->getMessage();
+                        } else {
+                            $error = $result;
                             require(__DIR__."/../views/v-article_edit.inc.php");
                             exit();
                         }
