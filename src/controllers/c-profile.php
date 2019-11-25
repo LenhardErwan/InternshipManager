@@ -4,211 +4,175 @@
         return $d && $d->format($format) == $date;
     }
 
+    function check_social_reason(string $social_reason) {
+        if(empty($social_reason)) {
+            throw new Exception("Champ nom de société vide");
+        } else if(strlen($social_reason) > 40) {
+            throw new Exception("Taille du nom de société trop grande (40 caractères)");
+        } else if(!preg_match("/^[a-zA-Z0-9 ]{0,40}$/", $social_reason)) {
+            throw new Exception("Champ nom de société invalide (a-zA-Z0-9 )");
+        }
+    }
+
+    function check_first_name(string $first_name) {
+        if(empty($first_name)) {
+            throw new Exception("Champ prénom vide");
+        } else if(strlen($first_name) > 15) {
+            throw new Exception("Taille du prénom trop grande (15 caractères)");
+        } else if(!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
+            throw new Exception("Champ prénom invalide (a-zA-Z )");
+        }
+    }
+
+    function check_last_name(string $last_name) {
+        if(empty($last_name)) {
+            throw new Exception("Champ nom vide");
+        } else if(strlen($last_name) > 15) {
+            throw new Exception("Taille du nom trop grande (15 caractères)");
+        } else if(!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
+            throw new Exception("Champ nom invalide (a-zA-Z )");
+        }
+    }
+
+    function check_mail(string $mail) {
+        if(empty($mail)) {
+            throw new Exception("Champ mail vide");
+        } else if(strlen($mail) > 80) {
+            throw new Exception("Taille du mail trop grande (80 caractères)");
+        } else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Champ mail invalide (utilisateur@mail.example.com)");
+        } else if(!empty(User::getAccount($mail))) {
+            throw new Exception("Mail déjà utilisé");
+        }
+    }
+
     function check_password(string $password) {
         if(empty($password)) {
 			throw new Exception("Champ mot de passe vide");
-		} else {
-			if(strlen($password) > 64 || strlen($password) < 8) {
-				throw new Exception("Taille du mot de passe invalide (8 a 64 caractres)");
-			} else {
-				if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
-                    throw new Exception("Mot de passe invalide (a-zA-Z0-9 !@#$%^&*)");
-                }
-			}
-		}
+		} else if(strlen($password) > 64 || strlen($password) < 8) {
+		    throw new Exception("Taille du mot de passe invalide (8 à 64 caractères)");
+		} else if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
+            throw new Exception("Mot de passe invalide (a-zA-Z0-9 !@#$%^&*)");
+        }
     }
 
-    function valid_member_submit($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees) {
-        if(empty($first_name)) {
-            $error['first_name'] = "Champ prenom vide";
-        } else {
-            if(strlen($first_name) > 15) {
-                $error['first_name'] = "Champ prenom trop grand (15 caracteres)";
-            } else {
-                if(!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
-                    $error['first_name'] = "Champ prenom invalide (a-zA-Z )";
-                } else {
-                    $data['first_name'] = $first_name;
-                }
-            }
-        }
-
-        if(empty($last_name)) {
-            $error['last_name'] = "Champ nom vide";
-        } else {
-            if(strlen($last_name) > 15) {
-                $error['last_name'] = "Champ nom trop grand (15 caracteres)";
-            } else {
-                if(!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
-                    $error['last_name'] = "Champ nom invalide (a-zA-Z )";
-                } else {
-                    $data['last_name'] = $last_name;
-                }
-            }
-        }
-
-        if(empty($mail)) {
-            $error['mail'] = "Champ mail vide";
-        } else {
-            if(strlen($mail) > 80) {
-                $error['mail'] = "Champ mail trop grand (80 caracteres)";
-            } else {
-                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-                    $error['mail'] = "Champ mail invalide (utilisateur@mail.example.com)";
-                } else {
-                    if(!empty(User::getAccount($mail))) {
-                        $error['mail'] = "Mail deja utilise";
-                    } else {
-                        $data['mail'] = $mail;
-                    }
-                }
-            }
-        }
-
+    function check_passwords(string $password, string $valid_password) {
         if(empty($password)) {
-            $error['password'] = "Champ mot de passe vide";
-        } else {
-            if(strlen($password) > 64) {
-                $error['password'] = "Champ mot de passe trop grand (64 caracteres)";
-            } else {
-                if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
-                    $error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
-                } else if(!($password === $valid_password)) {
-                    $error['password'] = "Les mots de passes ne correspondent pas";
-                } else {
-                    $data['password'] = hash('sha256', $password);
-                }
+            throw new Exception("Champ mot de passe vide");
+        } else if(strlen($password) > 64 || strlen($password) < 8) {
+            throw new Exception("Taille du mot de passe invalide (8 à 64 caractères)");
+        } else if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
+            throw new Exception("Mot de passe invalide (a-zA-Z0-9 !@#$%^&*)");
+        } else if($password != $valid_password) {
+            throw new Exception("Les mot de passes ne sont pas identiques");
+        }
+    }
+
+    function check_phone(string $phone) {
+        if(!empty($phone)) {
+            if(strlen($phone) > 13 || strlen($phone) < 8) {
+                throw new Exception("Taille du champ téléphone invalide (8 à 13 caractères");
+            } else if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
+                throw new Exception("Champ téléphone invalide (+123456789)");
+            }
+        }
+    }
+
+    function check_birth_date(string $birth_date) {
+        if(!empty($birth_date)) {
+            if(!validDate($birth_date)) {
+                throw new Exception("Champ date de naissance invalide");
+            }
+        }
+    }
+
+    function check_degrees(string $degrees) {
+        if(!empty($degrees)) {
+            if(strlen($degrees) > 500) {
+                throw new Exception("Taille du champ diplômes trop grande (500 caractères)");
+            } else if(!preg_match("/^[a-zA-Z0-9\n\r ]{0,500}$/", $degrees)) {
+                throw new Exception("Champ diplômes invalide (a-zA-Z0-9\\n\\r )");
+            }
+        }
+    }
+
+    function valid_submit(array $submit) {
+        if(isset($submit['social_reason'])) {
+            try {
+                check_social_reason($submit['social_reason']);
+                $data['social_reason'] = $submit['social_reason'];
+            } catch(Exception $e) {
+                $error['social_reason'] = $e->getMessage();
             }
         }
 
-        if(empty($phone)) {
+        try {
+            check_first_name($submit['first_name']);
+            $data['first_name'] = $submit['first_name'];
+        } catch(Exception $e) {
+            $error['first_name'] = $e->getMessage();
+        }
+
+        try {
+            check_last_name($submit['last_name']);
+            $data['last_name'] = $submit['last_name'];
+        } catch(Exception $e) {
+            $error['last_name'] = $e->getMessage();
+        }
+
+        try {
+            check_mail($submit['mail']);
+            $data['mail'] = $submit['mail'];
+        } catch(Exception $e) {
+            $error['mail'] = $e->getMessage();
+        }
+
+        try {
+            check_passwords($submit['password'], $submit['valid_password']);
+            $data['password'] = $submit['password'];
+        } catch(Exception $e) {
+            $error['password'] = $e->getMessage();
+        }
+
+        if(isset($submit['phone']) && !empty($submit['phone'])) {
+            try {
+                check_phone($submit['phone']);
+                $data['phone'] = $submit['phone'];
+            } catch(Exception $e) {
+                $error['phone'] = $e->getMessage();
+            }
+        } else {
             $data['phone'] = '';
-        } else {
-            if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
-                $error['phone'] = "Champ telephone invalide (+01925784)";
-            } else {
-                $data['phone'] = $phone;
-            }
         }
 
-        if(empty($birth_date)) {
+        if(isset($submit['birth_date']) && !empty($submit['birth_date'])) {
+            try {
+                check_birth_date($submit['birth_date']);
+                $data['birth_date'] = $submit['birth_date'];
+            } catch(Exception $e) {
+                $error['birth_date'] = $e->getMessage();
+            }
+        } else if(isset($submit['birth_date']) && empty($submit['birth_date'])){
             $data['birth_date'] = '';
-        } else {
-            if(!validBirthDate($birth_date)) {
-                $error['birth_date'] = "Champ date de naissance invalide";
-            } else {
-                $data['birth_date'] = $birth_date;
-            }
         }
 
-        if(empty($degrees)) {
+        if(isset($submit['degrees']) && !empty($submit['degrees'])) {
+            try {
+                check_degrees($submit['degrees']);
+                $data['degrees'] = $submit['degrees'];
+            } catch(Exception $e) {
+                $error['degrees'] = $e->getMessage();
+            }
+        } else if(isset($submit['degrees']) && empty($submit['degrees'])) {
             $data['degrees'] = '';
-        } else {
-            if(!preg_match("/^[a-zA-Z0-9 ]{0,500}$/", $degrees)) {
-                $error['degrees'] = "Champ diplomes invalides (a-zA-Z0-9 ) 500 caracteres maximum";
-            } else {
-                $data['degrees'] = $degrees;
-            }
         }
 
-        if(!empty($error)) {
-            $error['valid'] = false;
-            return $error;
-        } else {
+        if(empty($error)) {
             $data['valid'] = true;
             return $data;
-        }
-    }
-
-    function valid_company_submit($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
-        if(empty($social_reason)) {
-            $error['social_reason'] = "Champ nom de societe vide";
         } else {
-            if(!preg_match("/^[a-zA-Z0-9 ]{0,40}$/", $social_reason)) {
-                $error['social_reason'] = "Champ nom de societes invalides (a-zA-Z0-9 ) 40 caracteres maximum";
-            } else {
-                $data['social_reason'] = $social_reason;
-            }
-        }
-
-        if(empty($first_name)) {
-            $error['first_name'] = "Champ prenom vide";
-        } else {
-            if(strlen($first_name) > 15) {
-                $error['first_name'] = "Champ prenom trop grand (15 caracteres)";
-            } else {
-                if(!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
-                    $error['first_name'] = "Champ prenom invalide (a-zA-Z )";
-                } else {
-                    $data['first_name'] = $first_name;
-                }
-            }
-        }
-
-        if(empty($last_name)) {
-            $error['last_name'] = "Champ nom vide";
-        } else {
-            if(strlen($last_name) > 15) {
-                $error['last_name'] = "Champ nom trop grand (15 caracteres)";
-            } else {
-                if(!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
-                    $error['last_name'] = "Champ nom invalide (a-zA-Z )";
-                } else {
-                    $data['last_name'] = $last_name;
-                }
-            }
-        }
-
-        if(empty($mail)) {
-            $error['mail'] = "Champ mail vide";
-        } else {
-            if(strlen($mail) > 80) {
-                $error['mail'] = "Champ mail trop grand (80 caracteres)";
-            } else {
-                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-                    $error['mail'] = "Champ mail invalide (utilisateur@mail.example.com)";
-                } else {
-                    if(!empty(User::getAccount($mail))) {
-                        $error['mail'] = "Mail deja utilise";
-                    } else {
-                        $data['mail'] = $mail;
-                    }
-                }
-            }
-        }
-
-        if(empty($password)) {
-            $error['password'] = "Champ mot de passe vide";
-        } else {
-            if(strlen($password) > 64) {
-                $error['password'] = "Champ mot de passe trop grand (64 caracteres)";
-            } else {
-                if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
-                    $error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
-                } else if(!($password === $valid_password)) {
-                    $error['password'] = "Les mots de passes ne correspondent pas";
-                } else {
-                    $data['password'] = hash('sha256', $password);
-                }
-            }
-        }
-
-        if(empty($phone)) {
-            $data['phone'] = '';
-        } else {
-            if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
-                $error['phone'] = "Champ telephone invalide (+01925784)";
-            } else {
-                $data['phone'] = $phone;
-            }
-        }
-
-        if(!empty($error)) {
             $error['valid'] = false;
             return $error;
-        } else {
-            $data['valid'] = true;
-            return $data;
         }
     }
 
@@ -333,10 +297,11 @@
                     header('Location: ?page=index');
                 } else {
                     if(isset($_POST['submit'])) {
-                        $result = valid_member_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['birth_date'], $_POST['degrees']);
+                        $result = valid_submit($_POST);
+                        //$result = valid_member_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['birth_date'], $_POST['degrees']);
 
                         if($result['valid']) {
-                            User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
+                            //User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
                             $errors['valid'] = $result['valid'];
                         } else {
                             $errors = $result;
@@ -352,10 +317,11 @@
                     header('Location: ?page=index');
                 } else {
                     if(isset($_POST['submit'])) {
-                        $result = valid_company_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['social_reason']);
+                        $result = valid_submit($_POST);
+                        //$result = valid_company_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['social_reason']);
 
                         if($result['valid']) {
-                            User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+                            User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => hash('sha256', $result['password']), 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
                             mailAdmin($result['mail']);
                             $errors['valid'] = $result['valid'];
                         } else {
