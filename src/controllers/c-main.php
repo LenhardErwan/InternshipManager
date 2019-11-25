@@ -12,24 +12,6 @@
                 require(__DIR__.'/../views/v-index.inc.php');
             break;
 
-        case 'signup_member':
-                require('c-connect.php');
-                if(isset($_SESSION['id_account'])) {
-                    header('Location: ?page=index');
-                }                
-                require('c-member.php');
-                require(__DIR__.'/../views/v-signup_member.inc.php');
-            break;
-
-        case 'signup_company':
-                require('c-connect.php');
-                if(isset($_SESSION['id_account'])) {
-                    header('Location: ?page=index');
-                }
-                require('c-company.php');
-                require(__DIR__.'/../views/v-signup_company.inc.php');
-            break;
-
         case 'disconnect':
                 session_unset();
                 session_destroy();

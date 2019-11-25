@@ -5,8 +5,8 @@
   	<?php } ?>
 	<?php if(!isset($_SESSION['id_account'])) { ?>
 		<a href="#" onclick="openModal('connect_form')" class="nav_button">Connexion</button>
-		<a href="?page=signup_member" class="nav_button">Inscription Membre</a>
-		<a href="?page=signup_company" class="nav_button">Inscription Entreprise</a>
+		<a href="?page=profile&action=create_member" class="nav_button">Inscription Membre</a>
+		<a href="?page=profile&action=create_company" class="nav_button">Inscription Entreprise</a>
 	<?php } else { ?>
 		<?php if(isset($_SESSION['is_admin']) && $_SESSION['is_admin']) { ?>
 			<a href="?page=admin" class="nav_button">Administration</a>

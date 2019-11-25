@@ -19,6 +19,200 @@
 		}
     }
 
+    function valid_member_submit($first_name, $last_name, $mail, $password, $valid_password, $phone, $birth_date, $degrees) {
+        if(empty($first_name)) {
+            $error['first_name'] = "Champ prenom vide";
+        } else {
+            if(strlen($first_name) > 15) {
+                $error['first_name'] = "Champ prenom trop grand (15 caracteres)";
+            } else {
+                if(!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
+                    $error['first_name'] = "Champ prenom invalide (a-zA-Z )";
+                } else {
+                    $data['first_name'] = $first_name;
+                }
+            }
+        }
+
+        if(empty($last_name)) {
+            $error['last_name'] = "Champ nom vide";
+        } else {
+            if(strlen($last_name) > 15) {
+                $error['last_name'] = "Champ nom trop grand (15 caracteres)";
+            } else {
+                if(!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
+                    $error['last_name'] = "Champ nom invalide (a-zA-Z )";
+                } else {
+                    $data['last_name'] = $last_name;
+                }
+            }
+        }
+
+        if(empty($mail)) {
+            $error['mail'] = "Champ mail vide";
+        } else {
+            if(strlen($mail) > 80) {
+                $error['mail'] = "Champ mail trop grand (80 caracteres)";
+            } else {
+                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+                    $error['mail'] = "Champ mail invalide (utilisateur@mail.example.com)";
+                } else {
+                    if(!empty(User::getAccount($mail))) {
+                        $error['mail'] = "Mail deja utilise";
+                    } else {
+                        $data['mail'] = $mail;
+                    }
+                }
+            }
+        }
+
+        if(empty($password)) {
+            $error['password'] = "Champ mot de passe vide";
+        } else {
+            if(strlen($password) > 64) {
+                $error['password'] = "Champ mot de passe trop grand (64 caracteres)";
+            } else {
+                if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
+                    $error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
+                } else if(!($password === $valid_password)) {
+                    $error['password'] = "Les mots de passes ne correspondent pas";
+                } else {
+                    $data['password'] = hash('sha256', $password);
+                }
+            }
+        }
+
+        if(empty($phone)) {
+            $data['phone'] = '';
+        } else {
+            if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
+                $error['phone'] = "Champ telephone invalide (+01925784)";
+            } else {
+                $data['phone'] = $phone;
+            }
+        }
+
+        if(empty($birth_date)) {
+            $data['birth_date'] = '';
+        } else {
+            if(!validBirthDate($birth_date)) {
+                $error['birth_date'] = "Champ date de naissance invalide";
+            } else {
+                $data['birth_date'] = $birth_date;
+            }
+        }
+
+        if(empty($degrees)) {
+            $data['degrees'] = '';
+        } else {
+            if(!preg_match("/^[a-zA-Z0-9 ]{0,500}$/", $degrees)) {
+                $error['degrees'] = "Champ diplomes invalides (a-zA-Z0-9 ) 500 caracteres maximum";
+            } else {
+                $data['degrees'] = $degrees;
+            }
+        }
+
+        if(!empty($error)) {
+            $error['valid'] = false;
+            return $error;
+        } else {
+            $data['valid'] = true;
+            return $data;
+        }
+    }
+
+    function valid_company_submit($first_name, $last_name, $mail, $password, $valid_password, $phone, $social_reason) {
+        if(empty($social_reason)) {
+            $error['social_reason'] = "Champ nom de societe vide";
+        } else {
+            if(!preg_match("/^[a-zA-Z0-9 ]{0,40}$/", $social_reason)) {
+                $error['social_reason'] = "Champ nom de societes invalides (a-zA-Z0-9 ) 40 caracteres maximum";
+            } else {
+                $data['social_reason'] = $social_reason;
+            }
+        }
+
+        if(empty($first_name)) {
+            $error['first_name'] = "Champ prenom vide";
+        } else {
+            if(strlen($first_name) > 15) {
+                $error['first_name'] = "Champ prenom trop grand (15 caracteres)";
+            } else {
+                if(!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
+                    $error['first_name'] = "Champ prenom invalide (a-zA-Z )";
+                } else {
+                    $data['first_name'] = $first_name;
+                }
+            }
+        }
+
+        if(empty($last_name)) {
+            $error['last_name'] = "Champ nom vide";
+        } else {
+            if(strlen($last_name) > 15) {
+                $error['last_name'] = "Champ nom trop grand (15 caracteres)";
+            } else {
+                if(!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
+                    $error['last_name'] = "Champ nom invalide (a-zA-Z )";
+                } else {
+                    $data['last_name'] = $last_name;
+                }
+            }
+        }
+
+        if(empty($mail)) {
+            $error['mail'] = "Champ mail vide";
+        } else {
+            if(strlen($mail) > 80) {
+                $error['mail'] = "Champ mail trop grand (80 caracteres)";
+            } else {
+                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+                    $error['mail'] = "Champ mail invalide (utilisateur@mail.example.com)";
+                } else {
+                    if(!empty(User::getAccount($mail))) {
+                        $error['mail'] = "Mail deja utilise";
+                    } else {
+                        $data['mail'] = $mail;
+                    }
+                }
+            }
+        }
+
+        if(empty($password)) {
+            $error['password'] = "Champ mot de passe vide";
+        } else {
+            if(strlen($password) > 64) {
+                $error['password'] = "Champ mot de passe trop grand (64 caracteres)";
+            } else {
+                if(!preg_match("/[a-zA-Z0-9 !@#$%^&*]{8,64}$/", $password)) {
+                    $error['password'] = "Champ mot de passe invalide au moins 8 caracteres (a-zA-Z0-9 !@#$%^&*)";
+                } else if(!($password === $valid_password)) {
+                    $error['password'] = "Les mots de passes ne correspondent pas";
+                } else {
+                    $data['password'] = hash('sha256', $password);
+                }
+            }
+        }
+
+        if(empty($phone)) {
+            $data['phone'] = '';
+        } else {
+            if(!preg_match("/^\+[0-9]{8,13}/", $phone)) {
+                $error['phone'] = "Champ telephone invalide (+01925784)";
+            } else {
+                $data['phone'] = $phone;
+            }
+        }
+
+        if(!empty($error)) {
+            $error['valid'] = false;
+            return $error;
+        } else {
+            $data['valid'] = true;
+            return $data;
+        }
+    }
+
     function check_profile_infos($data) {
 		if(empty($data['first_name'])) {
 			throw new Exception("Empty first name");
@@ -89,6 +283,19 @@
 		}
     }
 
+    function mailAdmin($userMail) {
+        $admin = User::getAdmin();
+
+        $to      = $admin->mail;
+        $subject = 'Compte à valider';
+        $message = 'Le compte portant l\'adresse mail : '.$userMail.' doit être validé.';
+        $headers = array(
+            'From' => 'webmaster@example.com',
+            'X-Mailer' => 'PHP/' . phpversion()
+        );
+
+        mail($to, $subject, $message, $headers);
+    }
 
     require_once(__DIR__."/../models/m-article.php");
     require_once(__DIR__."/../models/m-user.php");
@@ -122,6 +329,45 @@
     }
 
     switch ($action) {
+        case 'create_member':
+                if($status != "not-connected") {
+                    header('Location: ?page=index');
+                } else {
+                    if(isset($_POST['submit'])) {
+                        $result = valid_member_submit(array($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['birth_date'], $_POST['degrees']));
+
+                        if($result['valid']) {
+                            //User::createMember(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'birth_date' => $result['birth_date'], 'degrees' => $result['degrees']));
+                            $errors['valid'] = $result['valid'];
+                        } else {
+                            $errors = $result;
+                        }
+                    }
+
+                    $account_type = "member";
+                    require(__DIR__."/../views/v-profile_create.inc.php");
+                }
+            break;
+        case 'create_company':
+                if($status != "not-connected") {
+                    header('Location: ?page=index');
+                } else {
+                    if(isset($_POST['submit'])) {
+                        $result = valid_company_submit($_POST['first_name'], $_POST['last_name'], $_POST['mail'], $_POST['password'], $_POST['valid_password'], $_POST['phone'], $_POST['social_reason']);
+
+                        if($result['valid']) {
+                            //User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+                            mailAdmin($result['mail']);
+                            $errors['valid'] = $result['valid'];
+                        } else {
+                            $errors = $result;
+                        }
+                    }
+
+                    $account_type = "company";
+                    require(__DIR__."/../views/v-profile_create.inc.php");
+                }
+            break;
         case 'get_profile':
             if(isset($id_user)) {    
                 if($account_type == "member") {
