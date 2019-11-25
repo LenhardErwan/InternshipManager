@@ -126,7 +126,7 @@
 
                         $data = array('id_account' => $id_account, 'id_article' => $article->id_article);
                         $user_vote = Article::getVote($data);
-                        if(!$user_vote) $user_vote = null;  //If the return value is false (user doesn't vote)
+                        if(!$user_vote) unset($user_vote);  //If the return value is false (user doesn't vote)
                         $attachment = getFile($path.$id_hash);
                     }
                 }
@@ -305,6 +305,7 @@
                         Article::voteFor($id_account, $id_article, $type);
                         $data = array('id_account' => $id_account, 'id_article' => $id_article);
                         $user_vote = Article::getVote($data);
+                        if(!$user_vote) unset($user_vote);  //If the return value is false (user doesn't vote)
                     }
                 }
             
