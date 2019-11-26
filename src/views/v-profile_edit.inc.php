@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
         <link rel="stylesheet" type="text/css" href="assets/style/confirm.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/profile.css">
         <link rel="stylesheet" type="text/css" href="assets/style/profile_edit.css">
         <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
     </head>
@@ -17,7 +18,7 @@
             $text = "Souhaitez-vous vraiment supprimer votre compte ?";
             require("v-confirm_delete.inc.php");
         ?>
-
+        <?php if($id_user == $id_account) require("v-profile_password.inc.php") ?>
         <?php require("v-nav.inc.php"); ?>
 
         <main id="profile_edit_main">
@@ -71,6 +72,7 @@
 
                 <div class="profile_edit_submit">
                     <button type="submit" id="profile_submit" name="action" value="save_profile">Enregistrer</button>
+                    <button type="button" class="open_modal" onClick="openModal('profile_change_password')" >Modifier le mot de passe</button>
                     <a href="<?php if($status == "admin") { echo "?page=admin"; } else { echo "?page=profile&action=get_profile&id="; if(isset($account->id_account) && !empty($account->id_account)) { echo $account->id_account; }} ?>" value="get_profile">Annuler</a>
                 </div>
                 <div class="profile_edit_submit">

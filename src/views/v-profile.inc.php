@@ -35,7 +35,7 @@
                 <?php } ?>
                 <?php } ?>
 
-                <?php if($status == "admin") { if($account->active) { ?>
+                <?php if($status == "admin" && $account_type == "company") { if($account->active) { ?>
                 	<p>Compte validé</p>
                 <?php } else { ?>
                 	<p>Compte non validé</p>

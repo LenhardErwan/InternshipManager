@@ -1,5 +1,5 @@
 <?php
-    function validDate($date, $format = 'Y-m-d H:i:s') {
+    function validDate($date, $format = 'Y-m-d') {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
@@ -120,7 +120,7 @@
         if(isset($submit['password']) || isset($submit['valid_password'])) {
             try {
                 check_passwords($submit['password'], $submit['valid_password']);
-                $data['password'] = $submit['password'];
+                $data['password'] = hash("sha256", $submit['password']);
             } catch(Exception $e) {
                 $error['password'] = $e->getMessage();
             }
@@ -317,7 +317,7 @@
                     $data['active'] = ($account->active) ? 'true' : 'false';
                 }
                 else if($account_type == "member") {
-                    $data['birth_date'] =  htmlentities($_REQUEST['birth_date'], ENT_COMPAT, "UTF-8");
+                    $data['birth_date'] = htmlentities($_REQUEST['birth_date'], ENT_COMPAT, "UTF-8");
                     $data['degrees'] = htmlentities($_REQUEST['degrees'], ENT_COMPAT, "UTF-8");
                 }
 
