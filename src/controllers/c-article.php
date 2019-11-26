@@ -125,6 +125,7 @@
     }
 
     function saveFile($file, $path) {  //Delete all file present in directory and save the submited file
+        $path = __DIR__.$path;
         if ( !file_exists($path) && !is_dir($path) ) {
             mkdir($path);       
         }
@@ -162,7 +163,7 @@
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_article');
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
-    $path = __DIR__."/../article-attachments/";
+    $path = "/../article-attachments/";
 
     if($id_account > 0) {
         if(User::isMember($id_account)) {
@@ -244,7 +245,7 @@
                         if($result['valid']) {
                             $path = $path.$id_hash;
                             saveFile($data['attachment'], $path);
-                            $result['attachment'] = $path;
+                            $data['attachment'] = $path;
 
                             Article::updateArticle($data);
                         } else {
