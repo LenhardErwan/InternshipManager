@@ -1,6 +1,7 @@
 <?php
 	$contents = listArticles();
-	foreach ($contents as $content) {
+	if(is_array($contents)) {
+		foreach ($contents as $content) {
 ?>
 	<article class="index_article">
 		<div class="article_header">
@@ -13,5 +14,9 @@
 		<a class="article_link" href="?page=article&id=<?= $content["article"]->id_hash; ?>">Plus de details</a>
 	</article>
 <?php
+		}
 	}
+	else {
 ?>
+	<div><?= $contents ?></div>
+<?php } ?>
