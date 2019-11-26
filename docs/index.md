@@ -18,6 +18,7 @@ Check that the line `extension=pdo_pgsql` in your *php.ini* is enabled.<br/>
 You must also change the directory permissions so that the application can read and write in it [help](https://doc.ubuntu-fr.org/permissions).
 
 ### Installation Tool
+**Make sure you meet all the requirements before launching the** `install.php` **script**<br/>
 To install **InternshipManager** you must configure the file `config.php` in the directory `install` at the root of the project.<br/>
 You have one configuration part for the database and the other for the administrator account, on the site.<br/>
 <br/>
@@ -25,14 +26,14 @@ When you configure your file run in a terminal (at project directory)
 ```shell
 php install.php
 ```
-If your configuration is good you will see the message `Installation done!`, else check your config and try again.
+If your configuration is good you will see the message `Installation done!` and receive an email on your admin account, else check your config and try again.<br/>
 
 ### Warning
 The installation tool does not create a database in postgreSQL, you must create a user and a database to be able to use it. (Installation tool only create database schema).
 
 ### Mail interface
 To run **InternshipManager** on your machine, an SMTP client is required to send mail. **InternshipManager** sends mail to the admin when a new company account is created and to the company when the account is validated.<br/>
-If you just want to try our service, you can easily install and setup [MSMTP](https://help.ubuntu.com/community/msmtp) on your linux to work with PHP.
+If you just want to try our service, you can easily install and setup [MSMTP](https://help.ubuntu.com/community/msmtp) on your linux to work with PHP. (Check your `php.ini` file).
 
 ---
 

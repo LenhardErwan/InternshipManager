@@ -1,0 +1,46 @@
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+	body h1#error_title {
+		font-size: 80px;
+	}
+
+	body p#error_desc {
+		font-size: 16px;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#s {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}

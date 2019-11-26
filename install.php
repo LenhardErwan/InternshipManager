@@ -43,6 +43,17 @@ try {
 	$insert = $database->prepare("INSERT INTO account (first_name, last_name, mail, password) VALUES (:first_name, :last_name, :mail, :password);");
 	$insert->execute($admin_account);
 
+	// Check mails are working properly
+	$to = $admin_account['mail'];
+	$subject = 'IntershipManager Setup';
+	$message = "Well done. Your mail system is working properly.";
+	$headers = array(
+    	'From' => '',
+    	'X-Mailer' => 'PHP/' . phpversion()
+	);
+						
+	mail($to, $subject, $message, $headers);
+
 	$database->exec("COMMIT;");
 	echo "Installation done!";
 } 
