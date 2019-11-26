@@ -4,8 +4,9 @@
 
 ## Installation
 ### Require
-To use **InternshipManager** you must use php7 and a PostgreSQL database. An smtp client is also required.<br/>
-Check that the line `extension=pdo_pgsql` in your *php.ini* is enabled<br/>
+To use **InternshipManager** you must use php7 and a PostgreSQL database<br/>
+Check that the line `extension=pdo_pgsql` in your *php.ini* is enabled.<br/>
+You must also change the directory permissions so that the application can read and write in it [help](https://doc.ubuntu-fr.org/permissions).
 
 ### Installation Tool
 **Make sure you meet all the requirements before launching the** `install.php` **script**<br/>
