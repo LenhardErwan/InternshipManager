@@ -17,9 +17,17 @@ main#profile_main {
 		align-items: center;
 	}
 
-	main#profile_main div#profile_content p {
-		width: 300px;
-		margin: 5px 0 5px 0;
+	main#profile_main div.profile_elmt {
+		margin-top: 10px;
+		width: 400px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	main#profile_main div.profile_elmt_text {
+		flex-direction: column;
+		margin-bottom: 10px;
 	}
 
 	main#profile_main div#profile_content form {

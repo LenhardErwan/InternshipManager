@@ -20,19 +20,22 @@
             <h1 id="profile_title">Profil - <?php if($account_type == "company") { echo $account->social_reason; } else { echo $account->last_name; } ?></h1>
 			<div id="profile_content">
 				<?php if($account_type == "company") { ?>
-					<p>Raison sociale : <?= $account->social_reason; ?>
+					<div class="profile_elmt"><p>Raison sociale :</p><p><?= $account->social_reason; ?></p></div>
 				<?php } ?>
-                <p>Nom : <?= $account->last_name; ?></p>
-                <p>Prénom : <?= $account->first_name; ?></p>
-                <p>E-Mail : <?= $account->mail; ?></p>
-                <p>Téléphone : <?php echo (empty($account->phone) ? "non renseigné" : $account->phone) ?></p>
+                <div class="profile_elmt"><p>Nom :</p><p><?= $account->last_name; ?></p></div>
+                <div class="profile_elmt"><p>Prénom :</p><p><?= $account->first_name; ?></p></div>
+                <div class="profile_elmt"><p>E-Mail :</p><p><?= $account->mail; ?></p></div>
+                <div class="profile_elmt"><p>Téléphone :</p><p><?php echo (empty($account->phone) ? "non renseigné" : $account->phone) ?></p></div>
                 
                 <?php if($account_type == "member") { ?>
                 <?php if(isset($account->birth_date) && !empty($account->birth_date)) { ?>
-                    <p>Date de naissance : <?= $account->birth_date; ?></p>
+                    <div class="profile_elmt"><p>Date de naissance :</p><p><?= $account->birth_date; ?></p></div>
                 <?php } ?>
                 <?php if(isset($account->degrees) && !empty($account->degrees)) { ?>
-                    <p>Diplômes : <?= nl2br($account->degrees) ?></p>
+                    <div class="profile_elmt profile_elmt_text">
+                        <p>Diplômes :</p>
+                        <p><?= nl2br($account->degrees) ?></p>
+                    </div>
                 <?php } ?>
                 <?php } ?>
 
