@@ -3,6 +3,10 @@ main#article_main {
 	flex-direction: column;
 	align-items: center;
 }
+	main#article_main div#article_header {
+		display: flex;
+	}
+
 	main#article_main h1#article_title {
 		margin: 10px 0 10px 0;
 		font-size: 40px;
@@ -57,6 +61,10 @@ main#article_main {
 			justify-content: space-around;
 		}
 
+	main#article_main div.vote {
+		margin-right: 20px;
+	}
+
 	main#article_main div.vote button {
 		color: transparent;
 		cursor: pointer;
@@ -90,10 +98,10 @@ main#article_main {
 			}
 
 	main#article_main form#article_submit {
-		width: 100%;
+		width: 400px;
 		display: flex;
 		flex-direction: row;
-		justify-content: space-around;
+		justify-content: space-between;
 	}
 
 	main#article_main form#article_submit button, main#article_main form#article_submit span {
@@ -106,4 +114,13 @@ main#article_main {
 		transition: color 0.25s ease;
 		color: #bbb;
 		cursor: pointer;
+	}
+
+	main#article_main hr.article_separator {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		width: 90%;
+		height: 1px;
+		background-color: #000;
+		border: none;
 	}

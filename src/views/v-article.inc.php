@@ -31,17 +31,27 @@
         <main id="article_main">
             <?php if(isset($article) && $article) { ?>
             <h1 id="article_title"><?= $article->title;?></h1>
+            <?php if(isset($can_edit) && $can_edit) { ?>
+                <form id="article_submit" action="" method="POST">
+                    <button type="submit" id="edit_article" name="action" value="edit_article">Editer</button>
+                    <span type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</span>
+                </form>
+            <?php } ?>
 			<div id="article_content">
-                <a id="article_company" href="?page=profile&id=<?= $article->id_company; ?>"><?= $company; ?></a>
+                <div id="article_header"><?php require("v-vote.inc.php"); ?><a id="article_company" href="?page=profile&id=<?= $article->id_company; ?>"><?= $company; ?></a></div>
                 <p><?= $article->begin_date ?> - <?= $article->end_date ?></p>
-                <p>Mission : <?= nl2br($article->mission) ?></p>
-                <p>Contact : <?= nl2br($article->contact) ?></p>
+                <p>Mission</p>
+                <p><?= nl2br($article->mission) ?></p>
+                <hr class="article_separator"/>
+                <p>Contact</p>
+                <p><?= nl2br($article->contact) ?></p>
+                <hr class="article_separator"/>
 
                 <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
                 <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
 
-                <?php require("v-vote.inc.php"); ?>
+                <hr class="article_separator"/>
 
                 <?php 
                     if(isset($comment) && $comment) require("v-comment.inc.php"); 
@@ -49,13 +59,6 @@
                 ?>
                 <form id="article_form_create_comment" action="" method="POST">
                     <button type="submit" class="article_comment_button" id="create_comment" name="action" value="edit_comment">Ajouter un commentaire</button>
-                </form>
-                <?php } ?>
-
-                <?php if(isset($can_edit) && $can_edit) { ?>
-                <form id="article_submit" action="" method="POST">
-                    <button type="submit" id="edit_article" name="action" value="edit_article">Editer</button>
-                    <span type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</span>
                 </form>
                 <?php } ?>
 			</div>

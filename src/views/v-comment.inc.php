@@ -1,5 +1,6 @@
 <div id="article_comment">
-    <p>Commentaire : <?= nl2br($comment->text) ?></p>
+    <p>Commentaire</p>
+    <p><?= nl2br($comment->text) ?></p>
     <?php if($status == "admin") { ?>
     <form action="" method="POST">
         <button type="submit" class="article_comment_button" id="edit_comment" name="action" value="edit_comment">Editer</button>
