@@ -231,8 +231,6 @@
                     'attachment' => $_FILES['attachment']
                 );
 
-                var_dump($_REQUEST);
-
                 if(isset($id_hash)) {   //Update article
                     $article = Article::getArticle($id_hash);
                     if($article) {
