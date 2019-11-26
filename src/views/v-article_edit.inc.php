@@ -55,7 +55,7 @@
 
                 <div class="form_elmt">
                     <label for="attachment">Pièce Jointe : </label>
-                    <input type="file" name="attachment" id="attachment"/>
+                    <input type="file" class="form_elmt_file" name="attachment" id="attachment"/>
                 </div>
                 <div class="form_errors"><?= (isset($error['attachment']) ? $error['attachment'] : ''); ?></div>
 

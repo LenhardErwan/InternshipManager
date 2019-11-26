@@ -10,7 +10,7 @@ main#index_main {
 
 	main#index_main article.index_article {
 		padding: 10px;
-		height: 140px;
+		height: 160px;
 		width: 70%;
 		border-top: 1px solid #999;
 	}

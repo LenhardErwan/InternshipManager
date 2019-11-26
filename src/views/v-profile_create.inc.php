@@ -76,7 +76,6 @@
 				<button class="form_submit" type="submit" name="submit">S'Inscrire</button>
 			</form>
 			<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
-				<h1>Inscription reussi</h1>
 				<?php if($account_type == "company") { ?>
 					<h2>Vous n'avez plus qu'a attendre que votre compte soit valider par notre administrateur pour vous connecter!!</h2>
 				<?php } ?>

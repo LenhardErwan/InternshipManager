@@ -30,8 +30,20 @@ main#form_main {
 				height: 25px;
 			}
 
+			form#form_container div.form_elmt input {
+				padding: 2px;
+				height: 25px;
+				background-color: #fff;
+				color: #000;
+				border: 1px solid #bbb;
+			}
+
 		form#form_container div.form_elmt_noerror {
 			margin-bottom: 20px;
+		}
+
+		form#form_container input.form_elmt_file {
+			background-color: #fff;
 		}
 
 		form#form_container div.form_elmt_text {

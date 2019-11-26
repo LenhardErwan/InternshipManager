@@ -45,7 +45,7 @@
 				</tr>
 				<?php foreach(getAdminCompanies() as $company) { ?>
 					<tr>
-						<td><?= $company->social_reason; ?></td>
+						<td><a href="?page=profile&id=<?= $company->id_account; ?>"><?= $company->social_reason; ?></a></td>
 						<td><?= $company->last_name; ?></td>
 						<td><?= $company->first_name; ?></td>
 						<td><?= $company->mail; ?></td>

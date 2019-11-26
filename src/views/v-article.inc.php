@@ -30,11 +30,10 @@
 
         <main id="article_main">
             <?php if(isset($article) && $article) { ?>
-            <h1 id="article_title">Article</h1>
+            <h1 id="article_title"><?= $article->title;?></h1>
 			<div id="article_content">
-                <p>Titre : <?= $article->title ?></p>
-                <p>Entreprise : <?= $company ?></p>
-                <p>Date de stage : <?= $article->begin_date ?> , <?= $article->end_date ?></p>
+                <a id="article_company" href="?page=profile&id=<?= $article->id_company; ?>"><?= $company; ?></a>
+                <p><?= $article->begin_date ?> - <?= $article->end_date ?></p>
                 <p>Mission : <?= nl2br($article->mission) ?></p>
                 <p>Contact : <?= nl2br($article->contact) ?></p>
 
@@ -42,20 +41,21 @@
                 <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
                 
-                <?php require("v-vote.inc.php"); ?>
-
-                <?php if(isset($can_edit) && $can_edit) { ?>
-                <form id="article_submit" action="" method="POST">
-                    <button type="submit" id="edit_article" name="action" value="edit_article">Editer</button>
-                    <span type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</span>
-                </form>
-                <?php } ?>
                 <?php 
                     if(isset($comment) && $comment) require("v-comment.inc.php"); 
                     else if ($status == "admin") {
                 ?>
                 <form action="" method="POST">
                     <button type="submit" id="create_comment" name="action" value="edit_comment">Ajouter Commentaire</button>
+                </form>
+                <?php } ?>
+
+                <?php require("v-vote.inc.php"); ?>
+
+                <?php if(isset($can_edit) && $can_edit) { ?>
+                <form id="article_submit" action="" method="POST">
+                    <button type="submit" id="edit_article" name="action" value="edit_article">Editer</button>
+                    <span type="button" class="open_modal" onClick="openModal('delete_article')" >Supprimer</span>
                 </form>
                 <?php } ?>
 			</div>

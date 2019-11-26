@@ -245,7 +245,7 @@
                         $result = valid_submit($_POST);
 
                         if($result['valid']) {
-                            User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => hash('sha256', $result['password']), 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
+                            User::createCompany(array('first_name' => $result['first_name'], 'last_name' => $result['last_name'], 'mail' => $result['mail'], 'password' => $result['password'], 'phone' => $result['phone'], 'social_reason' => $result['social_reason']));
                             mailAdmin($result['mail']);
                             $errors['valid'] = $result['valid'];
                         } else {

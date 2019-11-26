@@ -12,12 +12,31 @@ main#article_main {
 		width: 70%;
 	}
 
+		div#article_content a#article_company {
+			padding: 0 2px 2.5px 2px;
+			height: 25px;
+			width: auto;
+			font-size: 20px;
+			color: #000;
+			border-bottom: 1px solid #000;
+			transition: color 0.25s ease;
+		}
+
+		div#article_content a#article_company:hover {
+			transition: color 0.25s ease;
+			color: #bbb;
+		}
+
+		div#article_content p {
+			margin-top: 10px;
+		}
+
 	main#article_main div.vote button {
 		color: transparent;
 		cursor: pointer;
-    width: 1rem;
-    height: 1rem;
-    border: none;
+    	width: 1rem;
+    	height: 1rem;
+    	border: none;
 	}
 
 		main#article_main div.vote button.like {
