@@ -83,7 +83,7 @@
         if(!empty($degrees)) {
             if(strlen($degrees) > 500) {
                 throw new Exception("Taille du champ diplômes trop grande (500 caractères)");
-            } else if(!preg_match("/[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ\n\r ,.&;]{0,500}/", $degrees)) {
+            } else if(!preg_match("/^[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ\n\r ,.]{0,500}$/", $degrees)) {
                 throw new Exception("Champ diplômes invalide (a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ,.)");
             }
         }
