@@ -14,7 +14,8 @@
 ## Installation
 ### Require
 To use **InternshipManager** you must use php7 and a PostgreSQL database<br/>
-Check that the line `extension=pdo_pgsql` in your *php.ini* is enabled
+Check that the line `extension=pdo_pgsql` in your *php.ini* is enabled.<br/>
+You must also change the directory permissions so that the application can read and write in it [help](https://doc.ubuntu-fr.org/permissions).
 
 ### Installation Tool
 To install **InternshipManager** you must configure the file `config.php` in the directory `install` at the root of the project.<br/>
