@@ -10,8 +10,8 @@
             throw new Exception("Champ titre vide");
         } else if(strlen($title) > 30) {
             throw new Exception("Taille du titre trop grande (30 caractères)");
-        } else if(!preg_match("/^[a-zA-Z ]{0,30}$/", $title)) {
-            throw new Exception("Champ titre invalide (a-zA-Z )");
+        } else if(!preg_match("/[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ]{0,30}/", $title)) {
+            throw new Exception("Champ titre invalide (a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ,.)");
         }
     }
 
@@ -37,8 +37,8 @@
             throw new Exception("Champ mission vide");
         } else if(strlen($mission) > 1000) {
             throw new Exception("Taille de la mission trop grande (1000 caractères)");
-        } else if(!preg_match("/^[a-zA-Z0-9\n\r ,.]{0,1000}$/", $mission)) {
-            throw new Exception("Champ mission invalide (a-zA-Z0-9\\n\\r )");
+        } else if(!preg_match("/[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ\n\r ,.]{0,1000}/", $mission)) {
+            throw new Exception("Champ mission invalide (a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ,.)");
         }
     }
 
@@ -47,8 +47,8 @@
             throw new Exception("Champ contact vide");
         } else if(strlen($contact) > 1000) {
             throw new Exception("Taille du champ contact trop grande (1000 caractères)");
-        } else if(!preg_match("/^[a-zA-Z0-9\n\r ,.]{0,1000}$/", $contact)) {
-            throw new Exception("Champ contact invalide (a-zA-Z0-9\\n\\r )");
+        } else if(!preg_match("/[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ\n\r ,.]{0,1000}/", $contact)) {
+            throw new Exception("Champ contact invalide (a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ,.)");
         }
     }
 
