@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Inscription <?php if($account_type == "company") { echo "entreprise"; } else if($account_type == "member") { echo "membre"; } ?></title>
-		<script type="text/javascript" src="assets/script/modal.js"></script>
-		<link rel="stylesheet" type="text/css" href="assets/style/reset.css">
-		<link rel="stylesheet" type="text/css" href="assets/style/nav.css">
-		<link rel="stylesheet" type="text/css" href="assets/style/form.css">
-		<link rel="stylesheet" type="text/css" href="assets/style/footer.css">
+		<script type="text/javascript" src="src/assets/script/modal.js"></script>
+		<link rel="stylesheet" type="text/css" href="src/assets/style/reset.css">
+		<link rel="stylesheet" type="text/css" href="src/assets/style/nav.css">
+		<link rel="stylesheet" type="text/css" href="src/assets/style/form.css">
+		<link rel="stylesheet" type="text/css" href="src/assets/style/footer.css">
 	</head>
 	<body>
 		<?php require('v-nav.inc.php'); ?>

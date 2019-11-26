@@ -3,11 +3,12 @@
     <head>
         <meta charset="utf-8">
         <title>Edition - Commentaire</title>
-        <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/form.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/confirm.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
+        <script src="src/assets/script/modal.js"></script>
+        <link rel="stylesheet" type="text/css" href="src/assets/style/reset.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/nav.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/form.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/confirm.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/footer.css">
     </head>
 
     <body>
@@ -39,5 +40,4 @@
 
         <?php require("v-footer.inc.php"); ?>
     </body>
-    <script src="assets/script/modal.js"></script>
 </html>

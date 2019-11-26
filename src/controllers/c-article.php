@@ -148,7 +148,7 @@
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_article');
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
-    $path = "./article-attachments/";
+    $path = "./src/article-attachments/";
 
     if($id_account > 0) {
         if(User::isMember($id_account)) {

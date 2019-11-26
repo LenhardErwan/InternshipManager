@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">
         <title>Profil - <?php if($account_type == "company") { echo $account->social_reason; } else if (isset($account) && !empty($account)) { echo $account->last_name; } else { echo "Introuvable"; } ?></title>
-        <script src="assets/script/modal.js"></script>
-        <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/profile.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/form.css">
-        <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
+        <script src="src/assets/script/modal.js"></script>
+        <link rel="stylesheet" type="text/css" href="src/assets/style/reset.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/nav.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/profile.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/form.css">
+        <link rel="stylesheet" type="text/css" href="src/assets/style/footer.css">
     </head>
 
     <body>
