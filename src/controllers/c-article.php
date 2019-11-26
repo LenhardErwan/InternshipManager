@@ -141,6 +141,16 @@
         return move_uploaded_file($file["tmp_name"], $path);
     }
 
+    function deleteDirectory($path) {
+        $path = __DIR__."/.".$path."/";
+        $files = scandir($path); // get all file names
+        foreach($files as $found_file){ // iterate files
+            if(is_file($path.$found_file))
+                unlink($path.$found_file); // delete file
+        }
+        rmdir($path);
+    }
+
 
     require_once(__DIR__."/../models/m-article.php");
     require_once(__DIR__."/../models/m-user.php");
@@ -221,6 +231,8 @@
                     'attachment' => $_FILES['attachment']
                 );
 
+                var_dump($_REQUEST);
+
                 if(isset($id_hash)) {   //Update article
                     $article = Article::getArticle($id_hash);
                     if($article) {
@@ -230,13 +242,16 @@
 
                         if($result['valid']) {
                             $path = $path.$id_hash;
-                            if(empty($data['attachment'])) {
-                                $saved = false;
+                            if(isset($_REQUEST['keep_attachment']) &&  $_REQUEST['keep_attachment'] == "keep") {
+                                $data['attachment'] = $article->attachment;
+                            }
+                            else if(empty($data['attachment'])) {
+                                $data['attachment'] = null;
                             }
                             else {
                                 $saved = saveFile($data['attachment'], $path);
+                                $data['attachment'] = $path."/".$data['attachment']["name"];
                             }
-                            $data['attachment'] = ($saved) ? $path."/".$data['attachment']["name"] : null;
 
                             Article::updateArticle($data);
                         } else {
@@ -289,6 +304,7 @@
                 $article = Article::getArticle($id_hash);
                 if($article && ($article->id_company == $id_account || $status == "admin")) {
                     Article::deleteArticle($article->id_article);
+                    deleteDirectory($path.$id_hash);
 
                     if($status == "company") {
                         header('Location: ?page=index');

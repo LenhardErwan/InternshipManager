@@ -60,6 +60,9 @@
                 <div class="form_errors"><?= (isset($error['attachment']) ? $error['attachment'] : ''); ?></div>
 
                 <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
+                    <label for="keep_attachment">Garder le fichier actuel</label>
+                    <input type="checkbox" id="keep_attachment" name="keep_attachment" value="keep" checked>   
+                    <br/>
                     <a href="<?= $article->attachment; ?>" download>Télécharger le fichier actuel</div>
                 <?php } ?>
                 
