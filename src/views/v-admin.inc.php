@@ -24,8 +24,8 @@
 				</tr>
 				<?php foreach(getAdminArticles() as $article) { ?>
 					<tr>
-						<td><?= $article->social_reason; ?></td>
-						<td><?= $article->title; ?></td>
+						<td><a href="?page=profile&id=<?= $article->id_company; ?>"><?= $article->social_reason; ?></a></td>
+						<td><a href="?page=article&id=<?= $article->id_hash; ?>"><?= $article->title; ?></a></td>
 						<td><?= $article->mission; ?></td>
 						<td><a href="?page=article&action=edit_article&id=<?= $article->id_hash; ?>">Modifier</a></td>
 						<td><a href="?page=article&action=delete_article&id=<?= $article->id_hash; ?>">Supprimer</a></td>
