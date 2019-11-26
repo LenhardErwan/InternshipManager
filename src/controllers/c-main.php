@@ -64,7 +64,7 @@
                 }
             }
             else {
-                $contents = "Il n'y a aucune offre pour le moment";
+                $contents = "Il n'y a aucune offres pour le moment";
             }
         } 
         else {
