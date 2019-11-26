@@ -4,12 +4,12 @@
 		<title>Erreur 404</title>
 		<link rel="stylesheet" type="text/css" href="src/assets/style/reset.css">
 		<link rel="stylesheet" type="text/css" href="src/assets/style/nav.css">
-		<link rel="stylesheet" type="text/css" href="src/assets/style/index.css">
+		<link rel="stylesheet" type="text/css" href="src/assets/style/error.css">
 	</head>
-	<body style="background-image: url('assets/img/camion.jpg'); color: white;">
+	<body>
 		<?php require('v-nav.inc.php'); ?>
-		<h1 style="background-color: purple">Erreur 404</h1>
-		<p style="background-color: purple;">La page saisie est invalide ou inexistante</p>
-		<p style="background-color: purple;">Chien la prochaine fois evite de supprimer des fichiers et apprend a code</p>
+		<h1 id="error_title">Erreur 404</h1>
+		<p id="error_desc">La page saisie est invalide ou inexistante.</p>
+		<p id="s">:(</p>
 	</body>
 </html>

@@ -51,4 +51,18 @@ catch (Exception $e) {
 	die("ERREUR : ".$e->getMessage());
 }
 
+try {
+	$to = $admin_account['mail'];
+	$subject = 'IntershipManager Setup';
+	$message = "Well done. Your mail system is working properly.";
+	$headers = array(
+    	'From' => '',
+    	'X-Mailer' => 'PHP/' . phpversion()
+	);
+						
+	mail($to, $subject, $message, $headers);
+} catch (Exception $e) {
+	die("ERREUR : ".$e->getMessage());
+}
+
 ?>
