@@ -21,7 +21,7 @@ else if(!$conf) {
 while(!feof($conf_template)) {
 	$line = fgets($conf_template);
 	if(preg_match("#%(.*)%#", $line, $matches)) {
-		$line = str_replace($matches[0], $database[$matches[1]], $line);
+		$line = str_replace($matches[0], $database_info[$matches[1]], $line);
 	}
 	fputs($conf, $line);
 }
