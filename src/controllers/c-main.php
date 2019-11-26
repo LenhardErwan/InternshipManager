@@ -45,23 +45,30 @@
 
     function listArticles($text = null) {
         if(empty($text)) {
+            $contents = array();
             $articles = Article::getAllArticles();
-            foreach ($articles as $article) {
-                $article->social_reason = User::getCompanyName($article->id_company);
-                
-                if(strlen($article->mission) > 300) {
-                    $article->mission = substr($article->mission, 0, 300).'...';
+
+            if(!empty($articles)) {
+                foreach ($articles as $article) {
+                    $article->social_reason = User::getCompanyName($article->id_company);
+                    
+                    if(strlen($article->mission) > 300) {
+                        $article->mission = substr($article->mission, 0, 300).'...';
+                    }
+                    
+                    $votes = Article::getNbVotes($article->id_article);
+                    $total_vote = $votes["total"];
+                    $value_vote = $votes["positive"] - $votes["negative"];
+        
+                    $contents[] = array("article" => $article, "total_vote" => $total_vote, "value_vote" => $value_vote);
                 }
-                
-                $votes = Article::getNbVotes($article->id_article);
-                $total_vote = $votes["total"];
-                $value_vote = $votes["positive"] - $votes["negative"];
-    
-                $contents[] = array("article" => $article, "total_vote" => $total_vote, "value_vote" => $value_vote);
+            }
+            else {
+                $contents = "Il n'y a aucune offre pour le moment";
             }
         } 
         else {
-            $contents = "Il n'y a aucune offre de disponible";
+            $contents = "Il n'y pas de filtre de recherche pour l'instant";
         }
 
         return $contents;
