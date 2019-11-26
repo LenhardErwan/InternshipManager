@@ -40,7 +40,9 @@
                 <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
                 <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
-                
+
+                <?php require("v-vote.inc.php"); ?>
+
                 <?php 
                     if(isset($comment) && $comment) require("v-comment.inc.php"); 
                     else if ($status == "admin") {
@@ -49,8 +51,6 @@
                     <button type="submit" class="article_comment_button" id="create_comment" name="action" value="edit_comment">Ajouter un commentaire</button>
                 </form>
                 <?php } ?>
-
-                <?php require("v-vote.inc.php"); ?>
 
                 <?php if(isset($can_edit) && $can_edit) { ?>
                 <form id="article_submit" action="" method="POST">
