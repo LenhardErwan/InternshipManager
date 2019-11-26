@@ -1,3 +1,4 @@
+<hr class="article_separator"/>
 <div id="article_comment">
     <p>Commentaire</p>
     <p><?= nl2br($comment->text) ?></p>

@@ -45,18 +45,18 @@
                 <hr class="article_separator"/>
                 <p>Contact</p>
                 <p><?= nl2br($article->contact) ?></p>
-                <hr class="article_separator"/>
 
                 <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
+                <hr class="article_separator"/>
                 <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
 
-                <hr class="article_separator"/>
 
                 <?php 
                     if(isset($comment) && $comment) require("v-comment.inc.php"); 
                     else if ($status == "admin") {
                 ?>
+                <hr class="article_separator"/>
                 <form id="article_form_create_comment" action="" method="POST">
                     <button type="submit" class="article_comment_button" id="create_comment" name="action" value="edit_comment">Ajouter un commentaire</button>
                 </form>
