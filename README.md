@@ -29,5 +29,5 @@ If you just want to try our service, you can easily install and setup [MSMTP](ht
 To generate the documentation for **InternshipManager** you must use the [*Mkdocs*](https://www.mkdocs.org/).
 
 ### Build
-To build the documentation open a terminal in the root of the project and do the command `mkdocs build`.
+To build the documentation open a terminal in the root of the project and do the command `mkdocs build`.<br/>
 Once the documentation has been generated, you can access it in the directory /site
