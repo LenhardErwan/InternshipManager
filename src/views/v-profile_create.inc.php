@@ -77,7 +77,7 @@
 			</form>
 			<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
 				<?php if($account_type == "company") { ?>
-					<h2>Vous n'avez plus qu'a attendre que votre compte soit valider par notre administrateur pour vous connecter!!</h2>
+					<h2>Vous n'avez plus qu'a attendre que votre compte soit validé par notre administrateur pour vous connecter !</h2>
 				<?php } ?>
 				<a href="?page=index">Retour a la page d'accueil</a>
 			<?php } ?>

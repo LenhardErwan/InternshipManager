@@ -125,9 +125,9 @@
     }
 
     function saveFile($file, $path) {  //Delete all file present in directory and save the submited file
-        $path = __DIR__.$path;
+        $path = __DIR__."/.".$path;
         if ( !file_exists($path) && !is_dir($path) ) {
-            mkdir($path);       
+            mkdir($path, 0777, true);    
         }
         else {
             $path = $path."/";
@@ -138,23 +138,7 @@
             }
         }
         $path = $path."/".$file["name"];
-        move_uploaded_file($file["tmp_name"], $path);
-    }
-
-    function getFile($path) {
-        $path = __DIR__.$path;
-        if ( file_exists($path) && is_dir($path) ) {
-            $files = scandir($path, 1); // get all file names, there is only one file
-            $str_explode = explode("/", $path);
-            if (is_file($path."/".$files[0])) 
-                return "./".$str_explode[sizeof($str_explode)-2]."/".$str_explode[sizeof($str_explode)-1]."/".$files[0];
-            else
-                return null;
-            
-        }
-        else {
-            return null;
-        }
+        return move_uploaded_file($file["tmp_name"], $path);
     }
 
 
@@ -164,7 +148,7 @@
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_article');
     $id_hash = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
-    $path = "/../article-attachments/";
+    $path = "./article-attachments/";
 
     if($id_account > 0) {
         if(User::isMember($id_account)) {
@@ -195,7 +179,6 @@
                         $data = array('id_account' => $id_account, 'id_article' => $article->id_article);
                         $user_vote = Article::getVote($data);
                         if(!$user_vote) unset($user_vote);  //If the return value is false (user doesn't vote)
-                        $attachment = getFile($path.$id_hash);
                     }
                 }
             }
@@ -207,7 +190,6 @@
                 if(isset($id_hash)) {   //Edit article
                     $article = Article::getArticle($id_hash);
                     if($article && ($article->id_company == $id_account || $status == "admin")) {
-                        $attachment = getFile($path.$id_hash);
                         require(__DIR__."/../views/v-article_edit.inc.php");
                     }
                     else {  //Article not found or user cannot edit
@@ -218,6 +200,9 @@
     
                 else if($status == "company") {   //Create article
                     require(__DIR__."/../views/v-article_edit.inc.php");
+                }
+                else {
+                    header('Location: ?page=index');
                 }
             } else {
                 header('Location: ?page=index');
@@ -245,8 +230,13 @@
 
                         if($result['valid']) {
                             $path = $path.$id_hash;
-                            saveFile($data['attachment'], $path);
-                            $data['attachment'] = $path;
+                            if(empty($data['attachment'])) {
+                                $saved = false;
+                            }
+                            else {
+                                $saved = saveFile($data['attachment'], $path);
+                            }
+                            $data['attachment'] = ($saved) ? $path."/".$data['attachment']["name"] : null;
 
                             Article::updateArticle($data);
                         } else {
@@ -269,17 +259,18 @@
 
                     try {
                         check_article_data($data);
-                        $data['attachment'] = $_FILES['attachment']["tmp_name"];
+
+                        if(empty($data['attachment'])) {
+                            $saved = false;
+                        }
+                        else {
+                            $saved = saveFile($data['attachment'], $path);
+                        }
+                        $data['attachment'] = ($saved) ? $path."/".$data['attachment']["name"] : null;
 
                         Article::createArticle($data);
                         $article = Article::getLastArticleFromCompany($id_account);
                         
-                        $path = $path.$id_hash;
-                        saveFile($data['attachment'], $path);
-                        $data['attachment'] = $path;
-
-                        Article::updateArticleAttachment(array("attachment" => $path, "id_article" => $article->id_article));
-
                         header('Location: ?page=article&id='.$article->id_hash);
                         exit();
                     }

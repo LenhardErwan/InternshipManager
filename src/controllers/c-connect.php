@@ -10,7 +10,7 @@
 					$error['mail'] = "Champ mail invalide";
 				} else {
 					if(empty(User::getAccount($mail))) {
-						$error['mail'] = "Mail ou mot de passe inconnue";
+						$error['mail'] = "Mail ou mot de passe inconnu";
 					} else {
 						$user = User::getAccount($mail);
 					}
@@ -30,7 +30,7 @@
 					if(isset($user) && (hash('sha256', $password) === $user->password)) {
 						$data['valid'] = true;
 					} else {
-						$error['mail'] = "Mail ou mot de passe inconnue";
+						$error['mail'] = "Mail ou mot de passe inconnu";
 					}
 				}
 			}
@@ -58,7 +58,7 @@
 					$_SESSION['password'] = $user_c->password;
 					$_SESSION['is_company'] = true;
 				} else {
-					$errors['active'] = "Votre compte na pas encore ete valide. Vous recevrez un mail lorsque ce seras la cas.";
+					$errors['active'] = "Votre compte n'a pas encore été validé. Vous recevrez un mail votre compte sera validé";
 				}
 			} else {
 				$_SESSION['id_account'] = $user->id_account;

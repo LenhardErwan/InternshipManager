@@ -37,7 +37,7 @@
                 <p>Mission : <?= nl2br($article->mission) ?></p>
                 <p>Contact : <?= nl2br($article->contact) ?></p>
 
-                <?php if(isset($attachment) && !empty($attachment)) { ?>
+                <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
                 <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
                 
