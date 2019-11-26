@@ -43,15 +43,7 @@ try {
 	$insert = $database->prepare("INSERT INTO account (first_name, last_name, mail, password) VALUES (:first_name, :last_name, :mail, :password);");
 	$insert->execute($admin_account);
 
-	$database->exec("COMMIT;");
-	echo "Installation done!";
-} 
-catch (Exception $e) {
-	$database->exec("ROLLBACK;");
-	die("ERREUR : ".$e->getMessage());
-}
-
-try {
+	// Check mails are working properly
 	$to = $admin_account['mail'];
 	$subject = 'IntershipManager Setup';
 	$message = "Well done. Your mail system is working properly.";
@@ -61,7 +53,12 @@ try {
 	);
 						
 	mail($to, $subject, $message, $headers);
-} catch (Exception $e) {
+
+	$database->exec("COMMIT;");
+	echo "Installation done!";
+} 
+catch (Exception $e) {
+	$database->exec("ROLLBACK;");
 	die("ERREUR : ".$e->getMessage());
 }
 
