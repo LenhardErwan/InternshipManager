@@ -45,8 +45,8 @@
                     if(isset($comment) && $comment) require("v-comment.inc.php"); 
                     else if ($status == "admin") {
                 ?>
-                <form action="" method="POST">
-                    <button type="submit" id="create_comment" name="action" value="edit_comment">Ajouter Commentaire</button>
+                <form id="article_form_create_comment" action="" method="POST">
+                    <button type="submit" class="article_comment_button" id="create_comment" name="action" value="edit_comment">Ajouter un commentaire</button>
                 </form>
                 <?php } ?>
 
