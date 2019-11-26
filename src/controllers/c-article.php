@@ -142,6 +142,7 @@
     }
 
     function getFile($path) {
+        $path = __DIR__.$path;
         if ( file_exists($path) && is_dir($path) ) {
             $files = scandir($path, 1); // get all file names, there is only one file
             $str_explode = explode("/", $path);
