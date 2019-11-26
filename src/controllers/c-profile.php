@@ -367,7 +367,7 @@
                     }
                 }
 
-                header('Location: ?page=profile&id='.$id_user.'&error='.$error['password']);
+                require(__DIR__."/../views/v-profile_edit.inc.php");
             }
             break;
 

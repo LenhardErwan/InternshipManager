@@ -11,17 +11,21 @@ nav#nav {
 	z-index: 1;
 }
 	nav#nav .nav_button {
+		padding: 10px;
 		margin: 0 10px 0 10px;
 		height: 16px;
 		display: block;
+		background-color: #fff;
 		color: #000;
 		font-size: 16px;
-		transition: color 0.25s ease;
+		border: 1px solid #bbb;
+		transition: color 0.25s ease, background-color 0.25s ease;
 	}
 
 	nav#nav .nav_button:hover {
-		transition: color 0.25s ease;
-		color: #bbb;
+		transition: color 0.25s ease, background-color 0.25s ease;
+		color: #555;
+		background-color: #ddd;
 		cursor: pointer;
 	}
 

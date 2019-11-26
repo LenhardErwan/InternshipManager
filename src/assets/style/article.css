@@ -1,8 +1,7 @@
 main#article_main {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center; 
+	align-items: center;
 }
 	main#article_main h1#article_title {
 		margin: 10px 0 10px 0;

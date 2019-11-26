@@ -1,7 +1,6 @@
 main#form_main {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 }
 
@@ -74,6 +73,7 @@ div#form_modal {
 	height: 100%;
 	width: 100%;
 	position: fixed;
+	top: 0;
 	justify-content: center;
 	align-items: center;
 	background-color: rgba(0, 0, 0, 0.5);
