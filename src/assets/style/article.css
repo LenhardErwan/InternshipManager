@@ -31,6 +31,32 @@ main#article_main {
 			margin-top: 10px;
 		}
 
+		div#article_content div#article_comment {
+			margin-bottom: 10px;
+		}
+
+		div#article_content form#article_form_create_comment {
+			text-align: center;
+		}
+
+		div#article_content button.article_comment_button {
+			font-size: 20px;
+			color: #000;
+			transition: color 0.25s ease;
+		}
+
+		div#article_content button.article_comment_button:hover {
+			transition: color 0.25s ease;
+			color: #bbb;
+			cursor: pointer;
+		}
+
+		div#article_content div#article_comment form {
+			padding: 0 100px 0 100px;
+			display: flex;
+			justify-content: space-around;
+		}
+
 	main#article_main div.vote button {
 		color: transparent;
 		cursor: pointer;

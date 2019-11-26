@@ -51,6 +51,7 @@ main#index_main {
 
 	article.index_article p.article_desc {
 		height: 60px;
+		overflow-y: hidden;
 	}
 
 	article.index_article a.article_link {
