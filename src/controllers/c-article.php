@@ -47,8 +47,8 @@
             throw new Exception("Champ contact vide");
         } else if(strlen($contact) > 1000) {
             throw new Exception("Taille du champ contact trop grande (1000 caractères)");
-        } else if(!preg_match("/[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ\n\r ,.]{0,1000}/", $contact)) {
-            throw new Exception("Champ contact invalide (a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ,.)");
+        } else if(!preg_match("/[a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ\n\r ,.+@]{0,1000}/", $contact)) {
+            throw new Exception("Champ contact invalide (a-zA-Z0-9ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ ,.+@)");
         }
     }
 

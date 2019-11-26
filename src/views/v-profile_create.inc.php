@@ -78,6 +78,8 @@
 			<?php } else if(isset($errors['valid']) && $errors['valid']) { ?>
 				<?php if($account_type == "company") { ?>
 					<p><strong>Vous n'avez plus qu'a attendre que votre compte soit validé par notre administrateur pour vous connecter !</strong></p>
+				<?php } else if($account_type == "member") { ?>
+					<p><strong>Vous pouvez maintenant vous connecter !</strong></p>
 				<?php } ?>
 				<a href="?page=index">Retour a la page d'accueil</a>
 			<?php } ?>
