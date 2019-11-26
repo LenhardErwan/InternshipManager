@@ -34,15 +34,18 @@
         }
     }
 
-    function check_mail(string $mail) {
+    function check_mail(string $mail, int $id) {
         if(empty($mail)) {
             throw new Exception("Champ mail vide");
         } else if(strlen($mail) > 80) {
             throw new Exception("Taille du mail trop grande (80 caractères)");
         } else if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Champ mail invalide (utilisateur@mail.example.com)");
-        } else if(!empty(User::getAccount($mail))) {
-            throw new Exception("Mail déjà utilisé");
+        } else {
+            $account = User::getAccount($mail);
+            if(!empty($account) && $id != $account->id_account) {
+                throw new Exception("Mail déjà utilisé");
+            }
         }
     }
 
@@ -110,8 +113,9 @@
             $error['last_name'] = $e->getMessage();
         }
 
+        if(!isset($submit['id'])) $submit['id'] = -1;
         try {
-            check_mail($submit['mail']);
+            check_mail($submit['mail'], $submit['id']);
             $data['mail'] = $submit['mail'];
         } catch(Exception $e) {
             $error['mail'] = $e->getMessage();
@@ -253,6 +257,7 @@
                     require(__DIR__."/../views/v-profile_create.inc.php");
                 }
             break;
+
         case 'get_profile':
             if(isset($id_user)) {    
                 if($account_type == "member") {
@@ -305,20 +310,20 @@
                 }
 
                 $data = array(
-                    'last_name' => htmlentities($_REQUEST['last_name'], ENT_COMPAT, "UTF-8"),
-                    'first_name' => htmlentities($_REQUEST['first_name'], ENT_COMPAT, "UTF-8"),
-                    'mail' => htmlentities($_REQUEST['mail'], ENT_COMPAT, "UTF-8"),
-                    'phone' => htmlentities($_REQUEST['phone'], ENT_COMPAT, "UTF-8"),
-                    'id' => $_REQUEST['id']
+                    'last_name' => $_REQUEST['last_name'],
+                    'first_name' => $_REQUEST['first_name'],
+                    'mail' => $_REQUEST['mail'],
+                    'phone' => $_REQUEST['phone'],
+                    'id' => $id_user
                 );
 
                 if($account_type == "company") {
-                    $data['social_reason'] =  htmlentities($_REQUEST['social_reason'], ENT_COMPAT, "UTF-8");
+                    $data['social_reason'] =  $_REQUEST['social_reason'];
                     $data['active'] = ($account->active) ? 'true' : 'false';
                 }
                 else if($account_type == "member") {
-                    $data['birth_date'] = htmlentities($_REQUEST['birth_date'], ENT_COMPAT, "UTF-8");
-                    $data['degrees'] = htmlentities($_REQUEST['degrees'], ENT_COMPAT, "UTF-8");
+                    $data['birth_date'] = $_REQUEST['birth_date'];
+                    $data['degrees'] = $_REQUEST['degrees'];
                 }
 
                 $result = valid_submit($data);

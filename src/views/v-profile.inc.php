@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8">
-        <title>Profile - <?php if($account_type == "company") { echo $account->social_reason; } else { echo $account->last_name; } ?></title>
+        <title>Profil - <?php if($account_type == "company") { echo $account->social_reason; } else if (isset($account) && !empty($account)) { echo $account->last_name; } else { echo "Introuvable"; } ?></title>
         <script src="assets/script/modal.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
@@ -17,7 +17,7 @@
         
         <main id="profile_main">
             <?php if(isset($account) && $account) { ?>
-            <h1 id="profile_title">Profile - <?php if($account_type == "company") { echo $account->social_reason; } else { echo $account->last_name; } ?></h1>
+            <h1 id="profile_title">Profil - <?php if($account_type == "company") { echo $account->social_reason; } else { echo $account->last_name; } ?></h1>
 			<div id="profile_content">
 				<?php if($account_type == "company") { ?>
 					<p>Raison sociale : <?= $account->social_reason; ?>
@@ -32,7 +32,7 @@
                     <p>Date de naissance : <?= $account->birth_date; ?></p>
                 <?php } ?>
                 <?php if(isset($account->degrees) && !empty($account->degrees)) { ?>
-                    <p>Diplômes : <?= $account->degrees ?></p>
+                    <p>Diplômes : <?= nl2br($account->degrees) ?></p>
                 <?php } ?>
                 <?php } ?>
 
