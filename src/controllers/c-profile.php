@@ -186,7 +186,7 @@
     require_once(__DIR__."/../models/m-user.php");
 
     $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] : 'get_profile');
-    $error = (isset($_REQUEST['error']) ? $_REQUEST['error'] : '');
+    $error['password'] = (isset($_REQUEST['error']) ? $_REQUEST['error'] : '');
     $id_user = (isset($_REQUEST['id']) && !empty($_REQUEST['id'])) ? $_REQUEST['id'] : null;
     $id_account = (isset($_SESSION['id_account']) && !empty($_SESSION['id_account'])) ? $_SESSION['id_account'] : -1;
 
@@ -358,16 +358,16 @@
                             check_passwords($password, $conf_password);
                             $password = hash('sha256', $password);
                             User::updatePasswordAccount(array('password' => $password, 'id_account' => $id_account));
-                            $error = "Mot de passe modifié";
+                            $error['password'] = "Mot de passe modifié";
                         } else {
                             throw new Exception("Anciens mot de passe incorrect");
                         }
                     } catch (Exception $e) {
-                        $error = $e->getMessage();
+                        $error['password'] = $e->getMessage();
                     }
                 }
 
-                header('Location: ?page=profile&id='.$id_user.'&error='.$error);
+                header('Location: ?page=profile&id='.$id_user.'&error='.$error['password']);
             }
             break;
 

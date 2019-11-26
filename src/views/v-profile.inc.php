@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/style/nav.css">
         <link rel="stylesheet" type="text/css" href="assets/style/profile.css">
+        <link rel="stylesheet" type="text/css" href="assets/style/form.css">
         <link rel="stylesheet" type="text/css" href="assets/style/footer.css">
     </head>
 
@@ -44,7 +45,7 @@
                 <?php if($id_user == $id_account) { ?>
                 <form action="" method="POST">
                     <button type="submit" id="edit_profile" name="action" value="edit_profile">Editer</button>
-                    <button type="button" class="open_modal" onClick="openModal('profile_change_password')" >Modifier le mot de passe</button>
+                    <button type="button" class="open_modal" onClick="openModal('form_modal')" >Modifier le mot de passe</button>
                 </form>
                 <?php } ?>
 			</div>
