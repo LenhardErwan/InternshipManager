@@ -165,7 +165,7 @@ class User {
             self::updateInfoAccount($data_account);
 
             $data_member = array(
-                'birt_date' => $data['birt_date'],
+                'birth_date' => $data['birth_date'],
                 'degrees' => $data['degrees'],
                 'id' => $data['id']
             );

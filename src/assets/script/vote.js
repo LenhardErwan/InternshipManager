@@ -19,7 +19,7 @@ function vote(element, id_user, type) {
     xhr.addEventListener('readystatechange', function() { // On gère ici une requête asynchrone
 
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si retour sans erreur
-            parent.innerHTML = xhr.responseText;
+            parent.outerHTML = xhr.responseText;
         }
 
     });
