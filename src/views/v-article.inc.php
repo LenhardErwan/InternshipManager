@@ -32,13 +32,13 @@
             <?php if(isset($article) && $article) { ?>
             <h1 id="article_title">Article</h1>
 			<div id="article_content">
-                <p><?= $article->title ?></p>
-                <p><?= $company ?></p>
-                <p><?= $article->begin_date ?> , <?= $article->end_date ?></p>
-                <p><?= nl2br($article->mission) ?></p>
-                <p><?= nl2br($article->contact) ?></p>
+                <p>Titre : <?= $article->title ?></p>
+                <p>Entreprise : <?= $company ?></p>
+                <p>Date de stage : <?= $article->begin_date ?> , <?= $article->end_date ?></p>
+                <p>Mission : <?= nl2br($article->mission) ?></p>
+                <p>Contact : <?= nl2br($article->contact) ?></p>
 
-                <?php if(isset($article->attachment) && !empty($article->attachment)) { ?>
+                <?php if(isset($attachment) && !empty($attachment)) { ?>
                 <a href="<?= $article->attachment ?>" download >Télécharger la pièce jointe</a>
                 <?php } ?>
                 
